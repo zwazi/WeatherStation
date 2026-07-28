@@ -68,7 +68,7 @@
                 Pause
               </button>
               <a class="button button--small button--quiet" id="satellite-source" href="https://www.star.nesdis.noaa.gov/goes/wfo.php?wfo=twc" target="_blank" rel="noreferrer">
-                Open NOAA Satellite Radar
+                Open NOAA Satellite
               </a>
               <a class="button button--small button--quiet" id="radar-source" href="https://nowcoast.noaa.gov/" target="_blank" rel="noreferrer">
                 Open NOAA Rain Radar
@@ -79,24 +79,16 @@
             </div>
           </div>
 
-          <div class="imagery-grid" id="imagery-grid" aria-live="polite">
-            <figure class="imagery-frame">
+          <div class="imagery-grid imagery-grid--combined" id="imagery-grid" aria-live="polite">
+            <figure class="imagery-frame imagery-frame--combined">
               <div class="imagery-stage">
-                <img id="satellite-image" alt="GOES GeoColor satellite view centered on Arizona">
-                <span class="map-marker" id="satellite-marker" aria-label="Tucson"></span>
-                <figcaption id="satellite-time">Loading satellite loop…</figcaption>
-              </div>
-              <p class="frame-status" id="satellite-status">Contacting NOAA…</p>
-            </figure>
-
-            <figure class="imagery-frame">
-              <div class="imagery-stage">
-                <img id="radar-image" alt="MRMS rain radar view centered on Arizona">
+                <img class="imagery-base" id="satellite-image" alt="GOES longwave satellite view centered on Arizona">
+                <img class="weather-overlay" id="radar-image" alt="" aria-hidden="true">
                 <img class="reference-map" id="radar-reference" alt="" aria-hidden="true">
-                <span class="map-marker" id="radar-marker" aria-label="Tucson"></span>
-                <figcaption id="radar-time">Loading rain radar loop…</figcaption>
+                <span class="map-marker" id="satellite-marker" aria-label="Tucson"></span>
+                <figcaption id="satellite-time">Loading combined satellite and rain loop…</figcaption>
               </div>
-              <p class="frame-status" id="radar-status">Contacting NOAA nowCOAST…</p>
+              <p class="frame-status" id="satellite-status">Contacting NOAA satellite and MRMS services…</p>
             </figure>
           </div>
 
@@ -124,7 +116,7 @@
 
     <footer class="site-footer">
       <div class="shell site-footer__inner">
-        <p>WeatherFlow Tempest · National Weather Service · NOAA STAR · NOAA nowCOAST</p>
+        <p>WeatherFlow Tempest · National Weather Service · NOAA nowCOAST</p>
         <p id="generated-at">Data build pending</p>
       </div>
     </footer>

@@ -507,13 +507,18 @@ main.shell {
 
 .imagery-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
   gap: 12px;
 }
 
 .imagery-frame {
   min-width: 0;
   margin-bottom: 0;
+}
+
+.imagery-frame--combined {
+  width: min(100%, 820px);
 }
 
 .imagery-stage {
@@ -525,10 +530,20 @@ main.shell {
   background: #000;
 }
 
-.imagery-stage > img:not(.reference-map) {
+.imagery-base {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.weather-overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  pointer-events: none;
 }
 
 .reference-map {

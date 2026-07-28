@@ -16,10 +16,10 @@ https://zwazi.github.io/WeatherStation/
   lightning, and UV/light
 - Full condition, wind, pressure, rain, lightning, and light detail sections
 - A 12-hour NWS numeric grid and two-day high/low/rain table
-- 24 NOAA GOES GeoColor frames covering approximately four hours
-- A nearest-time NOAA nowCOAST/MRMS rain-radar frame for every GOES frame
-- One shared pause/play control, frame scrubber, and synchronized frame index
-- Side-by-side square imagery at every viewport width, without internal gutters
+- 24 NOAA GOES longwave frames covering approximately four hours
+- Transparent NOAA nowCOAST/MRMS reflectivity composited over every GOES frame
+- Shared EPSG:4326 geometry for satellite, rain, boundaries, and Tucson marker
+- One pause/play control, frame scrubber, and responsive square composite
 - A restrained Neotron-inspired graphite, warm-white, yellow, and red theme
 - Automatic in-browser polling so an open page adopts each newly deployed build
 
@@ -40,7 +40,9 @@ scripts/update_weather.py ──► data/weather.json
 
 `data/weather.json` contains display-ready observations and public NOAA source
 URLs. It never contains the Tempest token. The browser does not call the
-WeatherFlow API directly.
+WeatherFlow API directly. The satellite and transparent rain images stay as
+separate browser layers so they can be synchronized precisely, but appear as a
+single composited map.
 
 The workflow in `.github/workflows/deploy-pages.yml` runs at these Arizona
 wall-clock minutes:
@@ -110,7 +112,7 @@ query parameter is redacted before an error can be serialized.
 ```text
 .
 ├── .github/workflows/deploy-pages.yml  # scheduled refresh and Pages deploy
-├── assets/app.js                       # rendering and synchronized animation
+├── assets/app.js                       # rendering and composited animation
 ├── assets/styles.css                   # responsive Neotron-inspired theme
 ├── data/weather.json                   # sanitized generated snapshot
 ├── scripts/update_weather.py           # Tempest/NWS/NOAA collector
@@ -122,5 +124,4 @@ query parameter is redacted before an error can be serialized.
 
 - [WeatherFlow Tempest](https://weatherflow.com/tempest-weather-system/)
 - [National Weather Service API](https://www.weather.gov/documentation/services-web-api)
-- [NOAA STAR GOES imagery](https://www.star.nesdis.noaa.gov/goes/)
-- [NOAA nowCOAST](https://nowcoast.noaa.gov/)
+- [NOAA nowCOAST satellite and radar services](https://nowcoast.noaa.gov/)
