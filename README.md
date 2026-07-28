@@ -2,7 +2,7 @@
 
 A GitHub Pages version of the Tucson Tempest weather dashboard. It combines
 current WeatherFlow observations, a 12-hour numeric National Weather Service
-forecast, a two-day outlook, and synchronized NOAA GOES/MRMS imagery.
+forecast, a two-day outlook, and synchronized NOAA GOES/IEM NEXRAD imagery.
 
 The intended Pages URL is:
 
@@ -17,7 +17,8 @@ https://zwazi.github.io/WeatherStation/
 - Full condition, wind, pressure, rain, lightning, and light detail sections
 - A 12-hour NWS numeric grid and two-day high/low/rain table
 - Up to 24 NOAA GOES GeoColor frames covering approximately four hours
-- Transparent NOAA nowCOAST/MRMS reflectivity composited over every GOES frame
+- 1200-pixel transparent IEM NEXRAD reflectivity composited over every GOES frame
+- Automatic NOAA nowCOAST/MRMS fallback if an IEM frame is unavailable
 - Shared EPSG:4326 geometry for satellite, rain, boundaries, and Tucson marker
 - One pause/play control, frame scrubber, and responsive square composite
 - A restrained Neotron-inspired graphite, warm-white, yellow, and red theme
@@ -125,4 +126,5 @@ query parameter is redacted before an error can be serialized.
 - [WeatherFlow Tempest](https://weatherflow.com/tempest-weather-system/)
 - [National Weather Service API](https://www.weather.gov/documentation/services-web-api)
 - [NOAA/NESDIS GeoColor ImageServer](https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer)
-- [NOAA nowCOAST radar services](https://nowcoast.noaa.gov/)
+- [Iowa Environmental Mesonet NEXRAD mosaics](https://mesonet.agron.iastate.edu/docs/nexrad_mosaic/)
+- [NOAA nowCOAST radar fallback](https://nowcoast.noaa.gov/)
