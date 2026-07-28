@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#050505">
     <meta
       name="description"
-      content="Live Tempest observations and synchronized NOAA weather imagery for Tucson, Arizona."
+      content="Live Tempest observations, Tucson radar, and National Weather Service forecasts."
     >
     <title>Tempest Weather Station</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
@@ -20,98 +20,97 @@
     <header class="site-header">
       <div class="shell site-header__inner">
         <div class="station-identity">
-          <p class="eyebrow"><span class="status-pulse" aria-hidden="true"></span>Arizona telemetry</p>
           <div class="station-title-row">
             <h1>Tempest Weather Station</h1>
             <p id="station-number">Station —</p>
           </div>
           <p class="station-meta" id="station-meta">Loading the latest observation…</p>
         </div>
-        <button class="button button--primary" id="refresh-data" type="button">
-          Refresh data
-        </button>
+        <button class="button button--primary" id="refresh-data" type="button">Refresh</button>
       </div>
     </header>
 
-    <main class="shell" id="main-content">
+    <main class="shell weather-app" id="main-content">
       <div class="notice notice--error" id="page-error" role="alert" hidden></div>
       <div class="notice" id="section-warnings" role="status" hidden></div>
 
-      <section class="signal-grid" id="current-cards" aria-label="Current weather summary">
-        <div class="signal-card signal-card--loading"></div>
-        <div class="signal-card signal-card--loading"></div>
-        <div class="signal-card signal-card--loading"></div>
-        <div class="signal-card signal-card--loading"></div>
-        <div class="signal-card signal-card--loading"></div>
-        <div class="signal-card signal-card--loading"></div>
+      <section class="current-hero" aria-label="Current conditions">
+        <div class="current-column current-column--temperature">
+          <p class="hero-temperature" id="hero-temperature">—°</p>
+          <p class="hero-feels">Feels like <strong id="hero-feels">—°</strong></p>
+          <div class="current-metrics">
+            <p><span aria-hidden="true">◒</span><strong id="hero-humidity">—</strong> humidity</p>
+            <p><span aria-hidden="true">◴</span><strong id="hero-pressure">—</strong></p>
+            <p><span aria-hidden="true">ϟ</span><strong id="hero-lightning">—</strong></p>
+          </div>
+        </div>
+
+        <div class="current-column current-column--condition">
+          <div class="weather-icon weather-icon--large weather-icon--clear" id="hero-icon" aria-hidden="true"></div>
+          <p class="hero-condition" id="hero-condition">Loading</p>
+          <div class="current-metrics current-metrics--right">
+            <p><span aria-hidden="true">◒</span><strong id="hero-wind">—</strong></p>
+            <p><span aria-hidden="true">☀</span><strong id="hero-uv">—</strong> UV</p>
+            <p><span aria-hidden="true">●</span><strong id="hero-rain">—</strong></p>
+          </div>
+        </div>
+
+        <div class="alert-list" id="active-alerts" aria-live="polite"></div>
       </section>
 
-      <div class="dashboard-grid">
-        <aside class="conditions-column" aria-labelledby="conditions-title">
-          <div class="section-heading section-heading--compact">
-            <div>
-              <p class="eyebrow">Station detail</p>
-              <h2 id="conditions-title">Current Conditions</h2>
+      <section class="radar-panel" aria-labelledby="radar-title">
+        <div class="radar-toolbar">
+          <div>
+            <p class="eyebrow">Synchronized four-hour loop</p>
+            <h2 id="radar-title">NWS / NOAA</h2>
+          </div>
+          <div class="panel-actions" aria-label="Imagery controls and sources">
+            <button class="button button--small button--quiet" id="pause-loop" type="button" disabled>Pause</button>
+            <a class="button button--small button--quiet" id="satellite-source" href="https://www.star.nesdis.noaa.gov/goes/wfo.php?wfo=twc" target="_blank" rel="noreferrer">Open NOAA Satellite</a>
+            <a class="button button--small button--quiet" id="radar-source" href="https://mesonet.agron.iastate.edu/current/mcview.phtml" target="_blank" rel="noreferrer">Open Rain Radar</a>
+            <a class="button button--small button--quiet" id="nws-source" href="https://forecast.weather.gov/MapClick.php?lat=32.3051&amp;lon=-110.9156" target="_blank" rel="noreferrer">Open NWS</a>
+          </div>
+        </div>
+
+        <figure class="imagery-frame" aria-live="polite">
+          <div class="imagery-stage" id="imagery-stage">
+            <img class="imagery-base" id="satellite-image" alt="GOES GeoColor satellite view centered on Tucson">
+            <img class="weather-overlay" id="radar-image" alt="" aria-hidden="true">
+            <img class="reference-map" id="radar-reference" alt="" aria-hidden="true">
+            <span class="map-marker" id="satellite-marker" aria-label="Tucson"></span>
+            <div class="imagery-loader" id="imagery-loader">
+              <span></span>
+              <p>Loading matched satellite and radar frames</p>
+            </div>
+            <figcaption id="satellite-time">Preparing synchronized imagery…</figcaption>
+          </div>
+          <div class="imagery-footer">
+            <p class="frame-status" id="satellite-status">Contacting NOAA satellite and IEM radar services…</p>
+            <div class="timeline" id="timeline" hidden>
+              <label for="timeline-range">Loop position</label>
+              <input id="timeline-range" type="range" min="0" max="23" value="0" step="1">
+              <output id="timeline-output" for="timeline-range">1 / 24</output>
             </div>
           </div>
-          <div id="condition-sections"></div>
-        </aside>
+        </figure>
+      </section>
 
-        <section class="data-panel" aria-labelledby="nws-title">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">Synchronized four-hour loop</p>
-              <h2 id="nws-title">NWS / NOAA</h2>
-            </div>
-            <div class="panel-actions" aria-label="Imagery controls and sources">
-              <button class="button button--small button--quiet" id="pause-loop" type="button" disabled>
-                Pause
-              </button>
-              <a class="button button--small button--quiet" id="satellite-source" href="https://www.star.nesdis.noaa.gov/goes/wfo.php?wfo=twc" target="_blank" rel="noreferrer">
-                Open NOAA Satellite
-              </a>
-              <a class="button button--small button--quiet" id="radar-source" href="https://mesonet.agron.iastate.edu/current/mcview.phtml" target="_blank" rel="noreferrer">
-                Open Rain Radar
-              </a>
-              <a class="button button--small button--quiet" id="nws-source" href="https://forecast.weather.gov/MapClick.php?lat=32.3051&amp;lon=-110.9156" target="_blank" rel="noreferrer">
-                Open NWS
-              </a>
-            </div>
-          </div>
+      <section class="forecast-board" aria-labelledby="forecast-title">
+        <h2 class="visually-hidden" id="forecast-title">Weather forecast</h2>
+        <div id="daily-primary"></div>
+        <div class="hourly-strip" id="hourly-forecast" aria-label="12-hour forecast"></div>
+        <div id="daily-secondary"></div>
+        <p class="forecast-updated" id="forecast-updated">Loading NWS forecast…</p>
+        <details class="forecast-details">
+          <summary>Detailed 12-hour forecast</summary>
+          <div class="table-scroll" id="forecast-detail-table"></div>
+        </details>
+      </section>
 
-          <div class="imagery-grid imagery-grid--combined" id="imagery-grid" aria-live="polite">
-            <figure class="imagery-frame imagery-frame--combined">
-              <div class="imagery-stage">
-                <img class="imagery-base" id="satellite-image" alt="GOES GeoColor satellite view centered on Arizona">
-                <img class="weather-overlay" id="radar-image" alt="" aria-hidden="true">
-                <img class="reference-map" id="radar-reference" alt="" aria-hidden="true">
-                <span class="map-marker" id="satellite-marker" aria-label="Tucson"></span>
-                <figcaption id="satellite-time">Loading combined satellite and rain loop…</figcaption>
-              </div>
-              <p class="frame-status" id="satellite-status">Contacting NOAA satellite and IEM radar services…</p>
-            </figure>
-          </div>
-
-          <div class="timeline" id="timeline" hidden>
-            <label for="timeline-range">Loop position</label>
-            <input id="timeline-range" type="range" min="0" max="23" value="0" step="1">
-            <output id="timeline-output" for="timeline-range">1 / 24</output>
-          </div>
-
-          <section class="forecast-section" aria-label="NWS forecast">
-            <div class="forecast-meta">
-              <p class="eyebrow">12-hour numerical grid</p>
-              <p id="forecast-updated">Loading NWS forecast…</p>
-            </div>
-            <div class="table-scroll" id="hourly-forecast"></div>
-
-            <div class="subsection-heading">
-              <h3>Next 2 Days</h3>
-            </div>
-            <div class="table-scroll" id="daily-forecast"></div>
-          </section>
-        </section>
-      </div>
+      <details class="station-details">
+        <summary>Station details</summary>
+        <div class="detail-grid" id="condition-sections"></div>
+      </details>
     </main>
 
     <footer class="site-footer">
@@ -121,8 +120,6 @@
       </div>
     </footer>
 
-    <noscript>
-      <div class="noscript">JavaScript is required to display the generated weather data.</div>
-    </noscript>
+    <noscript><div class="noscript">JavaScript is required to display the generated weather data.</div></noscript>
   </body>
 </html>

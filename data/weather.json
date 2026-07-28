@@ -1,10 +1,146 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-07-28T16:34:01.046552-07:00",
-  "next_refresh_at": "2026-07-28T16:41:00-07:00",
+  "generated_at": "2026-07-28T16:46:28.619024-07:00",
+  "next_refresh_at": "2026-07-28T16:51:00-07:00",
   "errors": {},
   "forecast": {
     "updated_at": "2026-07-28T15:23:24-07:00",
+    "current_summary": "Sunny",
+    "current_icon": "clear",
+    "hourly": [
+      {
+        "timestamp": "2026-07-28T16:00:00-07:00",
+        "time": "4 PM",
+        "day": "Tue",
+        "temperature": "103°",
+        "precipitation": "6%",
+        "wind": "10 mph",
+        "gust": "20 mph",
+        "humidity": "26%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-28T17:00:00-07:00",
+        "time": "5 PM",
+        "day": "Tue",
+        "temperature": "102°",
+        "precipitation": "6%",
+        "wind": "10 mph",
+        "gust": "18 mph",
+        "humidity": "26%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-28T18:00:00-07:00",
+        "time": "6 PM",
+        "day": "Tue",
+        "temperature": "101°",
+        "precipitation": "6%",
+        "wind": "9 mph",
+        "gust": "17 mph",
+        "humidity": "27%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-28T19:00:00-07:00",
+        "time": "7 PM",
+        "day": "Tue",
+        "temperature": "99°",
+        "precipitation": "6%",
+        "wind": "8 mph",
+        "gust": "15 mph",
+        "humidity": "29%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-28T20:00:00-07:00",
+        "time": "8 PM",
+        "day": "Tue",
+        "temperature": "97°",
+        "precipitation": "3%",
+        "wind": "6 mph",
+        "gust": "12 mph",
+        "humidity": "31%",
+        "icon": "clear-night"
+      },
+      {
+        "timestamp": "2026-07-28T21:00:00-07:00",
+        "time": "9 PM",
+        "day": "Tue",
+        "temperature": "94°",
+        "precipitation": "3%",
+        "wind": "5 mph",
+        "gust": "9 mph",
+        "humidity": "35%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-28T22:00:00-07:00",
+        "time": "10 PM",
+        "day": "Tue",
+        "temperature": "92°",
+        "precipitation": "3%",
+        "wind": "5 mph",
+        "gust": "8 mph",
+        "humidity": "37%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-28T23:00:00-07:00",
+        "time": "11 PM",
+        "day": "Tue",
+        "temperature": "90°",
+        "precipitation": "3%",
+        "wind": "5 mph",
+        "gust": "8 mph",
+        "humidity": "41%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T00:00:00-07:00",
+        "time": "12 AM",
+        "day": "Wed",
+        "temperature": "88°",
+        "precipitation": "3%",
+        "wind": "3 mph",
+        "gust": "7 mph",
+        "humidity": "44%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T01:00:00-07:00",
+        "time": "1 AM",
+        "day": "Wed",
+        "temperature": "87°",
+        "precipitation": "3%",
+        "wind": "3 mph",
+        "gust": "6 mph",
+        "humidity": "46%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T02:00:00-07:00",
+        "time": "2 AM",
+        "day": "Wed",
+        "temperature": "86°",
+        "precipitation": "3%",
+        "wind": "3 mph",
+        "gust": "6 mph",
+        "humidity": "49%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T03:00:00-07:00",
+        "time": "3 AM",
+        "day": "Wed",
+        "temperature": "83°",
+        "precipitation": "3%",
+        "wind": "2 mph",
+        "gust": "5 mph",
+        "humidity": "53%",
+        "icon": "partly-cloudy-night"
+      }
+    ],
     "hours": [
       {
         "timestamp": "2026-07-28T16:00:00-07:00",
@@ -225,12 +361,16 @@
     "daily": [
       {
         "day": "Today  7/28",
+        "summary": "Sunny",
+        "icon": "clear",
         "high": "103°F",
         "low": "80°F",
         "rain": "6%"
       },
       {
         "day": "Wednesday  7/29",
+        "summary": "Sunny",
+        "icon": "clear",
         "high": "107°F",
         "low": "81°F",
         "rain": "4%"
@@ -240,148 +380,164 @@
   "imagery": {
     "frames": [
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17697%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17697%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T19:20:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A20%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A20%3A00Z",
         "radar_timestamp": "2026-07-28T19:20:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A20%3A13Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A20%3A13Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17698%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17698%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T19:30:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A30%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A30%3A00Z",
         "radar_timestamp": "2026-07-28T19:30:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A28%3A15Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A28%3A15Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17699%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17699%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T19:40:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A40%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A40%3A00Z",
         "radar_timestamp": "2026-07-28T19:40:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A40%3A18Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A40%3A18Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17700%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17700%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T19:50:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A50%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A50%3A00Z",
         "radar_timestamp": "2026-07-28T19:50:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A48%3A15Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T19%3A48%3A15Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17701%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17701%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T20:00:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A00%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A00%3A00Z",
         "radar_timestamp": "2026-07-28T20:00:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A00%3A19Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A00%3A19Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17702%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17702%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T20:10:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A10%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A10%3A00Z",
         "radar_timestamp": "2026-07-28T20:10:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A08%3A07Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A08%3A07Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17703%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17703%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T20:20:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A20%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A20%3A00Z",
         "radar_timestamp": "2026-07-28T20:20:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A20%3A09Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A20%3A09Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17704%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17704%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T20:30:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A30%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A30%3A00Z",
         "radar_timestamp": "2026-07-28T20:30:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A28%3A18Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A28%3A18Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17705%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17705%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T20:50:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A50%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A50%3A00Z",
         "radar_timestamp": "2026-07-28T20:50:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A48%3A13Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T20%3A48%3A13Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17706%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17706%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T21:20:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A20%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A20%3A00Z",
         "radar_timestamp": "2026-07-28T21:20:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A20%3A12Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A20%3A12Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17707%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17707%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T21:30:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A30%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A30%3A00Z",
         "radar_timestamp": "2026-07-28T21:30:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A28%3A17Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A28%3A17Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17708%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17708%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T21:40:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A40%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A40%3A00Z",
         "radar_timestamp": "2026-07-28T21:40:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A40%3A13Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A40%3A13Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17709%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17709%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T21:50:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A50%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A50%3A00Z",
         "radar_timestamp": "2026-07-28T21:50:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A48%3A15Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T21%3A48%3A15Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17710%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17710%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T22:00:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A00%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A00%3A00Z",
         "radar_timestamp": "2026-07-28T22:00:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A00%3A20Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A00%3A20Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17711%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17711%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T22:30:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A30%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A30%3A00Z",
         "radar_timestamp": "2026-07-28T22:30:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A28%3A11Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A28%3A11Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17712%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17712%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T22:40:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A40%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A40%3A00Z",
         "radar_timestamp": "2026-07-28T22:40:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A40%3A13Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T22%3A40%3A13Z"
       },
       {
-        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-116.0%2C29.0%2C-108.0%2C36.0&bboxSR=4326&imageSR=4326&size=1200%2C1200&format=png32&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17713%5D%7D&f=image",
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17713%5D%7D&f=image",
         "satellite_timestamp": "2026-07-28T23:00:00+00:00",
-        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A00%3A00Z",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A00%3A00Z",
         "radar_timestamp": "2026-07-28T23:00:00+00:00",
         "offset_minutes": 0,
-        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A00%3A20Z"
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A00%3A20Z"
+      },
+      {
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17714%5D%7D&f=image",
+        "satellite_timestamp": "2026-07-28T23:10:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A10%3A00Z",
+        "radar_timestamp": "2026-07-28T23:10:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A08%3A16Z"
+      },
+      {
+        "satellite_url": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer/exportImage?bbox=-113.9%2C31.2%2C-108.3%2C33.6&bboxSR=4326&imageSR=4326&size=1400%2C600&format=jpg&compressionQuality=90&transparent=false&interpolation=RSP_BilinearInterpolation&mosaicRule=%7B%22mosaicMethod%22%3A%22esriMosaicLockRaster%22%2C%22lockRasterIds%22%3A%5B17715%5D%7D&f=image",
+        "satellite_timestamp": "2026-07-28T23:20:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A20%3A00Z",
+        "radar_timestamp": "2026-07-28T23:20:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A20%3A03Z"
       }
     ],
     "product": "NOAA GOES GeoColor satellite + IEM NEXRAD reflectivity",
-    "reference_map_url": "https://mapservices.weather.noaa.gov/static/services/nws_reference_maps/nws_reference_map/MapServer/WMSServer?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=8%2C9&STYLES=%2C&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=1200&HEIGHT=1200&FORMAT=image%2Fpng&TRANSPARENT=true",
+    "reference_map_url": "https://mapservices.weather.noaa.gov/static/services/nws_reference_maps/nws_reference_map/MapServer/WMSServer?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=8%2C9&STYLES=%2C&SRS=EPSG%3A4326&BBOX=-113.9%2C31.2%2C-108.3%2C33.6&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true",
     "markers": {
       "radar": {
-        "x": 0.6355500000000003,
-        "y": 0.5278428571428567
+        "x": 0.5329285714285721,
+        "y": 0.5395416666666655
       }
     },
     "sources": {
@@ -393,14 +549,14 @@
   "station": {
     "id": "217249",
     "timezone": "America/Phoenix",
-    "updated_at": "2026-07-28T16:33:50-07:00"
+    "updated_at": "2026-07-28T16:45:50-07:00"
   },
   "cards": [
     {
       "label": "Temperature",
       "signal": "TEMP",
-      "value": "99.1°F",
-      "detail": "Feels like 99.1°F"
+      "value": "99.3°F",
+      "detail": "Feels like 99.3°F"
     },
     {
       "label": "Humidity",
@@ -412,8 +568,8 @@
     {
       "label": "Wind",
       "signal": "WIND",
-      "value": "2.5 mph",
-      "detail": "Gust 6.5 mph · NNW 333°"
+      "value": "3.1 mph",
+      "detail": "Gust 7.4 mph · NNW 336°"
     },
     {
       "label": "Rain Today",
@@ -430,8 +586,8 @@
     {
       "label": "UV / Light",
       "signal": "SOLAR",
-      "value": "5.4",
-      "detail": "57734 lux · 481 W/m²"
+      "value": "4.9",
+      "detail": "52012 lux · 434 W/m²"
     }
   ],
   "details": [
@@ -440,19 +596,19 @@
       "rows": [
         [
           "Temperature",
-          "99.1°F"
+          "99.3°F"
         ],
         [
           "Feels Like",
-          "99.1°F"
+          "99.3°F"
         ],
         [
           "Heat Index",
-          "99.1°F"
+          "99.3°F"
         ],
         [
           "Wind Chill",
-          "99.1°F"
+          "99.3°F"
         ],
         [
           "Humidity",
@@ -465,19 +621,19 @@
       "rows": [
         [
           "Lull",
-          "0.2 mph"
+          "0.9 mph"
         ],
         [
           "Average",
-          "2.5 mph"
+          "3.1 mph"
         ],
         [
           "Gust",
-          "6.5 mph"
+          "7.4 mph"
         ],
         [
           "Direction",
-          "NNW / 333°"
+          "NNW / 336°"
         ]
       ]
     },
@@ -549,17 +705,25 @@
       "rows": [
         [
           "Illuminance",
-          "57734 lux"
+          "52012 lux"
         ],
         [
           "UV Index",
-          "5.4"
+          "4.9"
         ],
         [
           "Solar Radiation",
-          "481 W/m²"
+          "434 W/m²"
         ]
       ]
+    }
+  ],
+  "alerts": [
+    {
+      "event": "Extreme Heat Warning",
+      "headline": "Extreme Heat Warning issued July 28 at 3:16PM MST until August 2 at 8:00PM MST by NWS Tucson AZ",
+      "severity": "Severe",
+      "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0a0e56f19c196cdc00569516ecae00e45b427132.001.1"
     }
   ]
 }

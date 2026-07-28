@@ -24,8 +24,9 @@ TEMPEST_TOKEN = os.environ.get("TEMPEST_TOKEN", "")
 
 TUCSON_LAT = 32.3051
 TUCSON_LON = -110.9156
-RADAR_BBOX = (-116.0, 29.0, -108.0, 36.0)
-RADAR_FRAME_SIZE = 1200
+RADAR_BBOX = (-113.9, 31.2, -108.3, 33.6)
+RADAR_FRAME_WIDTH = 1400
+RADAR_FRAME_HEIGHT = 600
 FORECAST_HOURS = 12
 REFRESH_MINUTES = (1, 11, 21, 31, 41, 51)
 
@@ -48,6 +49,7 @@ NWS_REFERENCE_WMS = (
     "nws_reference_maps/nws_reference_map/MapServer/WMSServer"
 )
 NWS_POINT_URL = f"https://api.weather.gov/points/{TUCSON_LAT},{TUCSON_LON}"
+NWS_ALERTS_URL = f"https://api.weather.gov/alerts/active?point={TUCSON_LAT},{TUCSON_LON}"
 NWS_SOURCE = (
     "https://forecast.weather.gov/MapClick.php?lat=32.3051&lon=-110.9156"
     "&unit=0&lg=english&FcstType=graphical"
@@ -363,6 +365,35 @@ def weather_types_at(properties: dict, target: datetime) -> set[str]:
     }
 
 
+def weather_icon_kind(
+    summary: str = "",
+    sky: int | None = None,
+    rain: int | None = None,
+    thunder: int | None = None,
+    is_night: bool = False,
+) -> str:
+    """Reduce NWS text and percentages to a presentation-friendly icon class."""
+    text = summary.lower()
+    if (thunder or 0) >= 20 or "thunder" in text:
+        return "storm"
+    if (rain or 0) >= 30 or any(
+        word in text for word in ("rain", "shower", "drizzle")
+    ):
+        return "rain"
+    if "snow" in text:
+        return "snow"
+    if sky is None:
+        if "cloud" in text or "overcast" in text:
+            sky = 70
+        elif "clear" in text or "sunny" in text:
+            sky = 10
+    if sky is not None and sky <= 20:
+        return "clear-night" if is_night else "clear"
+    if sky is not None and sky <= 65:
+        return "partly-cloudy-night" if is_night else "partly-cloudy"
+    return "cloudy"
+
+
 def get_nws_forecast(now: datetime) -> dict:
     point = fetch_json(NWS_POINT_URL, NWS_HEADERS)["properties"]
     grid = fetch_json(point["forecastGridData"], NWS_HEADERS)["properties"]
@@ -381,6 +412,7 @@ def get_nws_forecast(now: datetime) -> dict:
         "Rain": [],
         "Thunder": [],
     }
+    hourly = []
     rain_types = {"rain", "rain_showers", "drizzle", "thunderstorms"}
 
     for local_hour in hours:
@@ -407,6 +439,25 @@ def get_nws_forecast(now: datetime) -> dict:
         rows["Sky Cover"].append(fmt(sky, "%"))
         rows["Rain"].append(fmt(rain, "%"))
         rows["Thunder"].append(fmt(thunder, "%"))
+        is_night = local_hour.hour < 6 or local_hour.hour >= 20
+        hourly.append(
+            {
+                "timestamp": local_hour.isoformat(),
+                "time": local_hour.strftime("%-I %p"),
+                "day": local_hour.strftime("%a"),
+                "temperature": fmt(temperature, "°"),
+                "precipitation": fmt(precipitation, "%"),
+                "wind": fmt(wind, " mph"),
+                "gust": fmt(gust, " mph"),
+                "humidity": fmt(humidity, "%"),
+                "icon": weather_icon_kind(
+                    sky=sky,
+                    rain=rain,
+                    thunder=thunder,
+                    is_night=is_night,
+                ),
+            }
+        )
 
     daily = []
     for index, period in enumerate(periods):
@@ -430,6 +481,11 @@ def get_nws_forecast(now: datetime) -> dict:
         daily.append(
             {
                 "day": f"{day_name}  {start.strftime('%-m/%-d')}",
+                "summary": period.get("shortForecast") or "Forecast available",
+                "icon": weather_icon_kind(
+                    summary=period.get("shortForecast") or "",
+                    rain=max(rain_values) if rain_values else None,
+                ),
                 "high": fmt(period.get("temperature"), "°F"),
                 "low": fmt(night.get("temperature") if night else None, "°F"),
                 "rain": fmt(max(rain_values) if rain_values else None, "%"),
@@ -446,6 +502,12 @@ def get_nws_forecast(now: datetime) -> dict:
     )
     return {
         "updated_at": updated.astimezone(ARIZONA_TZ).isoformat(),
+        "current_summary": periods[0].get("shortForecast", "Current conditions"),
+        "current_icon": weather_icon_kind(
+            summary=periods[0].get("shortForecast", ""),
+            is_night=not periods[0].get("isDaytime", True),
+        ),
+        "hourly": hourly,
         "hours": [
             {
                 "timestamp": hour.isoformat(),
@@ -460,6 +522,25 @@ def get_nws_forecast(now: datetime) -> dict:
         ],
         "daily": daily,
     }
+
+
+def get_nws_alerts() -> list[dict]:
+    response = fetch_json(NWS_ALERTS_URL, NWS_HEADERS)
+    alerts = []
+    for feature in response.get("features", []):
+        properties = feature.get("properties", {})
+        event = properties.get("event")
+        if not event:
+            continue
+        alerts.append(
+            {
+                "event": event,
+                "headline": properties.get("headline") or event,
+                "severity": properties.get("severity") or "Unknown",
+                "url": properties.get("@id") or feature.get("id") or NWS_ALERTS_URL,
+            }
+        )
+    return alerts[:3]
 
 
 def parse_wms_times(xml_data: bytes, layer_name: str) -> list[datetime]:
@@ -526,8 +607,9 @@ def nesdis_geocolor_url(raster_id: int) -> str:
         "bbox": ",".join(str(value) for value in RADAR_BBOX),
         "bboxSR": 4326,
         "imageSR": 4326,
-        "size": f"{RADAR_FRAME_SIZE},{RADAR_FRAME_SIZE}",
-        "format": "png32",
+        "size": f"{RADAR_FRAME_WIDTH},{RADAR_FRAME_HEIGHT}",
+        "format": "jpg",
+        "compressionQuality": 90,
         "transparent": "false",
         "interpolation": "RSP_BilinearInterpolation",
         "mosaicRule": json.dumps(
@@ -551,20 +633,29 @@ def get_geocolor_records() -> list[dict]:
         "resultRecordCount": 200,
         "returnGeometry": "false",
     }
-    response = fetch_json(f"{NESDIS_GEOCOLOR_QUERY}?{urlencode(params)}")
     records = []
-    for feature in response.get("features", []):
-        attributes = feature.get("attributes", {})
-        if attributes.get("objectid") is None or attributes.get("start_time") is None:
-            continue
-        records.append(
-            {
-                "raster_id": int(attributes["objectid"]),
-                "timestamp": datetime.fromtimestamp(
-                    attributes["start_time"] / 1000, UTC
-                ),
-            }
-        )
+    for attempt in range(3):
+        response = fetch_json(f"{NESDIS_GEOCOLOR_QUERY}?{urlencode(params)}")
+        records = []
+        for feature in response.get("features", []):
+            attributes = feature.get("attributes", {})
+            if (
+                attributes.get("objectid") is None
+                or attributes.get("start_time") is None
+            ):
+                continue
+            records.append(
+                {
+                    "raster_id": int(attributes["objectid"]),
+                    "timestamp": datetime.fromtimestamp(
+                        attributes["start_time"] / 1000, UTC
+                    ),
+                }
+            )
+        if records:
+            break
+        if attempt < 2:
+            time.sleep(attempt + 1)
     if not records:
         raise ValueError("NOAA/NESDIS did not list GeoColor archive records")
     latest = max(record["timestamp"] for record in records)
@@ -591,8 +682,8 @@ def nowcoast_radar_url(timestamp: datetime) -> str:
         "STYLES": "weather_radar_base_reflectivity",
         "SRS": "EPSG:4326",
         "BBOX": ",".join(str(value) for value in RADAR_BBOX),
-        "WIDTH": RADAR_FRAME_SIZE,
-        "HEIGHT": RADAR_FRAME_SIZE,
+        "WIDTH": RADAR_FRAME_WIDTH,
+        "HEIGHT": RADAR_FRAME_HEIGHT,
         "FORMAT": "image/png",
         "TRANSPARENT": "true",
         "TIME": timestamp.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -610,8 +701,8 @@ def iem_radar_url(timestamp: datetime) -> str:
         "STYLES": "",
         "SRS": "EPSG:4326",
         "BBOX": ",".join(str(value) for value in RADAR_BBOX),
-        "WIDTH": RADAR_FRAME_SIZE,
-        "HEIGHT": RADAR_FRAME_SIZE,
+        "WIDTH": RADAR_FRAME_WIDTH,
+        "HEIGHT": RADAR_FRAME_HEIGHT,
         "FORMAT": "image/png",
         "TRANSPARENT": "true",
         "TIME": timestamp.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -628,8 +719,8 @@ def nws_reference_map_url() -> str:
         "STYLES": ",",
         "SRS": "EPSG:4326",
         "BBOX": ",".join(str(value) for value in RADAR_BBOX),
-        "WIDTH": RADAR_FRAME_SIZE,
-        "HEIGHT": RADAR_FRAME_SIZE,
+        "WIDTH": RADAR_FRAME_WIDTH,
+        "HEIGHT": RADAR_FRAME_HEIGHT,
         "FORMAT": "image/png",
         "TRANSPARENT": "true",
     }
@@ -707,6 +798,7 @@ def build_payload(output_path: Path) -> dict:
     for section, loader in (
         ("tempest", get_tempest_weather),
         ("forecast", lambda: get_nws_forecast(now)),
+        ("alerts", get_nws_alerts),
         ("imagery", get_imagery),
     ):
         try:
