@@ -10,6 +10,7 @@ from scripts.update_weather import (
     round_to_five_minutes,
     sanitized_error,
     select_four_hour_timeline,
+    weather_icon_kind,
 )
 
 
@@ -59,6 +60,12 @@ class UpdateWeatherTests(unittest.TestCase):
         value = datetime(2026, 7, 28, 23, 58, 0, tzinfo=ZoneInfo("UTC"))
         expected = datetime(2026, 7, 29, 0, 0, 0, tzinfo=ZoneInfo("UTC"))
         self.assertEqual(round_to_five_minutes(value), expected)
+
+    def test_weather_icon_prioritizes_thunder_over_sky_cover(self):
+        self.assertEqual(weather_icon_kind(sky=5, thunder=40), "storm")
+
+    def test_weather_icon_distinguishes_clear_night(self):
+        self.assertEqual(weather_icon_kind(sky=10, is_night=True), "clear-night")
 
     def test_error_messages_never_preserve_token_values(self):
         error = RuntimeError("request failed at https://example.test/?token=secret-value&x=1")

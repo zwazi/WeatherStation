@@ -12,16 +12,19 @@ https://zwazi.github.io/WeatherStation/
 
 ## What the site includes
 
-- Six current-condition cards for temperature, humidity, wind, rain,
-  lightning, and UV/light
+- Current temperature, humidity, wind, pressure, rain, lightning, and UV/light
+  measurements
 - Full condition, wind, pressure, rain, lightning, and light detail sections
-- A 12-hour NWS numeric grid and two-day high/low/rain table
+- A large current-condition hero, active NWS alert chips, horizontally scrolling
+  hourly forecast, and two-day summaries modeled after a modern weather app
+- A complete expandable 12-hour NWS numeric grid
 - Up to 24 NOAA GOES GeoColor frames covering approximately four hours
-- 1200-pixel transparent IEM NEXRAD reflectivity composited over every GOES frame
+- A regional-centered 1400×600 GeoColor and transparent IEM NEXRAD composite
 - Automatic NOAA nowCOAST/MRMS fallback if an IEM frame is unavailable
 - Shared EPSG:4326 geometry for satellite, rain, boundaries, and regional marker
-- One pause/play control, frame scrubber, and responsive square composite
-- A restrained Neotron-inspired graphite, warm-white, yellow, and red theme
+- Atomic satellite/radar preloading so playback never outruns the GeoColor base
+- One pause/play control, frame scrubber, and responsive wide composite
+- A restrained black, dark-plum, warm-white, yellow, and red theme
 - Automatic in-browser polling so an open page adopts each newly deployed build
 
 ## Data and deployment design

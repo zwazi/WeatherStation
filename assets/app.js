@@ -10,7 +10,18 @@ const elements = {
   sectionWarnings: document.querySelector("#section-warnings"),
   stationNumber: document.querySelector("#station-number"),
   stationMeta: document.querySelector("#station-meta"),
-  cards: document.querySelector("#current-cards"),
+  generatedAt: document.querySelector("#generated-at"),
+  heroTemperature: document.querySelector("#hero-temperature"),
+  heroFeels: document.querySelector("#hero-feels"),
+  heroHumidity: document.querySelector("#hero-humidity"),
+  heroPressure: document.querySelector("#hero-pressure"),
+  heroLightning: document.querySelector("#hero-lightning"),
+  heroWind: document.querySelector("#hero-wind"),
+  heroUv: document.querySelector("#hero-uv"),
+  heroRain: document.querySelector("#hero-rain"),
+  heroCondition: document.querySelector("#hero-condition"),
+  heroIcon: document.querySelector("#hero-icon"),
+  alerts: document.querySelector("#active-alerts"),
   details: document.querySelector("#condition-sections"),
   pause: document.querySelector("#pause-loop"),
   satelliteSource: document.querySelector("#satellite-source"),
@@ -22,13 +33,15 @@ const elements = {
   satelliteMarker: document.querySelector("#satellite-marker"),
   satelliteTime: document.querySelector("#satellite-time"),
   satelliteStatus: document.querySelector("#satellite-status"),
+  imageryLoader: document.querySelector("#imagery-loader"),
   timeline: document.querySelector("#timeline"),
   timelineRange: document.querySelector("#timeline-range"),
   timelineOutput: document.querySelector("#timeline-output"),
   forecastUpdated: document.querySelector("#forecast-updated"),
   hourlyForecast: document.querySelector("#hourly-forecast"),
-  dailyForecast: document.querySelector("#daily-forecast"),
-  generatedAt: document.querySelector("#generated-at"),
+  dailyPrimary: document.querySelector("#daily-primary"),
+  dailySecondary: document.querySelector("#daily-secondary"),
+  forecastDetail: document.querySelector("#forecast-detail-table"),
 };
 
 const state = {
@@ -37,6 +50,7 @@ const state = {
   frames: [],
   frameIndex: 0,
   timer: null,
+  imageryGeneration: 0,
   paused: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   loading: false,
 };
@@ -74,33 +88,73 @@ function renderHeader(data) {
   elements.stationNumber.textContent = `Station ${station.id || "—"}`;
   elements.stationMeta.textContent = [
     `Updated ${formatArizonaDateTime(station.updated_at, true)}`,
-    `Next data build ${formatArizonaDateTime(data.next_refresh_at)}`,
+    `Next refresh ${formatArizonaDateTime(data.next_refresh_at)}`,
   ].join(" · ");
   elements.generatedAt.textContent = `Site data built ${formatArizonaDateTime(data.generated_at, true)}`;
 }
 
-function renderCards(cards = []) {
-  elements.cards.replaceChildren();
-  for (const card of cards) {
-    const article = createElement("article", "signal-card");
-    const header = createElement("div", "signal-card__header");
-    header.append(
-      createElement("p", "signal-card__label", card.label),
-      createElement("p", "signal-card__code", card.signal),
-    );
-    article.append(
-      header,
-      createElement("p", "signal-card__value", card.value),
-      createElement("p", "signal-card__detail", card.detail),
-    );
-    if (Number.isFinite(Number(card.meter))) {
-      const meter = createElement("div", "signal-card__meter");
-      const fill = createElement("span");
-      fill.style.width = `${Math.max(0, Math.min(100, Number(card.meter)))}%`;
-      meter.append(fill);
-      article.append(meter);
+function findCard(data, label) {
+  return (data.cards || []).find((card) => card.label === label) || {};
+}
+
+function findDetail(data, sectionTitle, rowLabel) {
+  const section = (data.details || []).find((item) => item.title === sectionTitle);
+  const row = section?.rows?.find(([label]) => label === rowLabel);
+  return row?.[1] || "—";
+}
+
+function roundedTemperature(value) {
+  const match = String(value || "").match(/-?\d+(?:\.\d+)?/);
+  const parsed = match ? Number.parseFloat(match[0]) : Number.NaN;
+  return Number.isFinite(parsed) ? `${Math.round(parsed)}°` : "—°";
+}
+
+function iconClass(kind = "cloudy") {
+  return `weather-icon--${kind}`;
+}
+
+function setWeatherIcon(element, kind) {
+  for (const className of [...element.classList]) {
+    if (className.startsWith("weather-icon--") && className !== "weather-icon--large") {
+      element.classList.remove(className);
     }
-    elements.cards.append(article);
+  }
+  element.classList.add(iconClass(kind));
+}
+
+function renderCurrent(data) {
+  const temperature = findCard(data, "Temperature");
+  const humidity = findCard(data, "Humidity");
+  const wind = findCard(data, "Wind");
+  const rain = findCard(data, "Rain Today");
+  const lightning = findCard(data, "Lightning");
+  const uv = findCard(data, "UV / Light");
+  const direction = (wind.detail || "").split("·").at(-1)?.trim().split(" ")[0] || "";
+
+  elements.heroTemperature.textContent = roundedTemperature(temperature.value);
+  elements.heroFeels.textContent = roundedTemperature(temperature.detail);
+  elements.heroHumidity.textContent = humidity.value || "—";
+  elements.heroPressure.textContent = findDetail(data, "Pressure", "Sea-Level Pressure");
+  elements.heroLightning.textContent = lightning.value === "0" ? "None" : `${lightning.value || "—"} strikes`;
+  elements.heroWind.textContent = `${direction} ${wind.value || "—"}`.trim();
+  elements.heroUv.textContent = uv.value || "—";
+  elements.heroRain.textContent = rain.value || "—";
+
+  const forecast = data.forecast || {};
+  elements.heroCondition.textContent = forecast.current_summary || "Current conditions";
+  setWeatherIcon(elements.heroIcon, forecast.current_icon || "cloudy");
+}
+
+function renderAlerts(alerts = []) {
+  elements.alerts.replaceChildren();
+  for (const alert of alerts) {
+    const chip = createElement("a", `alert-chip alert-chip--${String(alert.severity || "unknown").toLowerCase()}`);
+    chip.href = alert.url || "https://www.weather.gov/alerts";
+    chip.target = "_blank";
+    chip.rel = "noreferrer";
+    chip.title = alert.headline || alert.event;
+    chip.append(createElement("span", "alert-chip__icon", "▲"), document.createTextNode(alert.event));
+    elements.alerts.append(chip);
   }
 }
 
@@ -120,63 +174,66 @@ function renderDetails(sections = []) {
   }
 }
 
-function buildHourlyTable(forecast) {
-  const table = createElement("table", "forecast-table forecast-table--hourly");
+function weatherIcon(kind, extraClass = "") {
+  const icon = createElement("span", `weather-icon ${iconClass(kind)} ${extraClass}`.trim());
+  icon.setAttribute("aria-hidden", "true");
+  return icon;
+}
+
+function dailySummary(day) {
+  const article = createElement("article", "daily-summary");
+  const text = createElement("div", "daily-summary__text");
+  text.append(
+    createElement("h3", "", day.day || "Forecast"),
+    createElement("p", "", day.summary || "Forecast available"),
+  );
+  const values = createElement("div", "daily-summary__values");
+  values.append(
+    createElement("p", "daily-summary__rain", `● ${day.rain || "—"}`),
+    createElement("p", "", `↓ ${day.low || "—"}`),
+    createElement("p", "", `↑ ${day.high || "—"}`),
+  );
+  article.append(text, weatherIcon(day.icon || "cloudy", "weather-icon--daily"), values);
+  return article;
+}
+
+function renderHourly(hours = []) {
+  elements.hourlyForecast.replaceChildren();
+  for (const hour of hours) {
+    const article = createElement("article", "hour-card");
+    article.append(
+      createElement("p", "hour-card__time", hour.time || "—"),
+      createElement("p", "hour-card__day", hour.day || ""),
+      weatherIcon(hour.icon || "cloudy", "weather-icon--hourly"),
+      createElement("p", "hour-card__temperature", hour.temperature || "—"),
+      createElement("p", "hour-card__metric", `● ${hour.precipitation || "—"}`),
+      createElement("p", "hour-card__metric hour-card__wind", `➤ ${hour.wind || "—"}`),
+    );
+    elements.hourlyForecast.append(article);
+  }
+}
+
+function buildDetailedForecast(forecast) {
+  const table = createElement("table", "forecast-table");
   const head = document.createElement("thead");
   const headerRow = document.createElement("tr");
   const metricHeader = createElement("th", "", "Metric");
   metricHeader.scope = "col";
   headerRow.append(metricHeader);
-
   for (const hour of forecast.hours || []) {
-    const heading = createElement("th", "hour-heading");
-    heading.scope = "col";
-    heading.append(
-      createElement("span", "", hour.time),
-      createElement("span", "", hour.day),
-    );
-    headerRow.append(heading);
+    const cell = createElement("th", "", `${hour.time} ${hour.day}`);
+    cell.scope = "col";
+    headerRow.append(cell);
   }
   head.append(headerRow);
   table.append(head);
-
   const body = document.createElement("tbody");
   for (const rowData of forecast.rows || []) {
     const row = document.createElement("tr");
     const label = createElement("th", "", rowData.label);
     label.scope = "row";
     row.append(label);
-    for (const value of rowData.values || []) {
-      row.append(createElement("td", "", value));
-    }
-    body.append(row);
-  }
-  table.append(body);
-  return table;
-}
-
-function buildDailyTable(forecast) {
-  const columns = [
-    ["day", "Day"],
-    ["high", "High temp"],
-    ["low", "Low temp"],
-    ["rain", "Rain % chance"],
-  ];
-  const table = createElement("table", "forecast-table forecast-table--daily");
-  const head = document.createElement("thead");
-  const headerRow = document.createElement("tr");
-  for (const [, label] of columns) {
-    const cell = createElement("th", "", label);
-    cell.scope = "col";
-    headerRow.append(cell);
-  }
-  head.append(headerRow);
-  table.append(head);
-
-  const body = document.createElement("tbody");
-  for (const day of forecast.daily || []) {
-    const row = document.createElement("tr");
-    for (const [key] of columns) row.append(createElement("td", "", day[key]));
+    for (const value of rowData.values || []) row.append(createElement("td", "", value));
     body.append(row);
   }
   table.append(body);
@@ -184,15 +241,20 @@ function buildDailyTable(forecast) {
 }
 
 function renderForecast(forecast) {
+  elements.dailyPrimary.replaceChildren();
+  elements.dailySecondary.replaceChildren();
   elements.hourlyForecast.replaceChildren();
-  elements.dailyForecast.replaceChildren();
+  elements.forecastDetail.replaceChildren();
   if (!forecast) {
     elements.forecastUpdated.textContent = "NWS forecast unavailable";
     return;
   }
+  const [today, ...laterDays] = forecast.daily || [];
+  if (today) elements.dailyPrimary.append(dailySummary(today));
+  for (const day of laterDays) elements.dailySecondary.append(dailySummary(day));
+  renderHourly(forecast.hourly || []);
+  elements.forecastDetail.append(buildDetailedForecast(forecast));
   elements.forecastUpdated.textContent = `NWS grid updated ${formatArizonaDateTime(forecast.updated_at)}`;
-  elements.hourlyForecast.append(buildHourlyTable(forecast));
-  elements.dailyForecast.append(buildDailyTable(forecast));
 }
 
 function positionMarker(element, marker) {
@@ -216,29 +278,59 @@ function frameLabel(timestamp) {
   return formatArizonaDateTime(timestamp).replace(", MST", " MST");
 }
 
+function loadImage(primaryUrl, fallbackUrl = null) {
+  const image = new Image();
+  image.decoding = "async";
+  return new Promise((resolve) => {
+    let activeUrl = primaryUrl;
+    let triedFallback = false;
+    let settled = false;
+    const finish = (ok) => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeout);
+      resolve({ image, url: activeUrl, ok, fallback: triedFallback });
+    };
+    const timeout = window.setTimeout(() => finish(false), 30_000);
+    image.onload = () => finish(true);
+    image.onerror = () => {
+      if (fallbackUrl && !triedFallback) {
+        triedFallback = true;
+        activeUrl = fallbackUrl;
+        image.src = fallbackUrl;
+      } else {
+        finish(false);
+      }
+    };
+    image.src = primaryUrl;
+  });
+}
+
+function prepareFrame(frame) {
+  return Promise.all([
+    loadImage(frame.satellite_url),
+    loadImage(frame.radar_url, frame.radar_fallback_url),
+  ]).then(([satellite, radar]) => ({
+    metadata: frame,
+    satellite,
+    radar,
+    ready: satellite.ok && radar.ok,
+  }));
+}
+
 function showFrame(index) {
   if (!state.frames.length) return;
   state.frameIndex = ((index % state.frames.length) + state.frames.length) % state.frames.length;
-  const frame = state.frames[state.frameIndex];
-  elements.satelliteImage.src = frame.satellite_url;
-  const frameKey = `${state.frameIndex}:${frame.radar_timestamp}`;
-  elements.radarImage.dataset.frameKey = frameKey;
-  elements.radarImage.onerror = () => {
-    if (
-      elements.radarImage.dataset.frameKey === frameKey
-      && frame.radar_fallback_url
-      && elements.radarImage.src !== frame.radar_fallback_url
-    ) {
-      elements.radarImage.onerror = null;
-      elements.radarImage.src = frame.radar_fallback_url;
-    }
-  };
-  elements.radarImage.src = frame.radar_url;
+  const prepared = state.frames[state.frameIndex];
+  const frame = prepared.metadata;
+  elements.satelliteImage.src = prepared.satellite.url;
+  elements.radarImage.src = prepared.radar.url;
   elements.satelliteTime.textContent = (
     `${frameLabel(frame.satellite_timestamp)} · rain ${frameLabel(frame.radar_timestamp)} · Arizona`
   );
+  const radarName = prepared.radar.fallback ? "NOAA MRMS fallback" : "IEM NEXRAD";
   elements.satelliteStatus.textContent = (
-    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA GOES GeoColor + IEM NEXRAD reflectivity · `
+    `Frame ${state.frameIndex + 1} of ${state.frames.length} · GeoColor + ${radarName} · `
     + `${frame.offset_minutes} min offset · synchronized 4-hour loop`
   );
   elements.timelineRange.value = String(state.frameIndex);
@@ -249,7 +341,7 @@ function showFrame(index) {
 function scheduleNextFrame() {
   clearAnimationTimer();
   if (state.paused || state.frames.length < 2 || document.hidden) return;
-  const delay = state.frameIndex === state.frames.length - 1 ? 1200 : 250;
+  const delay = state.frameIndex === state.frames.length - 1 ? 1400 : 450;
   state.timer = window.setTimeout(() => {
     showFrame(state.frameIndex + 1);
     scheduleNextFrame();
@@ -262,27 +354,18 @@ function updatePauseButton() {
   elements.pause.setAttribute("aria-pressed", String(state.paused));
 }
 
-function preloadFrames(frames) {
-  for (const frame of frames) {
-    const satellite = new Image();
-    satellite.src = frame.satellite_url;
-    const radar = new Image();
-    radar.onerror = () => {
-      if (frame.radar_fallback_url) radar.src = frame.radar_fallback_url;
-    };
-    radar.src = frame.radar_url;
-  }
-}
-
 function renderImagery(imagery) {
   clearAnimationTimer();
-  state.frames = imagery?.frames || [];
+  const generation = ++state.imageryGeneration;
+  state.frames = [];
   state.frameIndex = 0;
-  elements.timeline.hidden = state.frames.length < 2;
-  elements.timelineRange.max = String(Math.max(0, state.frames.length - 1));
+  elements.pause.disabled = true;
+  elements.timeline.hidden = true;
+  elements.imageryLoader.hidden = false;
 
-  if (!imagery || !state.frames.length) {
-    elements.pause.disabled = true;
+  const rawFrames = imagery?.frames || [];
+  if (!imagery || !rawFrames.length) {
+    elements.imageryLoader.hidden = true;
     elements.satelliteTime.textContent = "Combined imagery unavailable";
     elements.satelliteStatus.textContent = "Use the source buttons to view the imagery providers.";
     return;
@@ -294,11 +377,24 @@ function renderImagery(imagery) {
   if (sources.nws) elements.nwsSource.href = sources.nws;
   elements.radarReference.src = imagery.reference_map_url || "";
   positionMarker(elements.satelliteMarker, markers.radar || markers.satellite);
+  elements.satelliteStatus.textContent = `Preloading ${rawFrames.length} matched satellite and radar frames…`;
 
-  showFrame(0);
-  updatePauseButton();
-  scheduleNextFrame();
-  window.setTimeout(() => preloadFrames(state.frames.slice(1)), 100);
+  Promise.all(rawFrames.map(prepareFrame)).then((preparedFrames) => {
+    if (generation !== state.imageryGeneration) return;
+    state.frames = preparedFrames.filter((frame) => frame.ready);
+    elements.imageryLoader.hidden = true;
+    if (!state.frames.length) {
+      elements.satelliteTime.textContent = "Combined imagery unavailable";
+      elements.satelliteStatus.textContent = "Satellite or radar images could not be loaded.";
+      updatePauseButton();
+      return;
+    }
+    elements.timeline.hidden = state.frames.length < 2;
+    elements.timelineRange.max = String(Math.max(0, state.frames.length - 1));
+    showFrame(0);
+    updatePauseButton();
+    scheduleNextFrame();
+  });
 }
 
 function renderWarnings(errors = {}) {
@@ -319,7 +415,8 @@ function render(data) {
   state.data = data;
   state.generatedAt = data.generated_at;
   renderHeader(data);
-  renderCards(data.cards || []);
+  renderCurrent(data);
+  renderAlerts(data.alerts || []);
   renderDetails(data.details || []);
   renderForecast(data.forecast);
   renderImagery(data.imagery);
