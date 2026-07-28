@@ -29,11 +29,12 @@ RADAR_FRAME_SIZE = 600
 FORECAST_HOURS = 12
 REFRESH_MINUTES = (1, 11, 21, 31, 41, 51)
 
-NOAA_SATELLITE_PAGE = (
-    "https://www.star.nesdis.noaa.gov/goes/"
-    "wfo_band.php?band=GEOCOLOR&length=24&wfo=twc"
+NOWCOAST_SATELLITE_WMS = "https://nowcoast.noaa.gov/geoserver/satellite/wms"
+NOWCOAST_SATELLITE_CAPABILITIES = (
+    f"{NOWCOAST_SATELLITE_WMS}?service=WMS&version=1.3.0&request=GetCapabilities"
 )
-NOAA_SATELLITE_SOURCE = "https://www.star.nesdis.noaa.gov/goes/wfo.php?wfo=twc"
+NOWCOAST_SATELLITE_LAYER = "goes_longwave_imagery"
+NOAA_SATELLITE_SOURCE = "https://nowcoast.noaa.gov/"
 NOAA_RADAR_SOURCE = "https://nowcoast.noaa.gov/"
 NOWCOAST_RADAR_WMS = "https://nowcoast.noaa.gov/geoserver/weather_radar/wms"
 NOWCOAST_CAPABILITIES = (
@@ -458,7 +459,7 @@ def get_nws_forecast(now: datetime) -> dict:
     }
 
 
-def parse_nowcoast_radar_times(xml_data: bytes) -> list[datetime]:
+def parse_wms_times(xml_data: bytes, layer_name: str) -> list[datetime]:
     root = ET.fromstring(xml_data)
     for layer in root.iter():
         if layer.tag.rsplit("}", 1)[-1] != "Layer":
@@ -471,7 +472,7 @@ def parse_nowcoast_radar_times(xml_data: bytes) -> list[datetime]:
             ),
             None,
         )
-        if name != "conus_base_reflectivity_mosaic":
+        if name != layer_name:
             continue
         dimension = next(
             (
@@ -488,7 +489,41 @@ def parse_nowcoast_radar_times(xml_data: bytes) -> list[datetime]:
                 for value in dimension.text.split(",")
                 if value.strip()
             ]
-    raise ValueError("NOAA nowCOAST did not list CONUS radar timestamps")
+    raise ValueError(f"NOAA nowCOAST did not list timestamps for {layer_name}")
+
+
+def select_four_hour_timeline(
+    available_times: list[datetime], frame_count: int = 24
+) -> list[datetime]:
+    """Select evenly spaced WMS timestamps across the latest four hours."""
+    if not available_times:
+        return []
+    latest = max(available_times)
+    window_start = latest - timedelta(hours=4)
+    window = sorted(value for value in available_times if value >= window_start)
+    if len(window) <= frame_count:
+        return window
+    last_index = len(window) - 1
+    indices = [round(index * last_index / (frame_count - 1)) for index in range(frame_count)]
+    return [window[index] for index in indices]
+
+
+def nowcoast_satellite_url(timestamp: datetime) -> str:
+    params = {
+        "SERVICE": "WMS",
+        "VERSION": "1.1.1",
+        "REQUEST": "GetMap",
+        "LAYERS": NOWCOAST_SATELLITE_LAYER,
+        "STYLES": "",
+        "SRS": "EPSG:4326",
+        "BBOX": ",".join(str(value) for value in RADAR_BBOX),
+        "WIDTH": RADAR_FRAME_SIZE,
+        "HEIGHT": RADAR_FRAME_SIZE,
+        "FORMAT": "image/png",
+        "TRANSPARENT": "false",
+        "TIME": timestamp.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    }
+    return f"{NOWCOAST_SATELLITE_WMS}?{urlencode(params)}"
 
 
 def nowcoast_radar_url(timestamp: datetime) -> str:
@@ -503,7 +538,7 @@ def nowcoast_radar_url(timestamp: datetime) -> str:
         "WIDTH": RADAR_FRAME_SIZE,
         "HEIGHT": RADAR_FRAME_SIZE,
         "FORMAT": "image/png",
-        "TRANSPARENT": "false",
+        "TRANSPARENT": "true",
         "TIME": timestamp.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
     return f"{NOWCOAST_RADAR_WMS}?{urlencode(params)}"
@@ -527,34 +562,31 @@ def nws_reference_map_url() -> str:
 
 
 def get_imagery() -> dict:
-    page = fetch_bytes(f"{NOAA_SATELLITE_PAGE}&_={int(time.time())}").decode(
-        "utf-8", errors="replace"
+    available_satellite_times = parse_wms_times(
+        fetch_bytes(NOWCOAST_SATELLITE_CAPABILITIES),
+        NOWCOAST_SATELLITE_LAYER,
     )
-    pattern = re.compile(
-        r"https://cdn\.star\.nesdis\.noaa\.gov/WFO/twc/GEOCOLOR/"
-        r"(\d{11})_[^\"'\s]+-600x600\.jpg"
+    radar_times = parse_wms_times(
+        fetch_bytes(NOWCOAST_CAPABILITIES),
+        "conus_base_reflectivity_mosaic",
     )
-    satellite_frames = []
-    seen = set()
-    for match in pattern.finditer(page):
-        url = match.group(0)
-        if url in seen:
-            continue
-        seen.add(url)
-        try:
-            timestamp = datetime.strptime(match.group(1), "%Y%j%H%M").replace(
-                tzinfo=UTC
+    aligned_satellite_times = [
+        satellite_time
+        for satellite_time in available_satellite_times
+        if abs(
+            min(
+                radar_times,
+                key=lambda candidate: abs(candidate - satellite_time),
             )
-        except ValueError:
-            continue
-        satellite_frames.append((url, timestamp))
-    satellite_frames = satellite_frames[-24:]
-    if not satellite_frames:
-        raise ValueError("NOAA did not publish any GOES animation frames")
-
-    radar_times = parse_nowcoast_radar_times(fetch_bytes(NOWCOAST_CAPABILITIES))
+            - satellite_time
+        )
+        <= timedelta(minutes=3)
+    ]
+    satellite_times = select_four_hour_timeline(aligned_satellite_times)
+    if not satellite_times:
+        raise ValueError("NOAA did not publish aligned GOES and MRMS timestamps")
     frames = []
-    for satellite_url, satellite_time in satellite_frames:
+    for satellite_time in satellite_times:
         radar_time = min(
             radar_times,
             key=lambda candidate: abs(candidate - satellite_time),
@@ -562,7 +594,7 @@ def get_imagery() -> dict:
         offset = round(abs((radar_time - satellite_time).total_seconds()) / 60)
         frames.append(
             {
-                "satellite_url": satellite_url,
+                "satellite_url": nowcoast_satellite_url(satellite_time),
                 "satellite_timestamp": satellite_time.isoformat(),
                 "radar_url": nowcoast_radar_url(radar_time),
                 "radar_timestamp": radar_time.isoformat(),
@@ -574,6 +606,7 @@ def get_imagery() -> dict:
     radar_marker_y = (RADAR_BBOX[3] - REGIONAL_LAT) / (RADAR_BBOX[3] - RADAR_BBOX[1])
     return {
         "frames": frames,
+        "product": "NOAA GOES longwave satellite + MRMS reflectivity",
         "reference_map_url": nws_reference_map_url(),
         "markers": {
             "satellite": {"x": 311 / 600, "y": 302 / 600},

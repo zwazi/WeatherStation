@@ -20,11 +20,8 @@ const elements = {
   radarImage: document.querySelector("#radar-image"),
   radarReference: document.querySelector("#radar-reference"),
   satelliteMarker: document.querySelector("#satellite-marker"),
-  radarMarker: document.querySelector("#radar-marker"),
   satelliteTime: document.querySelector("#satellite-time"),
-  radarTime: document.querySelector("#radar-time"),
   satelliteStatus: document.querySelector("#satellite-status"),
-  radarStatus: document.querySelector("#radar-status"),
   timeline: document.querySelector("#timeline"),
   timelineRange: document.querySelector("#timeline-range"),
   timelineOutput: document.querySelector("#timeline-output"),
@@ -225,14 +222,12 @@ function showFrame(index) {
   const frame = state.frames[state.frameIndex];
   elements.satelliteImage.src = frame.satellite_url;
   elements.radarImage.src = frame.radar_url;
-  elements.satelliteTime.textContent = `${frameLabel(frame.satellite_timestamp)} · Arizona`;
-  elements.radarTime.textContent = `${frameLabel(frame.radar_timestamp)} · Arizona`;
-  elements.satelliteStatus.textContent = (
-    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA GOES GeoColor · synchronized 4-hour loop`
+  elements.satelliteTime.textContent = (
+    `${frameLabel(frame.satellite_timestamp)} · rain ${frameLabel(frame.radar_timestamp)} · Arizona`
   );
-  elements.radarStatus.textContent = (
-    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA MRMS reflectivity · `
-    + `${frame.offset_minutes} min from GOES`
+  elements.satelliteStatus.textContent = (
+    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA GOES longwave + MRMS reflectivity · `
+    + `${frame.offset_minutes} min offset · synchronized 4-hour loop`
   );
   elements.timelineRange.value = String(state.frameIndex);
   elements.timelineOutput.value = `${state.frameIndex + 1} / ${state.frames.length}`;
@@ -273,10 +268,8 @@ function renderImagery(imagery) {
 
   if (!imagery || !state.frames.length) {
     elements.pause.disabled = true;
-    elements.satelliteTime.textContent = "Satellite imagery unavailable";
-    elements.radarTime.textContent = "Rain radar unavailable";
-    elements.satelliteStatus.textContent = "Use the source button to view NOAA.";
-    elements.radarStatus.textContent = "Use the source button to view NOAA nowCOAST.";
+    elements.satelliteTime.textContent = "Combined imagery unavailable";
+    elements.satelliteStatus.textContent = "Use the source buttons to view NOAA nowCOAST.";
     return;
   }
 
@@ -285,8 +278,7 @@ function renderImagery(imagery) {
   if (sources.radar) elements.radarSource.href = sources.radar;
   if (sources.nws) elements.nwsSource.href = sources.nws;
   elements.radarReference.src = imagery.reference_map_url || "";
-  positionMarker(elements.satelliteMarker, markers.satellite);
-  positionMarker(elements.radarMarker, markers.radar);
+  positionMarker(elements.satelliteMarker, markers.radar || markers.satellite);
 
   showFrame(0);
   updatePauseButton();

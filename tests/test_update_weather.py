@@ -1,13 +1,14 @@
 import unittest
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from scripts.update_weather import (
     cardinal,
     next_scheduled_refresh,
-    parse_nowcoast_radar_times,
+    parse_wms_times,
     parse_valid_time,
     sanitized_error,
+    select_four_hour_timeline,
 )
 
 
@@ -41,9 +42,17 @@ class UpdateWeatherTests(unittest.TestCase):
           </Layer></Layer></Capability>
         </WMS_Capabilities>
         """
-        values = parse_nowcoast_radar_times(xml)
+        values = parse_wms_times(xml, "conus_base_reflectivity_mosaic")
         self.assertEqual(len(values), 2)
         self.assertEqual(values[1].minute, 4)
+
+    def test_four_hour_timeline_is_evenly_reduced_to_24_frames(self):
+        start = datetime(2026, 7, 28, 18, 0, tzinfo=ZoneInfo("UTC"))
+        values = [start + timedelta(minutes=5 * index) for index in range(49)]
+        selected = select_four_hour_timeline(values)
+        self.assertEqual(len(selected), 24)
+        self.assertEqual(selected[0], values[0])
+        self.assertEqual(selected[-1], values[-1])
 
     def test_error_messages_never_preserve_token_values(self):
         error = RuntimeError("request failed at https://example.test/?token=secret-value&x=1")
