@@ -1,0 +1,600 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-28T15:48:08.945394-07:00",
+  "next_refresh_at": "2026-07-28T15:51:00-07:00",
+  "errors": {},
+  "forecast": {
+    "updated_at": "2026-07-28T13:53:13-07:00",
+    "hours": [
+      {
+        "timestamp": "2026-07-28T15:00:00-07:00",
+        "time": "3 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T16:00:00-07:00",
+        "time": "4 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T17:00:00-07:00",
+        "time": "5 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T18:00:00-07:00",
+        "time": "6 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T19:00:00-07:00",
+        "time": "7 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T20:00:00-07:00",
+        "time": "8 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T21:00:00-07:00",
+        "time": "9 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T22:00:00-07:00",
+        "time": "10 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T23:00:00-07:00",
+        "time": "11 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-29T00:00:00-07:00",
+        "time": "12 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T01:00:00-07:00",
+        "time": "1 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T02:00:00-07:00",
+        "time": "2 AM",
+        "day": "Wed"
+      }
+    ],
+    "rows": [
+      {
+        "label": "Temperature",
+        "values": [
+          "103°F",
+          "103°F",
+          "102°F",
+          "101°F",
+          "99°F",
+          "97°F",
+          "94°F",
+          "92°F",
+          "90°F",
+          "88°F",
+          "87°F",
+          "86°F"
+        ]
+      },
+      {
+        "label": "Dew point",
+        "values": [
+          "62°F",
+          "61°F",
+          "61°F",
+          "61°F",
+          "61°F",
+          "61°F",
+          "62°F",
+          "62°F",
+          "63°F",
+          "64°F",
+          "64°F",
+          "64°F"
+        ]
+      },
+      {
+        "label": "Surface wind",
+        "values": [
+          "10 mph",
+          "10 mph",
+          "10 mph",
+          "9 mph",
+          "8 mph",
+          "6 mph",
+          "5 mph",
+          "5 mph",
+          "5 mph",
+          "3 mph",
+          "3 mph",
+          "3 mph"
+        ]
+      },
+      {
+        "label": "Gusts",
+        "values": [
+          "20 mph",
+          "20 mph",
+          "18 mph",
+          "17 mph",
+          "15 mph",
+          "12 mph",
+          "9 mph",
+          "8 mph",
+          "8 mph",
+          "7 mph",
+          "6 mph",
+          "6 mph"
+        ]
+      },
+      {
+        "label": "Relative Humidity",
+        "values": [
+          "26%",
+          "26%",
+          "26%",
+          "27%",
+          "29%",
+          "31%",
+          "35%",
+          "37%",
+          "41%",
+          "44%",
+          "46%",
+          "49%"
+        ]
+      },
+      {
+        "label": "Precipitation Potential",
+        "values": [
+          "6%",
+          "6%",
+          "6%",
+          "6%",
+          "6%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%"
+        ]
+      },
+      {
+        "label": "Sky Cover",
+        "values": [
+          "5%",
+          "2%",
+          "4%",
+          "6%",
+          "13%",
+          "17%",
+          "27%",
+          "33%",
+          "41%",
+          "47%",
+          "36%",
+          "28%"
+        ]
+      },
+      {
+        "label": "Rain",
+        "values": [
+          "6%",
+          "6%",
+          "6%",
+          "6%",
+          "6%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%"
+        ]
+      },
+      {
+        "label": "Thunder",
+        "values": [
+          "6%",
+          "6%",
+          "6%",
+          "6%",
+          "6%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%"
+        ]
+      }
+    ],
+    "daily": [
+      {
+        "day": "Today  7/28",
+        "high": "103°F",
+        "low": "80°F",
+        "rain": "6%"
+      },
+      {
+        "day": "Wednesday  7/29",
+        "high": "107°F",
+        "low": "81°F",
+        "rain": "4%"
+      }
+    ]
+  },
+  "imagery": {
+    "frames": [
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091830_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T18:30:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T18%3A28%3A09Z",
+        "radar_timestamp": "2026-07-28T18:28:09+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091840_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T18:40:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T18%3A40%3A13Z",
+        "radar_timestamp": "2026-07-28T18:40:13+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091850_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T18:50:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T18%3A48%3A10Z",
+        "radar_timestamp": "2026-07-28T18:48:10+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091900_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T19:00:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T19%3A00%3A00Z",
+        "radar_timestamp": "2026-07-28T19:00:00+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091910_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T19:10:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T19%3A08%3A15Z",
+        "radar_timestamp": "2026-07-28T19:08:15+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091920_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T19:20:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T19%3A20%3A13Z",
+        "radar_timestamp": "2026-07-28T19:20:13+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091930_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T19:30:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T19%3A28%3A15Z",
+        "radar_timestamp": "2026-07-28T19:28:15+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091940_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T19:40:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T19%3A40%3A18Z",
+        "radar_timestamp": "2026-07-28T19:40:18+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262091950_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T19:50:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T19%3A48%3A15Z",
+        "radar_timestamp": "2026-07-28T19:48:15+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092000_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T20:00:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T20%3A00%3A19Z",
+        "radar_timestamp": "2026-07-28T20:00:19+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092010_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T20:10:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T20%3A08%3A07Z",
+        "radar_timestamp": "2026-07-28T20:08:07+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092020_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T20:20:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T20%3A20%3A09Z",
+        "radar_timestamp": "2026-07-28T20:20:09+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092030_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T20:30:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T20%3A28%3A18Z",
+        "radar_timestamp": "2026-07-28T20:28:18+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092040_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T20:40:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T20%3A40%3A19Z",
+        "radar_timestamp": "2026-07-28T20:40:19+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092050_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T20:50:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T20%3A48%3A13Z",
+        "radar_timestamp": "2026-07-28T20:48:13+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092100_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T21:00:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T21%3A00%3A16Z",
+        "radar_timestamp": "2026-07-28T21:00:16+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092110_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T21:10:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T21%3A08%3A17Z",
+        "radar_timestamp": "2026-07-28T21:08:17+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092120_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T21:20:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T21%3A20%3A12Z",
+        "radar_timestamp": "2026-07-28T21:20:12+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092130_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T21:30:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T21%3A28%3A17Z",
+        "radar_timestamp": "2026-07-28T21:28:17+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092140_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T21:40:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T21%3A40%3A13Z",
+        "radar_timestamp": "2026-07-28T21:40:13+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092150_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T21:50:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T21%3A48%3A15Z",
+        "radar_timestamp": "2026-07-28T21:48:15+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092200_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T22:00:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T22%3A00%3A20Z",
+        "radar_timestamp": "2026-07-28T22:00:20+00:00",
+        "offset_minutes": 0
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092210_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T22:10:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T22%3A08%3A14Z",
+        "radar_timestamp": "2026-07-28T22:08:14+00:00",
+        "offset_minutes": 2
+      },
+      {
+        "satellite_url": "https://cdn.star.nesdis.noaa.gov/WFO/twc/GEOCOLOR/20262092220_GOES18-ABI-twc-GEOCOLOR-600x600.jpg",
+        "satellite_timestamp": "2026-07-28T22:20:00+00:00",
+        "radar_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=false&TIME=2026-07-28T22%3A20%3A19Z",
+        "radar_timestamp": "2026-07-28T22:20:19+00:00",
+        "offset_minutes": 0
+      }
+    ],
+    "reference_map_url": "https://mapservices.weather.noaa.gov/static/services/nws_reference_maps/nws_reference_map/MapServer/WMSServer?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=8%2C9&STYLES=%2C&SRS=EPSG%3A4326&BBOX=-116.0%2C29.0%2C-108.0%2C36.0&WIDTH=600&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true",
+    "markers": {
+      "satellite": {
+        "x": 0.5183333333333333,
+        "y": 0.5033333333333333
+      },
+      "radar": {
+        "x": 0.6355500000000003,
+        "y": 0.5278428571428567
+      }
+    },
+    "sources": {
+      "satellite": "https://www.star.nesdis.noaa.gov/goes/wfo.php?wfo=twc",
+      "radar": "https://nowcoast.noaa.gov/",
+      "nws": "https://forecast.weather.gov/MapClick.php?lat=32.3051&lon=-110.9156&unit=0&lg=english&FcstType=graphical"
+    }
+  },
+  "station": {
+    "id": "217249",
+    "timezone": "America/Phoenix",
+    "updated_at": "2026-07-28T15:47:51-07:00"
+  },
+  "cards": [
+    {
+      "label": "Temperature",
+      "signal": "TEMP",
+      "value": "100.4°F",
+      "detail": "Feels like 100.4°F"
+    },
+    {
+      "label": "Humidity",
+      "signal": "RH",
+      "value": "31%",
+      "detail": "Relative humidity",
+      "meter": 31
+    },
+    {
+      "label": "Wind",
+      "signal": "WIND",
+      "value": "4.5 mph",
+      "detail": "Gust 9.2 mph · NW 305°"
+    },
+    {
+      "label": "Rain Today",
+      "signal": "RAIN",
+      "value": "0.37 in",
+      "detail": "Last hour 0.00 in"
+    },
+    {
+      "label": "Lightning",
+      "signal": "ELEC",
+      "value": "0",
+      "detail": "1h: 0 · 3h: 0"
+    },
+    {
+      "label": "UV / Light",
+      "signal": "SOLAR",
+      "value": "7.3",
+      "detail": "78191 lux · 651 W/m²"
+    }
+  ],
+  "details": [
+    {
+      "title": "Current Conditions",
+      "rows": [
+        [
+          "Temperature",
+          "100.4°F"
+        ],
+        [
+          "Feels Like",
+          "100.4°F"
+        ],
+        [
+          "Heat Index",
+          "100.4°F"
+        ],
+        [
+          "Wind Chill",
+          "100.4°F"
+        ],
+        [
+          "Humidity",
+          "31%"
+        ]
+      ]
+    },
+    {
+      "title": "Wind",
+      "rows": [
+        [
+          "Lull",
+          "0.4 mph"
+        ],
+        [
+          "Average",
+          "4.5 mph"
+        ],
+        [
+          "Gust",
+          "9.2 mph"
+        ],
+        [
+          "Direction",
+          "NW / 305°"
+        ]
+      ]
+    },
+    {
+      "title": "Pressure",
+      "rows": [
+        [
+          "Station Pressure",
+          "26.95 inHg"
+        ],
+        [
+          "Sea-Level Pressure",
+          "29.87 inHg"
+        ],
+        [
+          "Trend",
+          "Falling"
+        ]
+      ]
+    },
+    {
+      "title": "Rain",
+      "rows": [
+        [
+          "Current Accumulation",
+          "0.00 in"
+        ],
+        [
+          "Today",
+          "0.37 in"
+        ],
+        [
+          "Today NC",
+          "0.37 in"
+        ],
+        [
+          "Last Hour",
+          "0.00 in"
+        ]
+      ]
+    },
+    {
+      "title": "Lightning",
+      "rows": [
+        [
+          "Current Strike Count",
+          "0"
+        ],
+        [
+          "Strike Distance",
+          "0.0 mi"
+        ],
+        [
+          "Last Strike Distance",
+          "25.5 mi"
+        ],
+        [
+          "1 Hour Strike Count",
+          "0"
+        ],
+        [
+          "3 Hour Strike Count",
+          "0"
+        ]
+      ]
+    },
+    {
+      "title": "Light",
+      "rows": [
+        [
+          "Illuminance",
+          "78191 lux"
+        ],
+        [
+          "UV Index",
+          "7.3"
+        ],
+        [
+          "Solar Radiation",
+          "651 W/m²"
+        ]
+      ]
+    }
+  ]
+}
