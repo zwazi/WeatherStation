@@ -7,6 +7,7 @@ from scripts.update_weather import (
     next_scheduled_refresh,
     parse_wms_times,
     parse_valid_time,
+    round_to_five_minutes,
     sanitized_error,
     select_four_hour_timeline,
 )
@@ -53,6 +54,11 @@ class UpdateWeatherTests(unittest.TestCase):
         self.assertEqual(len(selected), 24)
         self.assertEqual(selected[0], values[0])
         self.assertEqual(selected[-1], values[-1])
+
+    def test_iem_timestamp_rounds_to_nearest_five_minutes(self):
+        value = datetime(2026, 7, 28, 23, 58, 0, tzinfo=ZoneInfo("UTC"))
+        expected = datetime(2026, 7, 29, 0, 0, 0, tzinfo=ZoneInfo("UTC"))
+        self.assertEqual(round_to_five_minutes(value), expected)
 
     def test_error_messages_never_preserve_token_values(self):
         error = RuntimeError("request failed at https://example.test/?token=secret-value&x=1")

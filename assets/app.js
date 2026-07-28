@@ -221,12 +221,24 @@ function showFrame(index) {
   state.frameIndex = ((index % state.frames.length) + state.frames.length) % state.frames.length;
   const frame = state.frames[state.frameIndex];
   elements.satelliteImage.src = frame.satellite_url;
+  const frameKey = `${state.frameIndex}:${frame.radar_timestamp}`;
+  elements.radarImage.dataset.frameKey = frameKey;
+  elements.radarImage.onerror = () => {
+    if (
+      elements.radarImage.dataset.frameKey === frameKey
+      && frame.radar_fallback_url
+      && elements.radarImage.src !== frame.radar_fallback_url
+    ) {
+      elements.radarImage.onerror = null;
+      elements.radarImage.src = frame.radar_fallback_url;
+    }
+  };
   elements.radarImage.src = frame.radar_url;
   elements.satelliteTime.textContent = (
     `${frameLabel(frame.satellite_timestamp)} · rain ${frameLabel(frame.radar_timestamp)} · Arizona`
   );
   elements.satelliteStatus.textContent = (
-    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA GOES GeoColor + MRMS reflectivity · `
+    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA GOES GeoColor + IEM NEXRAD reflectivity · `
     + `${frame.offset_minutes} min offset · synchronized 4-hour loop`
   );
   elements.timelineRange.value = String(state.frameIndex);
@@ -255,6 +267,9 @@ function preloadFrames(frames) {
     const satellite = new Image();
     satellite.src = frame.satellite_url;
     const radar = new Image();
+    radar.onerror = () => {
+      if (frame.radar_fallback_url) radar.src = frame.radar_fallback_url;
+    };
     radar.src = frame.radar_url;
   }
 }
@@ -269,7 +284,7 @@ function renderImagery(imagery) {
   if (!imagery || !state.frames.length) {
     elements.pause.disabled = true;
     elements.satelliteTime.textContent = "Combined imagery unavailable";
-    elements.satelliteStatus.textContent = "Use the source buttons to view NOAA nowCOAST.";
+    elements.satelliteStatus.textContent = "Use the source buttons to view the imagery providers.";
     return;
   }
 
