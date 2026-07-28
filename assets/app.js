@@ -226,7 +226,7 @@ function showFrame(index) {
     `${frameLabel(frame.satellite_timestamp)} · rain ${frameLabel(frame.radar_timestamp)} · Arizona`
   );
   elements.satelliteStatus.textContent = (
-    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA GOES longwave + MRMS reflectivity · `
+    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA GOES GeoColor + MRMS reflectivity · `
     + `${frame.offset_minutes} min offset · synchronized 4-hour loop`
   );
   elements.timelineRange.value = String(state.frameIndex);

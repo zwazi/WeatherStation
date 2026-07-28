@@ -16,7 +16,7 @@ https://zwazi.github.io/WeatherStation/
   lightning, and UV/light
 - Full condition, wind, pressure, rain, lightning, and light detail sections
 - A 12-hour NWS numeric grid and two-day high/low/rain table
-- 24 NOAA GOES longwave frames covering approximately four hours
+- Up to 24 NOAA GOES GeoColor frames covering approximately four hours
 - Transparent NOAA nowCOAST/MRMS reflectivity composited over every GOES frame
 - Shared EPSG:4326 geometry for satellite, rain, boundaries, and regional marker
 - One pause/play control, frame scrubber, and responsive square composite
@@ -124,4 +124,5 @@ query parameter is redacted before an error can be serialized.
 
 - [WeatherFlow Tempest](https://weatherflow.com/tempest-weather-system/)
 - [National Weather Service API](https://www.weather.gov/documentation/services-web-api)
-- [NOAA nowCOAST satellite and radar services](https://nowcoast.noaa.gov/)
+- [NOAA/NESDIS GeoColor ImageServer](https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer)
+- [NOAA nowCOAST radar services](https://nowcoast.noaa.gov/)

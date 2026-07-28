@@ -29,12 +29,12 @@ RADAR_FRAME_SIZE = 600
 FORECAST_HOURS = 12
 REFRESH_MINUTES = (1, 11, 21, 31, 41, 51)
 
-NOWCOAST_SATELLITE_WMS = "https://nowcoast.noaa.gov/geoserver/satellite/wms"
-NOWCOAST_SATELLITE_CAPABILITIES = (
-    f"{NOWCOAST_SATELLITE_WMS}?service=WMS&version=1.3.0&request=GetCapabilities"
+NESDIS_GEOCOLOR_IMAGE_SERVER = (
+    "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/"
+    "ABIGC_Last_24hr/ImageServer"
 )
-NOWCOAST_SATELLITE_LAYER = "goes_longwave_imagery"
-NOAA_SATELLITE_SOURCE = "https://nowcoast.noaa.gov/"
+NESDIS_GEOCOLOR_QUERY = f"{NESDIS_GEOCOLOR_IMAGE_SERVER}/query"
+NOAA_SATELLITE_SOURCE = NESDIS_GEOCOLOR_IMAGE_SERVER
 NOAA_RADAR_SOURCE = "https://nowcoast.noaa.gov/"
 NOWCOAST_RADAR_WMS = "https://nowcoast.noaa.gov/geoserver/weather_radar/wms"
 NOWCOAST_CAPABILITIES = (
@@ -508,22 +508,65 @@ def select_four_hour_timeline(
     return [window[index] for index in indices]
 
 
-def nowcoast_satellite_url(timestamp: datetime) -> str:
+def nesdis_geocolor_url(raster_id: int) -> str:
     params = {
-        "SERVICE": "WMS",
-        "VERSION": "1.1.1",
-        "REQUEST": "GetMap",
-        "LAYERS": NOWCOAST_SATELLITE_LAYER,
-        "STYLES": "",
-        "SRS": "EPSG:4326",
-        "BBOX": ",".join(str(value) for value in RADAR_BBOX),
-        "WIDTH": RADAR_FRAME_SIZE,
-        "HEIGHT": RADAR_FRAME_SIZE,
-        "FORMAT": "image/png",
-        "TRANSPARENT": "false",
-        "TIME": timestamp.astimezone(UTC).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "bbox": ",".join(str(value) for value in RADAR_BBOX),
+        "bboxSR": 4326,
+        "imageSR": 4326,
+        "size": f"{RADAR_FRAME_SIZE},{RADAR_FRAME_SIZE}",
+        "format": "png32",
+        "transparent": "false",
+        "interpolation": "RSP_BilinearInterpolation",
+        "mosaicRule": json.dumps(
+            {
+                "mosaicMethod": "esriMosaicLockRaster",
+                "lockRasterIds": [raster_id],
+            },
+            separators=(",", ":"),
+        ),
+        "f": "image",
     }
-    return f"{NOWCOAST_SATELLITE_WMS}?{urlencode(params)}"
+    return f"{NESDIS_GEOCOLOR_IMAGE_SERVER}/exportImage?{urlencode(params)}"
+
+
+def get_geocolor_records() -> list[dict]:
+    params = {
+        "f": "json",
+        "where": "1=1",
+        "outFields": "objectid,name,start_time,end_time",
+        "orderByFields": "start_time DESC",
+        "resultRecordCount": 200,
+        "returnGeometry": "false",
+    }
+    response = fetch_json(f"{NESDIS_GEOCOLOR_QUERY}?{urlencode(params)}")
+    records = []
+    for feature in response.get("features", []):
+        attributes = feature.get("attributes", {})
+        if attributes.get("objectid") is None or attributes.get("start_time") is None:
+            continue
+        records.append(
+            {
+                "raster_id": int(attributes["objectid"]),
+                "timestamp": datetime.fromtimestamp(
+                    attributes["start_time"] / 1000, UTC
+                ),
+            }
+        )
+    if not records:
+        raise ValueError("NOAA/NESDIS did not list GeoColor archive records")
+    latest = max(record["timestamp"] for record in records)
+    window = sorted(
+        (
+            record
+            for record in records
+            if record["timestamp"] >= latest - timedelta(hours=4)
+        ),
+        key=lambda record: record["timestamp"],
+    )
+    if len(window) <= 24:
+        return window
+    indices = [round(index * (len(window) - 1) / 23) for index in range(24)]
+    return [window[index] for index in indices]
 
 
 def nowcoast_radar_url(timestamp: datetime) -> str:
@@ -562,31 +605,28 @@ def nws_reference_map_url() -> str:
 
 
 def get_imagery() -> dict:
-    available_satellite_times = parse_wms_times(
-        fetch_bytes(NOWCOAST_SATELLITE_CAPABILITIES),
-        NOWCOAST_SATELLITE_LAYER,
-    )
+    geocolor_records = get_geocolor_records()
     radar_times = parse_wms_times(
         fetch_bytes(NOWCOAST_CAPABILITIES),
         "conus_base_reflectivity_mosaic",
     )
-    aligned_satellite_times = [
-        satellite_time
-        for satellite_time in available_satellite_times
+    aligned_records = [
+        record
+        for record in geocolor_records
         if abs(
             min(
                 radar_times,
-                key=lambda candidate: abs(candidate - satellite_time),
+                key=lambda candidate: abs(candidate - record["timestamp"]),
             )
-            - satellite_time
+            - record["timestamp"]
         )
         <= timedelta(minutes=3)
     ]
-    satellite_times = select_four_hour_timeline(aligned_satellite_times)
-    if not satellite_times:
-        raise ValueError("NOAA did not publish aligned GOES and MRMS timestamps")
+    if not aligned_records:
+        raise ValueError("NOAA did not publish aligned GeoColor and MRMS timestamps")
     frames = []
-    for satellite_time in satellite_times:
+    for record in aligned_records:
+        satellite_time = record["timestamp"]
         radar_time = min(
             radar_times,
             key=lambda candidate: abs(candidate - satellite_time),
@@ -594,7 +634,7 @@ def get_imagery() -> dict:
         offset = round(abs((radar_time - satellite_time).total_seconds()) / 60)
         frames.append(
             {
-                "satellite_url": nowcoast_satellite_url(satellite_time),
+                "satellite_url": nesdis_geocolor_url(record["raster_id"]),
                 "satellite_timestamp": satellite_time.isoformat(),
                 "radar_url": nowcoast_radar_url(radar_time),
                 "radar_timestamp": radar_time.isoformat(),
@@ -606,7 +646,7 @@ def get_imagery() -> dict:
     radar_marker_y = (RADAR_BBOX[3] - REGIONAL_LAT) / (RADAR_BBOX[3] - RADAR_BBOX[1])
     return {
         "frames": frames,
-        "product": "NOAA GOES longwave satellite + MRMS reflectivity",
+        "product": "NOAA GOES GeoColor satellite + MRMS reflectivity",
         "reference_map_url": nws_reference_map_url(),
         "markers": {
             "satellite": {"x": 311 / 600, "y": 302 / 600},
