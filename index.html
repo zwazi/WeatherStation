@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#050505">
+    <meta
+      name="description"
+      content="Live Tempest observations and synchronized NOAA weather imagery for regional, Arizona."
+    >
+    <title>Tempest Weather Station</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/styles.css">
+    <script src="assets/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to weather data</a>
+    <div class="route-progress" id="route-progress" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <div class="shell site-header__inner">
+        <div class="station-identity">
+          <p class="eyebrow"><span class="status-pulse" aria-hidden="true"></span>Arizona telemetry</p>
+          <div class="station-title-row">
+            <h1>Tempest Weather Station</h1>
+            <p id="station-number">Station —</p>
+          </div>
+          <p class="station-meta" id="station-meta">Loading the latest observation…</p>
+        </div>
+        <button class="button button--primary" id="refresh-data" type="button">
+          Refresh data
+        </button>
+      </div>
+    </header>
+
+    <main class="shell" id="main-content">
+      <div class="notice notice--error" id="page-error" role="alert" hidden></div>
+      <div class="notice" id="section-warnings" role="status" hidden></div>
+
+      <section class="signal-grid" id="current-cards" aria-label="Current weather summary">
+        <div class="signal-card signal-card--loading"></div>
+        <div class="signal-card signal-card--loading"></div>
+        <div class="signal-card signal-card--loading"></div>
+        <div class="signal-card signal-card--loading"></div>
+        <div class="signal-card signal-card--loading"></div>
+        <div class="signal-card signal-card--loading"></div>
+      </section>
+
+      <div class="dashboard-grid">
+        <aside class="conditions-column" aria-labelledby="conditions-title">
+          <div class="section-heading section-heading--compact">
+            <div>
+              <p class="eyebrow">Station detail</p>
+              <h2 id="conditions-title">Current Conditions</h2>
+            </div>
+          </div>
+          <div id="condition-sections"></div>
+        </aside>
+
+        <section class="data-panel" aria-labelledby="nws-title">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Synchronized four-hour loop</p>
+              <h2 id="nws-title">NWS / NOAA</h2>
+            </div>
+            <div class="panel-actions" aria-label="Imagery controls and sources">
+              <button class="button button--small button--quiet" id="pause-loop" type="button" disabled>
+                Pause
+              </button>
+              <a class="button button--small button--quiet" id="satellite-source" href="https://www.star.nesdis.noaa.gov/goes/wfo.php?wfo=twc" target="_blank" rel="noreferrer">
+                Open NOAA Satellite Radar
+              </a>
+              <a class="button button--small button--quiet" id="radar-source" href="https://nowcoast.noaa.gov/" target="_blank" rel="noreferrer">
+                Open NOAA Rain Radar
+              </a>
+              <a class="button button--small button--quiet" id="nws-source" href="https://forecast.weather.gov/MapClick.php?lat=32.2&amp;lon=-110.9" target="_blank" rel="noreferrer">
+                Open NWS
+              </a>
+            </div>
+          </div>
+
+          <div class="imagery-grid" id="imagery-grid" aria-live="polite">
+            <figure class="imagery-frame">
+              <div class="imagery-stage">
+                <img id="satellite-image" alt="GOES GeoColor satellite view centered on Arizona">
+                <span class="map-marker" id="satellite-marker" aria-label="regional"></span>
+                <figcaption id="satellite-time">Loading satellite loop…</figcaption>
+              </div>
+              <p class="frame-status" id="satellite-status">Contacting NOAA…</p>
+            </figure>
+
+            <figure class="imagery-frame">
+              <div class="imagery-stage">
+                <img id="radar-image" alt="MRMS rain radar view centered on Arizona">
+                <img class="reference-map" id="radar-reference" alt="" aria-hidden="true">
+                <span class="map-marker" id="radar-marker" aria-label="regional"></span>
+                <figcaption id="radar-time">Loading rain radar loop…</figcaption>
+              </div>
+              <p class="frame-status" id="radar-status">Contacting NOAA nowCOAST…</p>
+            </figure>
+          </div>
+
+          <div class="timeline" id="timeline" hidden>
+            <label for="timeline-range">Loop position</label>
+            <input id="timeline-range" type="range" min="0" max="23" value="0" step="1">
+            <output id="timeline-output" for="timeline-range">1 / 24</output>
+          </div>
+
+          <section class="forecast-section" aria-label="NWS forecast">
+            <div class="forecast-meta">
+              <p class="eyebrow">12-hour numerical grid</p>
+              <p id="forecast-updated">Loading NWS forecast…</p>
+            </div>
+            <div class="table-scroll" id="hourly-forecast"></div>
+
+            <div class="subsection-heading">
+              <h3>Next 2 Days</h3>
+            </div>
+            <div class="table-scroll" id="daily-forecast"></div>
+          </section>
+        </section>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell site-footer__inner">
+        <p>WeatherFlow Tempest · National Weather Service · NOAA STAR · NOAA nowCOAST</p>
+        <p id="generated-at">Data build pending</p>
+      </div>
+    </footer>
+
+    <noscript>
+      <div class="noscript">JavaScript is required to display the generated weather data.</div>
+    </noscript>
+  </body>
+</html>
