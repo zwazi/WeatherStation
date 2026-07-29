@@ -309,16 +309,28 @@ function initializeRadarMap() {
     zoomSnap: 0,
     preferCanvas: true,
   });
-  window.L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-  }).addTo(map);
+  const imageryAttribution = (
+    'Imagery &copy; <a href="https://www.esri.com/">Esri</a>, Vantor, Earthstar '
+    + 'Geographics, GIS User Community · Labels &copy; Esri, HERE, Garmin, '
+    + '<a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
+  );
+  window.L.tileLayer(
+    "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+    { maxZoom: 19, attribution: imageryAttribution },
+  ).addTo(map);
   map.createPane("cloudPane");
   map.getPane("cloudPane").style.zIndex = "350";
   map.getPane("cloudPane").style.pointerEvents = "none";
   map.createPane("radarPane");
   map.getPane("radarPane").style.zIndex = "360";
   map.getPane("radarPane").style.pointerEvents = "none";
+  map.createPane("referencePane");
+  map.getPane("referencePane").style.zIndex = "400";
+  map.getPane("referencePane").style.pointerEvents = "none";
+  window.L.tileLayer(
+    "https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
+    { maxZoom: 19, pane: "referencePane" },
+  ).addTo(map);
   state.map = map;
 }
 
@@ -417,7 +429,7 @@ function showFrame(index) {
   if (!state.cloudLayer) {
     state.cloudLayer = window.L.imageOverlay(prepared.satellite.url, state.imageryBounds, {
       pane: "cloudPane",
-      opacity: 0.92,
+      opacity: 0.96,
       alt: "NOAA GOES infrared cloud cover",
       interactive: false,
     }).addTo(state.map);

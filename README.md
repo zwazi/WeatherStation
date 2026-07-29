@@ -21,8 +21,9 @@ https://zwazi.github.io/WeatherStation/
 - Separate hourly strips for the Arizona calendar dates Today and Tomorrow
 - A complete expandable NWS numeric grid through the end of tomorrow
 - Up to 24 NOAA GOES ABI Band 13 cloud frames covering approximately four hours
-- A full-width regional-centered Leaflet/OpenStreetMap base with clear land,
-  roads, borders, city labels, and a labeled Tempest station marker
+- A zoomed-out, full-width Esri World Imagery satellite base rendered by
+  Leaflet, with a separate boundaries/city-label layer and a labeled Tempest
+  station marker
 - Transparent 1400×600 NOAA-derived cloud masks and IEM-served NOAA NEXRAD
   rain intensity mosaics aligned in Leaflet's Web Mercator projection
 - Automatic NOAA nowCOAST/MRMS fallback if an IEM frame is unavailable
@@ -158,4 +159,5 @@ query parameter is redacted before an error can be serialized.
 - [Iowa Environmental Mesonet NEXRAD mosaics](https://mesonet.agron.iastate.edu/docs/nexrad_mosaic/)
 - [NOAA nowCOAST radar fallback](https://nowcoast.noaa.gov/)
 - [Leaflet](https://leafletjs.com/)
-- [OpenStreetMap](https://www.openstreetmap.org/copyright)
+- [Esri World Imagery](https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer)
+- [Esri World Boundaries and Places](https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer)
