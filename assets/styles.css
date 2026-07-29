@@ -334,7 +334,29 @@ h3 {
 }
 
 .weather-icon--partly-cloudy::before {
-  content: "🌤️";
+  position: absolute;
+  top: 5%;
+  left: 4%;
+  width: 62%;
+  height: auto;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--yellow);
+  content: "";
+}
+
+.weather-icon--partly-cloudy::after {
+  position: absolute;
+  right: -2%;
+  bottom: 7%;
+  width: 76%;
+  height: 54%;
+  background:
+    radial-gradient(circle at 50% 38%, var(--white) 0 32%, transparent 33%),
+    radial-gradient(circle at 23% 63%, var(--white) 0 24%, transparent 25%),
+    radial-gradient(circle at 80% 66%, var(--white) 0 21%, transparent 22%),
+    linear-gradient(to top, var(--white) 0 44%, transparent 45%);
+  content: "";
 }
 
 .weather-icon--partly-cloudy-night::before {
