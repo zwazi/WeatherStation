@@ -17,20 +17,8 @@
     <a class="skip-link" href="#main-content">Skip to weather data</a>
     <div class="route-progress" id="route-progress" aria-hidden="true"></div>
 
-    <header class="site-header">
-      <div class="shell site-header__inner">
-        <div class="station-identity">
-          <div class="station-title-row">
-            <h1>Tempest Weather Station</h1>
-            <p id="station-number">Station —</p>
-          </div>
-          <p class="station-meta" id="station-meta">Loading the latest observation…</p>
-        </div>
-        <button class="button button--primary" id="refresh-data" type="button">Refresh</button>
-      </div>
-    </header>
-
     <main class="shell weather-app" id="main-content">
+      <h1 class="visually-hidden">Tempest weather dashboard</h1>
       <div class="notice notice--error" id="page-error" role="alert" hidden></div>
       <div class="notice" id="section-warnings" role="status" hidden></div>
 
@@ -58,20 +46,7 @@
         <div class="alert-list" id="active-alerts" aria-live="polite"></div>
       </section>
 
-      <section class="radar-panel" aria-labelledby="radar-title">
-        <div class="radar-toolbar">
-          <div>
-            <p class="eyebrow">Synchronized four-hour loop</p>
-            <h2 id="radar-title">NWS / NOAA</h2>
-          </div>
-          <div class="panel-actions" aria-label="Imagery controls and sources">
-            <button class="button button--small button--quiet" id="pause-loop" type="button" disabled>Pause</button>
-            <a class="button button--small button--quiet" id="satellite-source" href="https://www.star.nesdis.noaa.gov/goes/wfo.php?wfo=twc" target="_blank" rel="noreferrer">Open NOAA Satellite</a>
-            <a class="button button--small button--quiet" id="radar-source" href="https://mesonet.agron.iastate.edu/current/mcview.phtml" target="_blank" rel="noreferrer">Open Rain Radar</a>
-            <a class="button button--small button--quiet" id="nws-source" href="https://forecast.weather.gov/MapClick.php?lat=32.2&amp;lon=-110.9" target="_blank" rel="noreferrer">Open NWS</a>
-          </div>
-        </div>
-
+      <section class="radar-panel" aria-label="Synchronized four-hour satellite and rain loop">
         <figure class="imagery-frame" aria-live="polite">
           <div class="imagery-stage" id="imagery-stage">
             <img class="imagery-base" id="satellite-image" alt="GOES GeoColor satellite view centered on regional">
@@ -84,13 +59,13 @@
             </div>
             <figcaption id="satellite-time">Preparing synchronized imagery…</figcaption>
           </div>
-          <div class="imagery-footer">
-            <p class="frame-status" id="satellite-status">Contacting NOAA satellite and IEM radar services…</p>
+          <div class="imagery-timeline">
             <div class="timeline" id="timeline" hidden>
-              <label for="timeline-range">Loop position</label>
+              <label class="visually-hidden" for="timeline-range">Loop position</label>
               <input id="timeline-range" type="range" min="0" max="23" value="0" step="1">
               <output id="timeline-output" for="timeline-range">1 / 24</output>
             </div>
+            <p class="visually-hidden" id="satellite-status" aria-live="polite">Contacting NOAA satellite and IEM radar services…</p>
           </div>
         </figure>
       </section>
@@ -112,13 +87,6 @@
         <div class="detail-grid" id="condition-sections"></div>
       </details>
     </main>
-
-    <footer class="site-footer">
-      <div class="shell site-footer__inner">
-        <p>WeatherFlow Tempest · National Weather Service · NOAA/NESDIS · Iowa Environmental Mesonet</p>
-        <p id="generated-at">Data build pending</p>
-      </div>
-    </footer>
 
     <noscript><div class="noscript">JavaScript is required to display the generated weather data.</div></noscript>
   </body>

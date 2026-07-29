@@ -5,12 +5,8 @@ const ARIZONA_TIME_ZONE = "America/Phoenix";
 
 const elements = {
   progress: document.querySelector("#route-progress"),
-  refresh: document.querySelector("#refresh-data"),
   pageError: document.querySelector("#page-error"),
   sectionWarnings: document.querySelector("#section-warnings"),
-  stationNumber: document.querySelector("#station-number"),
-  stationMeta: document.querySelector("#station-meta"),
-  generatedAt: document.querySelector("#generated-at"),
   heroTemperature: document.querySelector("#hero-temperature"),
   heroFeels: document.querySelector("#hero-feels"),
   heroHumidity: document.querySelector("#hero-humidity"),
@@ -23,10 +19,6 @@ const elements = {
   heroIcon: document.querySelector("#hero-icon"),
   alerts: document.querySelector("#active-alerts"),
   details: document.querySelector("#condition-sections"),
-  pause: document.querySelector("#pause-loop"),
-  satelliteSource: document.querySelector("#satellite-source"),
-  radarSource: document.querySelector("#radar-source"),
-  nwsSource: document.querySelector("#nws-source"),
   satelliteImage: document.querySelector("#satellite-image"),
   radarImage: document.querySelector("#radar-image"),
   radarReference: document.querySelector("#radar-reference"),
@@ -81,16 +73,6 @@ function formatArizonaDateTime(isoString, includeSeconds = false) {
 function setProgress(mode) {
   elements.progress.classList.remove("is-loading", "is-complete");
   if (mode) elements.progress.classList.add(mode);
-}
-
-function renderHeader(data) {
-  const station = data.station || {};
-  elements.stationNumber.textContent = `Station ${station.id || "—"}`;
-  elements.stationMeta.textContent = [
-    `Updated ${formatArizonaDateTime(station.updated_at, true)}`,
-    `Next refresh ${formatArizonaDateTime(data.next_refresh_at)}`,
-  ].join(" · ");
-  elements.generatedAt.textContent = `Site data built ${formatArizonaDateTime(data.generated_at, true)}`;
 }
 
 function findCard(data, label) {
@@ -348,18 +330,11 @@ function scheduleNextFrame() {
   }, delay);
 }
 
-function updatePauseButton() {
-  elements.pause.disabled = state.frames.length < 2;
-  elements.pause.textContent = state.paused ? "Play" : "Pause";
-  elements.pause.setAttribute("aria-pressed", String(state.paused));
-}
-
 function renderImagery(imagery) {
   clearAnimationTimer();
   const generation = ++state.imageryGeneration;
   state.frames = [];
   state.frameIndex = 0;
-  elements.pause.disabled = true;
   elements.timeline.hidden = true;
   elements.imageryLoader.hidden = false;
 
@@ -371,10 +346,7 @@ function renderImagery(imagery) {
     return;
   }
 
-  const { sources = {}, markers = {} } = imagery;
-  if (sources.satellite) elements.satelliteSource.href = sources.satellite;
-  if (sources.radar) elements.radarSource.href = sources.radar;
-  if (sources.nws) elements.nwsSource.href = sources.nws;
+  const { markers = {} } = imagery;
   elements.radarReference.src = imagery.reference_map_url || "";
   positionMarker(elements.satelliteMarker, markers.radar || markers.satellite);
   elements.satelliteStatus.textContent = `Preloading ${rawFrames.length} matched satellite and radar frames…`;
@@ -386,13 +358,11 @@ function renderImagery(imagery) {
     if (!state.frames.length) {
       elements.satelliteTime.textContent = "Combined imagery unavailable";
       elements.satelliteStatus.textContent = "Satellite or radar images could not be loaded.";
-      updatePauseButton();
       return;
     }
     elements.timeline.hidden = state.frames.length < 2;
     elements.timelineRange.max = String(Math.max(0, state.frames.length - 1));
     showFrame(0);
-    updatePauseButton();
     scheduleNextFrame();
   });
 }
@@ -414,7 +384,6 @@ function renderWarnings(errors = {}) {
 function render(data) {
   state.data = data;
   state.generatedAt = data.generated_at;
-  renderHeader(data);
   renderCurrent(data);
   renderAlerts(data.alerts || []);
   renderDetails(data.details || []);
@@ -426,7 +395,6 @@ function render(data) {
 async function loadData({ force = false } = {}) {
   if (state.loading) return;
   state.loading = true;
-  elements.refresh.disabled = true;
   setProgress("is-loading");
   try {
     const separator = DATA_URL.includes("?") ? "&" : "?";
@@ -441,24 +409,15 @@ async function loadData({ force = false } = {}) {
     elements.pageError.hidden = false;
   } finally {
     state.loading = false;
-    elements.refresh.disabled = false;
     setProgress("is-complete");
     window.setTimeout(() => setProgress(null), 220);
   }
 }
 
-elements.pause.addEventListener("click", () => {
-  state.paused = !state.paused;
-  updatePauseButton();
-  scheduleNextFrame();
-});
-
 elements.timelineRange.addEventListener("input", (event) => {
   showFrame(Number(event.target.value));
   scheduleNextFrame();
 });
-
-elements.refresh.addEventListener("click", () => loadData({ force: true }));
 
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) clearAnimationTimer();

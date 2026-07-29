@@ -23,7 +23,7 @@ https://zwazi.github.io/WeatherStation/
 - Automatic NOAA nowCOAST/MRMS fallback if an IEM frame is unavailable
 - Shared EPSG:4326 geometry for satellite, rain, boundaries, and regional marker
 - Atomic satellite/radar preloading so playback never outruns the GeoColor base
-- One pause/play control, frame scrubber, and responsive wide composite
+- A compact frame scrubber and responsive wide composite
 - A restrained black, dark-plum, warm-white, yellow, and red theme
 - Automatic in-browser polling so an open page adopts each newly deployed build
 
