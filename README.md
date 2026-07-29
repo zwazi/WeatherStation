@@ -14,7 +14,7 @@ https://zwazi.github.io/WeatherStation/
 ## What the site includes
 
 - Current temperature, humidity, wind, pressure, rain, lightning, and UV/light
-  measurements
+  measurements, plus the current modeled U.S. Air Quality Index and category
 - Full condition, wind, pressure, rain, lightning, and light detail sections
 - A compact current-condition hero, horizontally scrolling hourly forecast,
   and two-day summaries modeled after a modern weather app
@@ -158,6 +158,7 @@ query parameter is redacted before an error can be serialized.
 - [NOAA/NESDIS ABI Band 13 ImageServer](https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABI13_Last_24hr/ImageServer)
 - [Iowa Environmental Mesonet NEXRAD mosaics](https://mesonet.agron.iastate.edu/docs/nexrad_mosaic/)
 - [NOAA nowCOAST radar fallback](https://nowcoast.noaa.gov/)
+- [Open-Meteo Air Quality API](https://open-meteo.com/en/docs/air-quality-api)
 - [Leaflet](https://leafletjs.com/)
 - [Esri World Imagery](https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer)
 - [Esri World Boundaries and Places](https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer)

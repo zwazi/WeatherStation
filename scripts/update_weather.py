@@ -92,6 +92,8 @@ NWS_SOURCE = (
     "https://forecast.weather.gov/MapClick.php?lat=32.3051&lon=-110.9156"
     "&unit=0&lg=english&FcstType=graphical"
 )
+OPEN_METEO_AIR_QUALITY = "https://air-quality-api.open-meteo.com/v1/air-quality"
+OPEN_METEO_AIR_QUALITY_SOURCE = "https://open-meteo.com/en/docs/air-quality-api"
 
 DEFAULT_HEADERS = {
     "User-Agent": "WeatherStation Pages/1.0 (https://github.com/zwazi/WeatherStation)",
@@ -192,6 +194,46 @@ def wind_direction_degrees(direction: str | None) -> float | None:
         return directions.index(direction.upper()) * 22.5
     except ValueError:
         return None
+
+
+def air_quality_category(aqi: float) -> str:
+    if aqi <= 50:
+        return "Good"
+    if aqi <= 100:
+        return "Moderate"
+    if aqi <= 150:
+        return "Unhealthy for sensitive groups"
+    if aqi <= 200:
+        return "Unhealthy"
+    if aqi <= 300:
+        return "Very unhealthy"
+    return "Hazardous"
+
+
+def get_air_quality() -> dict:
+    params = {
+        "latitude": TUCSON_LAT,
+        "longitude": TUCSON_LON,
+        "current": "us_aqi,pm2_5",
+        "timezone": "America/Phoenix",
+    }
+    response = fetch_json(f"{OPEN_METEO_AIR_QUALITY}?{urlencode(params)}")
+    current = response.get("current", {})
+    aqi = current.get("us_aqi")
+    if aqi is None:
+        raise ValueError("Open-Meteo did not return a current U.S. AQI")
+    observed_at = current.get("time")
+    if observed_at:
+        observed_at = datetime.fromisoformat(observed_at).replace(
+            tzinfo=ARIZONA_TZ
+        ).isoformat()
+    return {
+        "updated_at": observed_at,
+        "us_aqi": round(aqi),
+        "category": air_quality_category(aqi),
+        "pm2_5": current.get("pm2_5"),
+        "source": OPEN_METEO_AIR_QUALITY_SOURCE,
+    }
 
 
 def get_tempest_weather() -> dict:
@@ -955,6 +997,7 @@ def build_payload(output_path: Path) -> dict:
 
     for section, loader in (
         ("tempest", get_tempest_weather),
+        ("air_quality", get_air_quality),
         ("forecast", lambda: get_nws_forecast(now)),
         ("alerts", get_nws_alerts),
         ("imagery", lambda: get_imagery(output_path.parent / "imagery")),

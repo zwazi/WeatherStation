@@ -8,6 +8,7 @@ from scripts.update_weather import (
     RADAR_FRAME_WIDTH,
     cardinal,
     cloud_alpha,
+    air_quality_category,
     daily_heading,
     forecast_hour_range,
     next_scheduled_refresh,
@@ -64,6 +65,16 @@ class UpdateWeatherTests(unittest.TestCase):
         self.assertEqual(cloud_alpha(42), 0)
         self.assertGreater(cloud_alpha(180), 0)
         self.assertLessEqual(cloud_alpha(255), 225)
+
+    def test_air_quality_category_uses_us_aqi_breakpoints(self):
+        self.assertEqual(air_quality_category(50), "Good")
+        self.assertEqual(air_quality_category(51), "Moderate")
+        self.assertEqual(
+            air_quality_category(101), "Unhealthy for sensitive groups"
+        )
+        self.assertEqual(air_quality_category(151), "Unhealthy")
+        self.assertEqual(air_quality_category(201), "Very unhealthy")
+        self.assertEqual(air_quality_category(301), "Hazardous")
 
     def test_cardinal_wraps_at_north(self):
         self.assertEqual(cardinal(359), "N")
