@@ -16,6 +16,7 @@ const elements = {
   heroWind: document.querySelector("#hero-wind"),
   heroUv: document.querySelector("#hero-uv"),
   heroRain: document.querySelector("#hero-rain"),
+  heroAirQuality: document.querySelector("#hero-air-quality"),
   heroCondition: document.querySelector("#hero-condition"),
   heroIcon: document.querySelector("#hero-icon"),
   details: document.querySelector("#condition-sections"),
@@ -40,6 +41,7 @@ const ICON_SVG = {
   wind: '<path d="M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/>',
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   rain: '<path d="M12 2.5S6 9.2 6 14a6 6 0 0 0 12 0c0-4.8-6-11.5-6-11.5Z"/>',
+  airQuality: '<path d="M12 3v9"/><path d="M10 8.5c-2-1-4 .4-5 3l-1.4 4.2C2.8 18.2 4.5 21 7 21c2.8 0 4-2.1 4-5V10"/><path d="M14 8.5c2-1 4 .4 5 3l1.4 4.2c.8 2.5-.9 5.3-3.4 5.3-2.8 0-4-2.1-4-5V10"/>',
   direction: '<path class="icon-fill" d="M12 2 18 21l-6-4-6 4 6-19Z"/>',
 };
 
@@ -162,6 +164,15 @@ function renderCurrent(data) {
   elements.heroWind.textContent = `${direction} ${wind.value || "—"}`.trim();
   elements.heroUv.textContent = uv.value || "—";
   elements.heroRain.textContent = rain.value || "—";
+  const airQuality = data.air_quality || {};
+  const aqi = Number(airQuality.us_aqi);
+  elements.heroAirQuality.textContent = Number.isFinite(aqi)
+    ? `${Math.round(aqi)} AQI · ${airQuality.category || "Current"}`
+    : "— AQI";
+  const pm25 = Number(airQuality.pm2_5);
+  elements.heroAirQuality.parentElement.title = Number.isFinite(pm25)
+    ? `Modeled PM2.5 ${pm25.toFixed(1)} µg/m³ · ${formatArizonaDateTime(airQuality.updated_at)}`
+    : "Current U.S. Air Quality Index";
 
   const forecast = data.forecast || {};
   elements.heroCondition.textContent = forecast.current_summary || "Current conditions";
