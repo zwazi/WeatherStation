@@ -2,7 +2,8 @@
 
 A GitHub Pages version of the regional Tempest weather dashboard. It combines
 current WeatherFlow observations, hourly National Weather Service forecasts
-for today and tomorrow, and synchronized NOAA GOES/IEM NEXRAD imagery.
+for today and tomorrow, and synchronized NOAA GOES/NEXRAD imagery over a
+Leaflet map.
 
 The intended Pages URL is:
 
@@ -19,11 +20,13 @@ https://zwazi.github.io/WeatherStation/
   and two-day summaries modeled after a modern weather app
 - Separate hourly strips for the Arizona calendar dates Today and Tomorrow
 - A complete expandable NWS numeric grid through the end of tomorrow
-- Up to 24 NOAA GOES GeoColor frames covering approximately four hours
-- A regional-centered 1200×1200 GeoColor and transparent IEM NEXRAD composite
-  fitted to the unchanged radar height with intentional side letterboxing
+- Up to 24 NOAA GOES ABI Band 13 cloud frames covering approximately four hours
+- A full-width regional-centered Leaflet/OpenStreetMap base with clear land,
+  roads, borders, city labels, and a labeled Tempest station marker
+- Transparent 1400×600 NOAA-derived cloud masks and IEM-served NOAA NEXRAD
+  rain intensity mosaics aligned in Leaflet's Web Mercator projection
 - Automatic NOAA nowCOAST/MRMS fallback if an IEM frame is unavailable
-- Shared EPSG:4326 geometry for satellite, rain, boundaries, and regional marker
+- Shared EPSG:3857 geometry for the NOAA cloud and rain overlays
 - Background satellite/radar preloading that keeps the old loop visible until
   every replacement frame is ready
 - A compact frame scrubber and responsive wide composite
@@ -41,16 +44,18 @@ GitHub Actions secret
         │
         ▼
 scripts/update_weather.py ──► data/weather.json
-        │                            │
-        └─ NWS + NOAA metadata       ▼
-                              static Pages site
+        │                    └─► data/imagery/*.webp
+        │                                  │
+        └─ NWS + NOAA metadata             ▼
+                                    static Pages site
 ```
 
-`data/weather.json` contains display-ready observations and public NOAA source
-URLs. It never contains the Tempest token. The browser does not call the
-WeatherFlow API directly. The satellite and transparent rain images stay as
-separate browser layers so they can be synchronized precisely, but appear as a
-single composited map.
+`data/weather.json` contains display-ready observations and public radar source
+URLs. The build converts NOAA ABI Band 13 images into transparent WebP cloud
+frames, so the opaque NOAA imagery never replaces the higher-quality map. The
+data never contains the Tempest token, and the browser does not call the
+WeatherFlow API directly. Leaflet keeps the base map, cloud cover, and rain
+intensity as separate aligned layers while displaying them as one animation.
 
 The workflow in `.github/workflows/deploy-pages.yml` runs at these Arizona
 wall-clock minutes:
@@ -102,6 +107,7 @@ Set the Tempest credential only in your shell, then build the local snapshot:
 export TEMPEST_TOKEN='your-token'
 export TEMPEST_STATION_ID='000000'
 export TEMPEST_DEVICE_ID='000000'
+python3 -m pip install -r requirements.txt
 python3 scripts/update_weather.py
 ```
 
@@ -135,7 +141,9 @@ query parameter is redacted before an error can be serialized.
 ├── .github/workflows/deploy-pages.yml  # scheduled refresh and Pages deploy
 ├── assets/app.js                       # rendering and composited animation
 ├── assets/styles.css                   # responsive Neotron-inspired theme
+├── data/imagery/                       # generated transparent cloud frames
 ├── data/weather.json                   # sanitized generated snapshot
+├── requirements.txt                    # data-builder image dependency
 ├── scripts/update_weather.py           # Tempest/NWS/NOAA collector
 ├── systemd/                             # exact local workflow dispatcher
 ├── tests/test_update_weather.py        # deterministic collector tests
@@ -146,6 +154,8 @@ query parameter is redacted before an error can be serialized.
 
 - [WeatherFlow Tempest](https://weatherflow.com/tempest-weather-system/)
 - [National Weather Service API](https://www.weather.gov/documentation/services-web-api)
-- [NOAA/NESDIS GeoColor ImageServer](https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABIGC_Last_24hr/ImageServer)
+- [NOAA/NESDIS ABI Band 13 ImageServer](https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABI13_Last_24hr/ImageServer)
 - [Iowa Environmental Mesonet NEXRAD mosaics](https://mesonet.agron.iastate.edu/docs/nexrad_mosaic/)
 - [NOAA nowCOAST radar fallback](https://nowcoast.noaa.gov/)
+- [Leaflet](https://leafletjs.com/)
+- [OpenStreetMap](https://www.openstreetmap.org/copyright)
