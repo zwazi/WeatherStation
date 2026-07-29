@@ -48,10 +48,12 @@
       <section class="radar-panel" aria-label="Synchronized four-hour satellite and rain loop">
         <figure class="imagery-frame" aria-live="polite">
           <div class="imagery-stage" id="imagery-stage">
-            <img class="imagery-base" id="satellite-image" alt="GOES GeoColor satellite view centered on Tucson">
-            <img class="weather-overlay" id="radar-image" alt="" aria-hidden="true">
-            <img class="reference-map" id="radar-reference" alt="" aria-hidden="true">
-            <span class="map-marker" id="satellite-marker" aria-label="Tucson"></span>
+            <div class="imagery-map">
+              <img class="imagery-base" id="satellite-image" alt="GOES GeoColor satellite view centered on Tucson">
+              <img class="weather-overlay" id="radar-image" alt="" aria-hidden="true">
+              <img class="reference-map" id="radar-reference" alt="" aria-hidden="true">
+              <span class="map-marker" id="satellite-marker" aria-label="Tucson"></span>
+            </div>
             <div class="imagery-loader" id="imagery-loader">
               <span></span>
               <p>Loading matched satellite and radar frames</p>
