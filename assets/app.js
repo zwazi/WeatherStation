@@ -19,10 +19,7 @@ const elements = {
   heroCondition: document.querySelector("#hero-condition"),
   heroIcon: document.querySelector("#hero-icon"),
   details: document.querySelector("#condition-sections"),
-  satelliteImage: document.querySelector("#satellite-image"),
-  radarImage: document.querySelector("#radar-image"),
-  radarReference: document.querySelector("#radar-reference"),
-  satelliteMarker: document.querySelector("#satellite-marker"),
+  leafletMap: document.querySelector("#leaflet-map"),
   satelliteTime: document.querySelector("#satellite-time"),
   satelliteStatus: document.querySelector("#satellite-status"),
   imageryLoader: document.querySelector("#imagery-loader"),
@@ -53,6 +50,12 @@ const state = {
   frameIndex: 0,
   timer: null,
   imageryGeneration: 0,
+  map: null,
+  cloudLayer: null,
+  radarLayer: null,
+  stationMarker: null,
+  imageryBounds: null,
+  mapFitted: false,
   paused: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   loading: false,
 };
@@ -292,14 +295,67 @@ function renderForecast(forecast) {
   elements.forecastDetail.append(buildDetailedForecast(forecast));
 }
 
-function positionMarker(element, marker) {
-  if (!marker) {
-    element.hidden = true;
-    return;
+function initializeRadarMap() {
+  if (!window.L) throw new Error("Leaflet could not be loaded");
+  const map = window.L.map(elements.leafletMap, {
+    zoomControl: false,
+    attributionControl: true,
+    dragging: false,
+    scrollWheelZoom: false,
+    doubleClickZoom: false,
+    boxZoom: false,
+    keyboard: false,
+    touchZoom: false,
+    zoomSnap: 0,
+    preferCanvas: true,
+  });
+  window.L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+  }).addTo(map);
+  map.createPane("cloudPane");
+  map.getPane("cloudPane").style.zIndex = "350";
+  map.getPane("cloudPane").style.pointerEvents = "none";
+  map.createPane("radarPane");
+  map.getPane("radarPane").style.zIndex = "360";
+  map.getPane("radarPane").style.pointerEvents = "none";
+  state.map = map;
+}
+
+function configureRadarMap(imagery) {
+  if (!state.map || !Array.isArray(imagery?.bounds)) return false;
+  const bounds = window.L.latLngBounds(imagery.bounds);
+  if (!bounds.isValid()) return false;
+  state.imageryBounds = bounds;
+  if (!state.mapFitted) {
+    state.map.fitBounds(bounds, { animate: false, padding: [0, 0] });
+    state.mapFitted = true;
+    window.requestAnimationFrame(() => state.map.invalidateSize({ animate: false }));
   }
-  element.hidden = false;
-  element.style.left = `${marker.x * 100}%`;
-  element.style.top = `${marker.y * 100}%`;
+
+  const location = imagery.location;
+  if (Number.isFinite(location?.lat) && Number.isFinite(location?.lon)) {
+    if (!state.stationMarker) {
+      state.stationMarker = window.L.circleMarker([location.lat, location.lon], {
+        radius: 6,
+        color: "#f8f7f3",
+        weight: 3,
+        fillColor: "#ed1b24",
+        fillOpacity: 1,
+        pane: "markerPane",
+      })
+        .bindTooltip("Tempest Weather Station", {
+          permanent: true,
+          direction: "top",
+          offset: [0, -8],
+          className: "station-map-label",
+        })
+        .addTo(state.map);
+    } else {
+      state.stationMarker.setLatLng([location.lat, location.lon]);
+    }
+  }
+  return true;
 }
 
 function clearAnimationTimer() {
@@ -354,18 +410,36 @@ function prepareFrame(frame) {
 }
 
 function showFrame(index) {
-  if (!state.frames.length) return;
+  if (!state.frames.length || !state.map || !state.imageryBounds) return;
   state.frameIndex = ((index % state.frames.length) + state.frames.length) % state.frames.length;
   const prepared = state.frames[state.frameIndex];
   const frame = prepared.metadata;
-  elements.satelliteImage.src = prepared.satellite.url;
-  elements.radarImage.src = prepared.radar.url;
+  if (!state.cloudLayer) {
+    state.cloudLayer = window.L.imageOverlay(prepared.satellite.url, state.imageryBounds, {
+      pane: "cloudPane",
+      opacity: 0.92,
+      alt: "NOAA GOES infrared cloud cover",
+      interactive: false,
+    }).addTo(state.map);
+  } else {
+    state.cloudLayer.setBounds(state.imageryBounds).setUrl(prepared.satellite.url);
+  }
+  if (!state.radarLayer) {
+    state.radarLayer = window.L.imageOverlay(prepared.radar.url, state.imageryBounds, {
+      pane: "radarPane",
+      opacity: 0.92,
+      alt: "NEXRAD rain intensity mosaic",
+      interactive: false,
+    }).addTo(state.map);
+  } else {
+    state.radarLayer.setBounds(state.imageryBounds).setUrl(prepared.radar.url);
+  }
   elements.satelliteTime.textContent = (
     `${frameLabel(frame.satellite_timestamp)} · rain ${frameLabel(frame.radar_timestamp)} · Arizona`
   );
   const radarName = prepared.radar.fallback ? "NOAA MRMS fallback" : "IEM NEXRAD";
   elements.satelliteStatus.textContent = (
-    `Frame ${state.frameIndex + 1} of ${state.frames.length} · GeoColor + ${radarName} · `
+    `Frame ${state.frameIndex + 1} of ${state.frames.length} · NOAA clouds + ${radarName} · `
     + `${frame.offset_minutes} min offset · synchronized 4-hour loop`
   );
   elements.timelineRange.value = String(state.frameIndex);
@@ -407,7 +481,6 @@ function renderImagery(imagery) {
     return;
   }
 
-  const { markers = {} } = imagery;
   elements.satelliteStatus.textContent = (
     `Preloading ${rawFrames.length} matched satellite and radar frames in the background…`
   );
@@ -424,10 +497,13 @@ function renderImagery(imagery) {
       return;
     }
     clearAnimationTimer();
+    if (!configureRadarMap(imagery)) {
+      elements.satelliteTime.textContent = "Map geometry unavailable";
+      elements.satelliteStatus.textContent = "The weather overlays did not include valid map bounds.";
+      return;
+    }
     state.frames = nextFrames;
     state.frameIndex = 0;
-    elements.radarReference.src = imagery.reference_map_url || "";
-    positionMarker(elements.satelliteMarker, markers.radar || markers.satellite);
     elements.timeline.hidden = state.frames.length < 2;
     elements.timelineRange.max = String(Math.max(0, state.frames.length - 1));
     showFrame(0);
@@ -495,5 +571,12 @@ document.addEventListener("visibilitychange", () => {
 });
 
 installMetricIcons();
-loadData({ force: true });
+try {
+  initializeRadarMap();
+  loadData({ force: true });
+} catch (error) {
+  elements.imageryLoader.hidden = true;
+  elements.pageError.textContent = `Could not initialize the weather map. ${error.message}`;
+  elements.pageError.hidden = false;
+}
 window.setInterval(() => loadData(), 60_000);

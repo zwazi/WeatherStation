@@ -1,13 +1,13 @@
 import unittest
 from datetime import datetime, timedelta
-from math import cos, radians
 from zoneinfo import ZoneInfo
 
 from scripts.update_weather import (
-    RADAR_BBOX,
+    RADAR_BBOX_WEB_MERCATOR,
     RADAR_FRAME_HEIGHT,
     RADAR_FRAME_WIDTH,
     cardinal,
+    cloud_alpha,
     daily_heading,
     forecast_hour_range,
     next_scheduled_refresh,
@@ -52,10 +52,18 @@ class UpdateWeatherTests(unittest.TestCase):
         self.assertEqual(wind_direction_degrees("WNW"), 292.5)
         self.assertIsNone(wind_direction_degrees("VRB"))
 
-    def test_radar_bbox_matches_display_aspect_without_land_stretching(self):
-        west, south, east, north = RADAR_BBOX
-        ground_aspect = (east - west) * cos(radians((south + north) / 2)) / (north - south)
-        self.assertAlmostEqual(ground_aspect, RADAR_FRAME_WIDTH / RADAR_FRAME_HEIGHT, places=3)
+    def test_radar_bbox_matches_leaflet_mercator_aspect(self):
+        west, south, east, north = RADAR_BBOX_WEB_MERCATOR
+        self.assertAlmostEqual(
+            (east - west) / (north - south),
+            RADAR_FRAME_WIDTH / RADAR_FRAME_HEIGHT,
+            places=6,
+        )
+
+    def test_cloud_mask_removes_land_and_preserves_bright_clouds(self):
+        self.assertEqual(cloud_alpha(42), 0)
+        self.assertGreater(cloud_alpha(180), 0)
+        self.assertLessEqual(cloud_alpha(255), 225)
 
     def test_cardinal_wraps_at_north(self):
         self.assertEqual(cardinal(359), "N")

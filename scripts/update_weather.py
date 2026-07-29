@@ -4,17 +4,22 @@
 from __future__ import annotations
 
 import argparse
+from concurrent.futures import ThreadPoolExecutor
+from io import BytesIO
 import json
 import os
 import re
+import shutil
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
-from math import cos, radians
+from math import degrees, log, pi, radians, tan
 from pathlib import Path
 from urllib.parse import urlencode
 from zoneinfo import ZoneInfo
+
+from PIL import Image, ImageOps
 
 
 ARIZONA_TZ = ZoneInfo("America/Phoenix")
@@ -25,30 +30,54 @@ TEMPEST_TOKEN = os.environ.get("TEMPEST_TOKEN", "")
 
 TUCSON_LAT = 32.3051
 TUCSON_LON = -110.9156
-RADAR_FRAME_WIDTH = 1200
-RADAR_FRAME_HEIGHT = 1200
+RADAR_FRAME_WIDTH = 1400
+RADAR_FRAME_HEIGHT = 600
 RADAR_LAT_MIN = 31.2
 RADAR_LAT_MAX = 33.6
 RADAR_CENTER_LON = -111.1
-RADAR_LON_SPAN = (
-    (RADAR_LAT_MAX - RADAR_LAT_MIN)
-    * (RADAR_FRAME_WIDTH / RADAR_FRAME_HEIGHT)
-    / cos(radians((RADAR_LAT_MIN + RADAR_LAT_MAX) / 2))
+WEB_MERCATOR_RADIUS = 6_378_137
+
+
+def mercator_x(longitude: float) -> float:
+    return WEB_MERCATOR_RADIUS * radians(longitude)
+
+
+def mercator_y(latitude: float) -> float:
+    return WEB_MERCATOR_RADIUS * log(tan(pi / 4 + radians(latitude) / 2))
+
+
+def longitude_from_mercator(x_coordinate: float) -> float:
+    return degrees(x_coordinate / WEB_MERCATOR_RADIUS)
+
+
+RADAR_MERCATOR_Y_MIN = mercator_y(RADAR_LAT_MIN)
+RADAR_MERCATOR_Y_MAX = mercator_y(RADAR_LAT_MAX)
+RADAR_MERCATOR_X_CENTER = mercator_x(RADAR_CENTER_LON)
+RADAR_MERCATOR_X_SPAN = (
+    (RADAR_MERCATOR_Y_MAX - RADAR_MERCATOR_Y_MIN)
+    * RADAR_FRAME_WIDTH
+    / RADAR_FRAME_HEIGHT
+)
+RADAR_BBOX_WEB_MERCATOR = (
+    RADAR_MERCATOR_X_CENTER - RADAR_MERCATOR_X_SPAN / 2,
+    RADAR_MERCATOR_Y_MIN,
+    RADAR_MERCATOR_X_CENTER + RADAR_MERCATOR_X_SPAN / 2,
+    RADAR_MERCATOR_Y_MAX,
 )
 RADAR_BBOX = (
-    round(RADAR_CENTER_LON - RADAR_LON_SPAN / 2, 4),
+    round(longitude_from_mercator(RADAR_BBOX_WEB_MERCATOR[0]), 6),
     RADAR_LAT_MIN,
-    round(RADAR_CENTER_LON + RADAR_LON_SPAN / 2, 4),
+    round(longitude_from_mercator(RADAR_BBOX_WEB_MERCATOR[2]), 6),
     RADAR_LAT_MAX,
 )
 REFRESH_MINUTES = (1, 11, 21, 31, 41, 51)
 
-NESDIS_GEOCOLOR_IMAGE_SERVER = (
+NESDIS_CLOUD_IMAGE_SERVER = (
     "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/"
-    "ABIGC_Last_24hr/ImageServer"
+    "ABI13_Last_24hr/ImageServer"
 )
-NESDIS_GEOCOLOR_QUERY = f"{NESDIS_GEOCOLOR_IMAGE_SERVER}/query"
-NOAA_SATELLITE_SOURCE = NESDIS_GEOCOLOR_IMAGE_SERVER
+NESDIS_CLOUD_QUERY = f"{NESDIS_CLOUD_IMAGE_SERVER}/query"
+NOAA_SATELLITE_SOURCE = NESDIS_CLOUD_IMAGE_SERVER
 IEM_NEXRAD_WMS = (
     "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi"
 )
@@ -56,10 +85,6 @@ IEM_RADAR_SOURCE = "https://mesonet.agron.iastate.edu/docs/nexrad_mosaic/"
 NOWCOAST_RADAR_WMS = "https://nowcoast.noaa.gov/geoserver/weather_radar/wms"
 NOWCOAST_CAPABILITIES = (
     f"{NOWCOAST_RADAR_WMS}?service=WMS&version=1.3.0&request=GetCapabilities"
-)
-NWS_REFERENCE_WMS = (
-    "https://mapservices.weather.noaa.gov/static/services/"
-    "nws_reference_maps/nws_reference_map/MapServer/WMSServer"
 )
 NWS_POINT_URL = f"https://api.weather.gov/points/{TUCSON_LAT},{TUCSON_LON}"
 NWS_ALERTS_URL = f"https://api.weather.gov/alerts/active?point={TUCSON_LAT},{TUCSON_LON}"
@@ -710,14 +735,13 @@ def round_to_five_minutes(timestamp: datetime) -> datetime:
     )
 
 
-def nesdis_geocolor_url(raster_id: int) -> str:
+def nesdis_cloud_url(raster_id: int) -> str:
     params = {
-        "bbox": ",".join(str(value) for value in RADAR_BBOX),
-        "bboxSR": 4326,
-        "imageSR": 4326,
+        "bbox": ",".join(str(value) for value in RADAR_BBOX_WEB_MERCATOR),
+        "bboxSR": 3857,
+        "imageSR": 3857,
         "size": f"{RADAR_FRAME_WIDTH},{RADAR_FRAME_HEIGHT}",
-        "format": "jpg",
-        "compressionQuality": 90,
+        "format": "png32",
         "transparent": "false",
         "interpolation": "RSP_BilinearInterpolation",
         "mosaicRule": json.dumps(
@@ -729,10 +753,10 @@ def nesdis_geocolor_url(raster_id: int) -> str:
         ),
         "f": "image",
     }
-    return f"{NESDIS_GEOCOLOR_IMAGE_SERVER}/exportImage?{urlencode(params)}"
+    return f"{NESDIS_CLOUD_IMAGE_SERVER}/exportImage?{urlencode(params)}"
 
 
-def get_geocolor_records() -> list[dict]:
+def get_cloud_records() -> list[dict]:
     params = {
         "f": "json",
         "where": "1=1",
@@ -743,7 +767,7 @@ def get_geocolor_records() -> list[dict]:
     }
     records = []
     for attempt in range(3):
-        response = fetch_json(f"{NESDIS_GEOCOLOR_QUERY}?{urlencode(params)}")
+        response = fetch_json(f"{NESDIS_CLOUD_QUERY}?{urlencode(params)}")
         records = []
         for feature in response.get("features", []):
             attributes = feature.get("attributes", {})
@@ -765,7 +789,7 @@ def get_geocolor_records() -> list[dict]:
         if attempt < 2:
             time.sleep(attempt + 1)
     if not records:
-        raise ValueError("NOAA/NESDIS did not list GeoColor archive records")
+        raise ValueError("NOAA/NESDIS did not list ABI Band 13 archive records")
     latest = max(record["timestamp"] for record in records)
     window = sorted(
         (
@@ -788,8 +812,8 @@ def nowcoast_radar_url(timestamp: datetime) -> str:
         "REQUEST": "GetMap",
         "LAYERS": "conus_base_reflectivity_mosaic",
         "STYLES": "weather_radar_base_reflectivity",
-        "SRS": "EPSG:4326",
-        "BBOX": ",".join(str(value) for value in RADAR_BBOX),
+        "SRS": "EPSG:3857",
+        "BBOX": ",".join(str(value) for value in RADAR_BBOX_WEB_MERCATOR),
         "WIDTH": RADAR_FRAME_WIDTH,
         "HEIGHT": RADAR_FRAME_HEIGHT,
         "FORMAT": "image/png",
@@ -807,8 +831,8 @@ def iem_radar_url(timestamp: datetime) -> str:
         "REQUEST": "GetMap",
         "LAYERS": "nexrad-n0q-wmst",
         "STYLES": "",
-        "SRS": "EPSG:4326",
-        "BBOX": ",".join(str(value) for value in RADAR_BBOX),
+        "SRS": "EPSG:3857",
+        "BBOX": ",".join(str(value) for value in RADAR_BBOX_WEB_MERCATOR),
         "WIDTH": RADAR_FRAME_WIDTH,
         "HEIGHT": RADAR_FRAME_HEIGHT,
         "FORMAT": "image/png",
@@ -818,25 +842,26 @@ def iem_radar_url(timestamp: datetime) -> str:
     return f"{IEM_NEXRAD_WMS}?{urlencode(params)}"
 
 
-def nws_reference_map_url() -> str:
-    params = {
-        "SERVICE": "WMS",
-        "VERSION": "1.1.1",
-        "REQUEST": "GetMap",
-        "LAYERS": "8,9",
-        "STYLES": ",",
-        "SRS": "EPSG:4326",
-        "BBOX": ",".join(str(value) for value in RADAR_BBOX),
-        "WIDTH": RADAR_FRAME_WIDTH,
-        "HEIGHT": RADAR_FRAME_HEIGHT,
-        "FORMAT": "image/png",
-        "TRANSPARENT": "true",
-    }
-    return f"{NWS_REFERENCE_WMS}?{urlencode(params)}"
+def cloud_alpha(value: int) -> int:
+    """Turn the dark ABI13 surface into transparent, pale cloud cover."""
+    if value <= 42:
+        return 0
+    return min(225, round((value - 42) * 1.65))
 
 
-def get_imagery() -> dict:
-    geocolor_records = get_geocolor_records()
+def write_cloud_overlay(source_url: str, output_path: Path) -> None:
+    """Download one NOAA ABI13 frame and retain only its cloud signal."""
+    raw_image = fetch_bytes(source_url)
+    with Image.open(BytesIO(raw_image)) as source:
+        gray = ImageOps.grayscale(source.convert("RGB"))
+        alpha = gray.point(cloud_alpha)
+        cloud = Image.new("RGBA", source.size, (242, 245, 249, 0))
+        cloud.putalpha(alpha)
+        cloud.save(output_path, "WEBP", lossless=True, method=6)
+
+
+def get_imagery(output_dir: Path) -> dict:
+    cloud_records = get_cloud_records()
     try:
         fallback_radar_times = parse_wms_times(
             fetch_bytes(NOWCOAST_CAPABILITIES),
@@ -845,13 +870,24 @@ def get_imagery() -> dict:
     except Exception:
         fallback_radar_times = []
 
+    generated_at = int(time.time())
+    staging_dir = output_dir.with_name(f".{output_dir.name}-staging")
+    if staging_dir.exists():
+        shutil.rmtree(staging_dir)
+    staging_dir.mkdir(parents=True)
+
+    cloud_jobs = []
     frames = []
-    for record in geocolor_records:
+    for index, record in enumerate(cloud_records):
         satellite_time = record["timestamp"]
         radar_time = round_to_five_minutes(satellite_time)
         offset = round(abs((radar_time - satellite_time).total_seconds()) / 60)
+        filename = f"cloud-{index:02d}.webp"
+        cloud_jobs.append(
+            (nesdis_cloud_url(record["raster_id"]), staging_dir / filename)
+        )
         frame = {
-            "satellite_url": nesdis_geocolor_url(record["raster_id"]),
+            "satellite_url": f"data/imagery/{filename}?v={generated_at}",
             "satellite_timestamp": satellite_time.isoformat(),
             "radar_url": iem_radar_url(radar_time),
             "radar_timestamp": radar_time.isoformat(),
@@ -866,15 +902,29 @@ def get_imagery() -> dict:
                 frame["radar_fallback_url"] = nowcoast_radar_url(fallback_time)
         frames.append(frame)
 
-    radar_marker_x = (TUCSON_LON - RADAR_BBOX[0]) / (RADAR_BBOX[2] - RADAR_BBOX[0])
-    radar_marker_y = (RADAR_BBOX[3] - TUCSON_LAT) / (RADAR_BBOX[3] - RADAR_BBOX[1])
+    try:
+        with ThreadPoolExecutor(max_workers=6) as executor:
+            futures = [
+                executor.submit(write_cloud_overlay, source_url, path)
+                for source_url, path in cloud_jobs
+            ]
+            for future in futures:
+                future.result()
+        if output_dir.exists():
+            shutil.rmtree(output_dir)
+        staging_dir.replace(output_dir)
+    except Exception:
+        shutil.rmtree(staging_dir, ignore_errors=True)
+        raise
+
     return {
         "frames": frames,
-        "product": "NOAA GOES GeoColor satellite + IEM NEXRAD reflectivity",
-        "reference_map_url": nws_reference_map_url(),
-        "markers": {
-            "radar": {"x": radar_marker_x, "y": radar_marker_y},
-        },
+        "product": "NOAA GOES ABI Band 13 clouds + IEM NEXRAD reflectivity",
+        "bounds": [
+            [RADAR_BBOX[1], RADAR_BBOX[0]],
+            [RADAR_BBOX[3], RADAR_BBOX[2]],
+        ],
+        "location": {"lat": TUCSON_LAT, "lon": TUCSON_LON},
         "sources": {
             "satellite": NOAA_SATELLITE_SOURCE,
             "radar": IEM_RADAR_SOURCE,
@@ -907,7 +957,7 @@ def build_payload(output_path: Path) -> dict:
         ("tempest", get_tempest_weather),
         ("forecast", lambda: get_nws_forecast(now)),
         ("alerts", get_nws_alerts),
-        ("imagery", get_imagery),
+        ("imagery", lambda: get_imagery(output_path.parent / "imagery")),
     ):
         try:
             result = loader()
