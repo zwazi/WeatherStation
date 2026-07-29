@@ -41,6 +41,7 @@ const ICON_SVG = {
   wind: '<path d="M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/>',
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   rain: '<path d="M12 2.5S6 9.2 6 14a6 6 0 0 0 12 0c0-4.8-6-11.5-6-11.5Z"/>',
+  rainCloud: '<path d="M6.5 15h11a3.5 3.5 0 0 0 .2-7 5.5 5.5 0 0 0-10.4 1.2A3 3 0 0 0 6.5 15Z"/><path d="m8 18-1 2m5-2-1 2m5-2-1 2"/>',
   airQuality: '<path d="M12 3v9"/><path d="M10 8.5c-2-1-4 .4-5 3l-1.4 4.2C2.8 18.2 4.5 21 7 21c2.8 0 4-2.1 4-5V10"/><path d="M14 8.5c2-1 4 .4 5 3l1.4 4.2c.8 2.5-.9 5.3-3.4 5.3-2.8 0-4-2.1-4-5V10"/>',
   direction: '<path class="icon-fill" d="M12 2 18 21l-6-4-6 4 6-19Z"/>',
 };
@@ -228,7 +229,14 @@ function renderHourly(container, hours = []) {
   container.replaceChildren();
   for (const hour of hours) {
     const article = createElement("article", "hour-card");
-    const rain = metricWithIcon("hour-card__metric", "rain", hour.precipitation || "—");
+    const rain = metricWithIcon(
+      "hour-card__metric",
+      "rainCloud",
+      hour.precipitation || "—",
+    );
+    rain.title = "Chance of rain";
+    const humidity = metricWithIcon("hour-card__metric", "humidity", hour.humidity || "—");
+    humidity.title = "Relative humidity";
     const direction = Number(hour.wind_degrees);
     const hasDirection = Number.isFinite(direction) && hour.wind_direction;
     const windIcon = vectorIcon(hasDirection ? "direction" : "wind", "hour-card__wind-icon");
@@ -239,16 +247,14 @@ function renderHourly(container, hours = []) {
     wind.title = hasDirection ? `Wind from ${hour.wind_direction}` : "Wind speed";
     wind.append(
       windIcon,
-      document.createTextNode(
-        `${hasDirection ? `${hour.wind_direction} ` : ""}${hour.wind || "—"}`,
-      ),
+      document.createTextNode(hour.wind || "—"),
     );
     article.append(
       createElement("p", "hour-card__time", hour.time || "—"),
-      createElement("p", "hour-card__day", hour.day || ""),
       weatherIcon(hour.icon || "cloudy", "weather-icon--hourly"),
       createElement("p", "hour-card__temperature", hour.temperature || "—"),
       rain,
+      humidity,
       wind,
     );
     container.append(article);

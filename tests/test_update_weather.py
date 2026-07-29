@@ -9,6 +9,7 @@ from scripts.update_weather import (
     cardinal,
     cloud_alpha,
     air_quality_category,
+    current_weather_icon_kind,
     daily_heading,
     forecast_hour_range,
     next_scheduled_refresh,
@@ -138,6 +139,21 @@ class UpdateWeatherTests(unittest.TestCase):
 
     def test_weather_icon_treats_partly_cloudy_as_partial_cover(self):
         self.assertEqual(weather_icon_kind(summary="Partly Cloudy"), "partly-cloudy")
+
+    def test_current_weather_icon_uses_grid_sky_cover_over_summary_fallback(self):
+        now = datetime(2026, 7, 29, 12, 0, tzinfo=ZoneInfo("UTC"))
+        grid = {
+            "skyCover": {
+                "values": [
+                    {
+                        "validTime": "2026-07-29T12:00:00+00:00/PT1H",
+                        "value": 5,
+                    }
+                ]
+            }
+        }
+        period = {"shortForecast": "Haze", "isDaytime": True}
+        self.assertEqual(current_weather_icon_kind(grid, period, now), "clear")
 
     def test_error_messages_never_preserve_token_values(self):
         error = RuntimeError("request failed at https://example.test/?token=secret-value&x=1")
