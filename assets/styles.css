@@ -396,23 +396,6 @@ h3 {
   color: var(--white);
 }
 
-.station-map-label {
-  border: 0;
-  border-radius: 6px;
-  padding: 5px 7px;
-  background: rgb(5 5 5 / 84%);
-  box-shadow: 0 1px 7px rgb(0 0 0 / 45%);
-  color: var(--white);
-  font-family: var(--mono);
-  font-size: 9px;
-  font-weight: 850;
-  text-transform: uppercase;
-}
-
-.station-map-label::before {
-  border-top-color: rgb(5 5 5 / 84%);
-}
-
 .imagery-stage figcaption {
   position: absolute;
   z-index: 1000;

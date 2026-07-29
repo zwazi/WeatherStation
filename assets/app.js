@@ -355,14 +355,7 @@ function configureRadarMap(imagery) {
         fillColor: "#ed1b24",
         fillOpacity: 1,
         pane: "markerPane",
-      })
-        .bindTooltip("Tempest Weather Station", {
-          permanent: true,
-          direction: "top",
-          offset: [0, -8],
-          className: "station-map-label",
-        })
-        .addTo(state.map);
+      }).addTo(state.map);
     } else {
       state.stationMarker.setLatLng([location.lat, location.lon]);
     }
