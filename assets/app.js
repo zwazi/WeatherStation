@@ -28,7 +28,6 @@ const elements = {
   timeline: document.querySelector("#timeline"),
   timelineRange: document.querySelector("#timeline-range"),
   timelineOutput: document.querySelector("#timeline-output"),
-  forecastUpdated: document.querySelector("#forecast-updated"),
   hourlyForecast: document.querySelector("#hourly-forecast"),
   dailyPrimary: document.querySelector("#daily-primary"),
   dailySecondary: document.querySelector("#daily-secondary"),
@@ -148,11 +147,11 @@ function weatherIcon(kind, extraClass = "") {
   return icon;
 }
 
-function dailySummary(day) {
+function dailySummary(day, label = null) {
   const article = createElement("article", "daily-summary");
   const text = createElement("div", "daily-summary__text");
   text.append(
-    createElement("h3", "", day.day || "Forecast"),
+    createElement("h3", "", label || day.day || "Forecast"),
     createElement("p", "", day.summary || "Forecast available"),
   );
   const values = createElement("div", "daily-summary__values");
@@ -163,6 +162,11 @@ function dailySummary(day) {
   );
   article.append(text, weatherIcon(day.icon || "cloudy", "weather-icon--daily"), values);
   return article;
+}
+
+function tomorrowLabel(dayLabel = "") {
+  const date = String(dayLabel).match(/\b\d{1,2}\/\d{1,2}\b/)?.[0];
+  return date ? `Tomorrow  ${date}` : "Tomorrow";
 }
 
 function renderHourly(hours = []) {
@@ -214,15 +218,15 @@ function renderForecast(forecast) {
   elements.hourlyForecast.replaceChildren();
   elements.forecastDetail.replaceChildren();
   if (!forecast) {
-    elements.forecastUpdated.textContent = "NWS forecast unavailable";
     return;
   }
   const [today, ...laterDays] = forecast.daily || [];
   if (today) elements.dailyPrimary.append(dailySummary(today));
-  for (const day of laterDays) elements.dailySecondary.append(dailySummary(day));
+  laterDays.forEach((day, index) => {
+    elements.dailySecondary.append(dailySummary(day, index === 0 ? tomorrowLabel(day.day) : null));
+  });
   renderHourly(forecast.hourly || []);
   elements.forecastDetail.append(buildDetailedForecast(forecast));
-  elements.forecastUpdated.textContent = `NWS grid updated ${formatArizonaDateTime(forecast.updated_at)}`;
 }
 
 function positionMarker(element, marker) {
