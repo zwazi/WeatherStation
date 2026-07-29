@@ -28,9 +28,9 @@
           <p class="hero-temperature" id="hero-temperature">—°</p>
           <p class="hero-feels">Feels like <strong id="hero-feels">—°</strong></p>
           <div class="current-metrics">
-            <p><span aria-hidden="true">◒</span><strong id="hero-humidity">—</strong> humidity</p>
-            <p><span aria-hidden="true">◴</span><strong id="hero-pressure">—</strong></p>
-            <p><span aria-hidden="true">ϟ</span><strong id="hero-lightning">—</strong></p>
+            <p><span class="metric-symbol" data-metric-icon="humidity" aria-hidden="true"></span><strong id="hero-humidity">—</strong> humidity</p>
+            <p><span class="metric-symbol" data-metric-icon="pressure" aria-hidden="true"></span><strong id="hero-pressure">—</strong></p>
+            <p><span class="metric-symbol" data-metric-icon="lightning" aria-hidden="true"></span><strong id="hero-lightning">—</strong></p>
           </div>
         </div>
 
@@ -38,9 +38,9 @@
           <div class="weather-icon weather-icon--large weather-icon--clear" id="hero-icon" aria-hidden="true"></div>
           <p class="hero-condition" id="hero-condition">Loading</p>
           <div class="current-metrics current-metrics--right">
-            <p><span aria-hidden="true">◒</span><strong id="hero-wind">—</strong></p>
-            <p><span aria-hidden="true">☀</span><strong id="hero-uv">—</strong> UV</p>
-            <p><span aria-hidden="true">●</span><strong id="hero-rain">—</strong></p>
+            <p><span class="metric-symbol" data-metric-icon="wind" aria-hidden="true"></span><strong id="hero-wind">—</strong></p>
+            <p><span class="metric-symbol" data-metric-icon="sun" aria-hidden="true"></span><strong id="hero-uv">—</strong> UV</p>
+            <p><span class="metric-symbol" data-metric-icon="rain" aria-hidden="true"></span><strong id="hero-rain">—</strong></p>
           </div>
         </div>
       </section>
@@ -72,10 +72,11 @@
       <section class="forecast-board" aria-labelledby="forecast-title">
         <h2 class="visually-hidden" id="forecast-title">Weather forecast</h2>
         <div id="daily-primary"></div>
-        <div class="hourly-strip" id="hourly-forecast" aria-label="12-hour forecast"></div>
+        <div class="hourly-strip" id="hourly-forecast-today" aria-label="Today's hourly forecast"></div>
         <div id="daily-secondary"></div>
+        <div class="hourly-strip" id="hourly-forecast-tomorrow" aria-label="Tomorrow's hourly forecast"></div>
         <details class="forecast-details">
-          <summary>Detailed 12-hour forecast</summary>
+          <summary>Detailed hourly forecast</summary>
           <div class="table-scroll" id="forecast-detail-table"></div>
         </details>
       </section>

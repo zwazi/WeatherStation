@@ -29,10 +29,21 @@ const elements = {
   timeline: document.querySelector("#timeline"),
   timelineRange: document.querySelector("#timeline-range"),
   timelineOutput: document.querySelector("#timeline-output"),
-  hourlyForecast: document.querySelector("#hourly-forecast"),
+  hourlyForecastToday: document.querySelector("#hourly-forecast-today"),
+  hourlyForecastTomorrow: document.querySelector("#hourly-forecast-tomorrow"),
   dailyPrimary: document.querySelector("#daily-primary"),
   dailySecondary: document.querySelector("#daily-secondary"),
   forecastDetail: document.querySelector("#forecast-detail-table"),
+};
+
+const ICON_SVG = {
+  humidity: '<path d="M12 2.5S5.5 9.4 5.5 14a6.5 6.5 0 0 0 13 0C18.5 9.4 12 2.5 12 2.5Z"/><path d="M9 15.5a3.5 3.5 0 0 0 3.5 2.5"/>',
+  pressure: '<circle cx="12" cy="12" r="9"/><path d="M12 7v2m5-1-1.5 1.5M7 8l1.5 1.5M12 12l4-2"/><circle cx="12" cy="12" r="1" class="icon-fill"/>',
+  lightning: '<path d="m13 2-7 12h6l-1 8 7-12h-6l1-8Z"/>',
+  wind: '<path d="M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/>',
+  sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  rain: '<path d="M12 2.5S6 9.2 6 14a6 6 0 0 0 12 0c0-4.8-6-11.5-6-11.5Z"/>',
+  direction: '<path class="icon-fill" d="M12 2 18 21l-6-4-6 4 6-19Z"/>',
 };
 
 const state = {
@@ -51,6 +62,22 @@ function createElement(tag, className, text) {
   if (className) element.className = className;
   if (text !== undefined) element.textContent = text;
   return element;
+}
+
+function vectorIcon(name, className = "") {
+  const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  icon.setAttribute("viewBox", "0 0 24 24");
+  icon.setAttribute("aria-hidden", "true");
+  icon.classList.add("vector-icon");
+  if (className) icon.classList.add(...className.split(" "));
+  icon.innerHTML = ICON_SVG[name] || ICON_SVG.wind;
+  return icon;
+}
+
+function installMetricIcons() {
+  for (const holder of document.querySelectorAll("[data-metric-icon]")) {
+    holder.replaceChildren(vectorIcon(holder.dataset.metricIcon));
+  }
 }
 
 function formatArizonaDateTime(isoString, includeSeconds = false) {
@@ -160,16 +187,22 @@ function weatherIcon(kind, extraClass = "") {
   return icon;
 }
 
-function dailySummary(day, label = null) {
+function metricWithIcon(className, iconName, text) {
+  const metric = createElement("p", className);
+  metric.append(vectorIcon(iconName), document.createTextNode(text));
+  return metric;
+}
+
+function dailySummary(day) {
   const article = createElement("article", "daily-summary");
   const text = createElement("div", "daily-summary__text");
   text.append(
-    createElement("h3", "", label || day.day || "Forecast"),
+    createElement("h3", "", day.day || "Forecast"),
     createElement("p", "", day.summary || "Forecast available"),
   );
   const values = createElement("div", "daily-summary__values");
   values.append(
-    createElement("p", "daily-summary__rain", `● ${day.rain || "—"}`),
+    metricWithIcon("daily-summary__rain", "rain", day.rain || "—"),
     createElement("p", "", `↓ ${day.low || "—"}`),
     createElement("p", "", `↑ ${day.high || "—"}`),
   );
@@ -177,24 +210,34 @@ function dailySummary(day, label = null) {
   return article;
 }
 
-function tomorrowLabel(dayLabel = "") {
-  const date = String(dayLabel).match(/\b\d{1,2}\/\d{1,2}\b/)?.[0];
-  return date ? `Tomorrow  ${date}` : "Tomorrow";
-}
-
-function renderHourly(hours = []) {
-  elements.hourlyForecast.replaceChildren();
+function renderHourly(container, hours = []) {
+  container.replaceChildren();
   for (const hour of hours) {
     const article = createElement("article", "hour-card");
+    const rain = metricWithIcon("hour-card__metric", "rain", hour.precipitation || "—");
+    const direction = Number(hour.wind_degrees);
+    const hasDirection = Number.isFinite(direction) && hour.wind_direction;
+    const windIcon = vectorIcon(hasDirection ? "direction" : "wind", "hour-card__wind-icon");
+    if (hasDirection) {
+      windIcon.style.transform = `rotate(${(direction + 180) % 360}deg)`;
+    }
+    const wind = createElement("p", "hour-card__metric hour-card__wind");
+    wind.title = hasDirection ? `Wind from ${hour.wind_direction}` : "Wind speed";
+    wind.append(
+      windIcon,
+      document.createTextNode(
+        `${hasDirection ? `${hour.wind_direction} ` : ""}${hour.wind || "—"}`,
+      ),
+    );
     article.append(
       createElement("p", "hour-card__time", hour.time || "—"),
       createElement("p", "hour-card__day", hour.day || ""),
       weatherIcon(hour.icon || "cloudy", "weather-icon--hourly"),
       createElement("p", "hour-card__temperature", hour.temperature || "—"),
-      createElement("p", "hour-card__metric", `● ${hour.precipitation || "—"}`),
-      createElement("p", "hour-card__metric hour-card__wind", `➤ ${hour.wind || "—"}`),
+      rain,
+      wind,
     );
-    elements.hourlyForecast.append(article);
+    container.append(article);
   }
 }
 
@@ -228,17 +271,24 @@ function buildDetailedForecast(forecast) {
 function renderForecast(forecast) {
   elements.dailyPrimary.replaceChildren();
   elements.dailySecondary.replaceChildren();
-  elements.hourlyForecast.replaceChildren();
+  elements.hourlyForecastToday.replaceChildren();
+  elements.hourlyForecastTomorrow.replaceChildren();
   elements.forecastDetail.replaceChildren();
   if (!forecast) {
     return;
   }
-  const [today, ...laterDays] = forecast.daily || [];
+  const [today, tomorrow] = forecast.daily || [];
   if (today) elements.dailyPrimary.append(dailySummary(today));
-  laterDays.forEach((day, index) => {
-    elements.dailySecondary.append(dailySummary(day, index === 0 ? tomorrowLabel(day.day) : null));
-  });
-  renderHourly(forecast.hourly || []);
+  if (tomorrow) elements.dailySecondary.append(dailySummary(tomorrow));
+  const hourly = forecast.hourly || [];
+  renderHourly(
+    elements.hourlyForecastToday,
+    hourly.filter((hour) => !today?.date || hour.date === today.date),
+  );
+  renderHourly(
+    elements.hourlyForecastTomorrow,
+    hourly.filter((hour) => tomorrow?.date && hour.date === tomorrow.date),
+  );
   elements.forecastDetail.append(buildDetailedForecast(forecast));
 }
 
@@ -334,35 +384,50 @@ function scheduleNextFrame() {
 }
 
 function renderImagery(imagery) {
-  clearAnimationTimer();
   const generation = ++state.imageryGeneration;
-  state.frames = [];
-  state.frameIndex = 0;
-  elements.timeline.hidden = true;
-  elements.imageryLoader.hidden = false;
+  const hasCurrentFrames = state.frames.length > 0;
+  if (!hasCurrentFrames) {
+    clearAnimationTimer();
+    state.frameIndex = 0;
+    elements.timeline.hidden = true;
+    elements.imageryLoader.hidden = false;
+  } else {
+    elements.imageryLoader.hidden = true;
+  }
 
   const rawFrames = imagery?.frames || [];
   if (!imagery || !rawFrames.length) {
-    elements.imageryLoader.hidden = true;
-    elements.satelliteTime.textContent = "Combined imagery unavailable";
-    elements.satelliteStatus.textContent = "Use the source buttons to view the imagery providers.";
+    if (!hasCurrentFrames) {
+      elements.imageryLoader.hidden = true;
+      elements.satelliteTime.textContent = "Combined imagery unavailable";
+    }
+    elements.satelliteStatus.textContent = hasCurrentFrames
+      ? "New imagery unavailable; continuing the previous loop."
+      : "Combined imagery unavailable.";
     return;
   }
 
   const { markers = {} } = imagery;
-  elements.radarReference.src = imagery.reference_map_url || "";
-  positionMarker(elements.satelliteMarker, markers.radar || markers.satellite);
-  elements.satelliteStatus.textContent = `Preloading ${rawFrames.length} matched satellite and radar frames…`;
+  elements.satelliteStatus.textContent = (
+    `Preloading ${rawFrames.length} matched satellite and radar frames in the background…`
+  );
 
   Promise.all(rawFrames.map(prepareFrame)).then((preparedFrames) => {
     if (generation !== state.imageryGeneration) return;
-    state.frames = preparedFrames.filter((frame) => frame.ready);
+    const nextFrames = preparedFrames.filter((frame) => frame.ready);
     elements.imageryLoader.hidden = true;
-    if (!state.frames.length) {
-      elements.satelliteTime.textContent = "Combined imagery unavailable";
-      elements.satelliteStatus.textContent = "Satellite or radar images could not be loaded.";
+    if (!nextFrames.length) {
+      if (!hasCurrentFrames) elements.satelliteTime.textContent = "Combined imagery unavailable";
+      elements.satelliteStatus.textContent = hasCurrentFrames
+        ? "New imagery could not load; continuing the previous loop."
+        : "Satellite or radar images could not be loaded.";
       return;
     }
+    clearAnimationTimer();
+    state.frames = nextFrames;
+    state.frameIndex = 0;
+    elements.radarReference.src = imagery.reference_map_url || "";
+    positionMarker(elements.satelliteMarker, markers.radar || markers.satellite);
     elements.timeline.hidden = state.frames.length < 2;
     elements.timelineRange.max = String(Math.max(0, state.frames.length - 1));
     showFrame(0);
@@ -429,5 +494,6 @@ document.addEventListener("visibilitychange", () => {
   else scheduleNextFrame();
 });
 
+installMetricIcons();
 loadData({ force: true });
 window.setInterval(() => loadData(), 60_000);

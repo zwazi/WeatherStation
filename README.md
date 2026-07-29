@@ -1,8 +1,8 @@
 # WeatherStation
 
 A GitHub Pages version of the regional Tempest weather dashboard. It combines
-current WeatherFlow observations, a 12-hour numeric National Weather Service
-forecast, a two-day outlook, and synchronized NOAA GOES/IEM NEXRAD imagery.
+current WeatherFlow observations, hourly National Weather Service forecasts
+for today and tomorrow, and synchronized NOAA GOES/IEM NEXRAD imagery.
 
 The intended Pages URL is:
 
@@ -17,12 +17,15 @@ https://zwazi.github.io/WeatherStation/
 - Full condition, wind, pressure, rain, lightning, and light detail sections
 - A compact current-condition hero, horizontally scrolling hourly forecast,
   and two-day summaries modeled after a modern weather app
-- A complete expandable 12-hour NWS numeric grid
+- Separate hourly strips for the Arizona calendar dates Today and Tomorrow
+- A complete expandable NWS numeric grid through the end of tomorrow
 - Up to 24 NOAA GOES GeoColor frames covering approximately four hours
 - A regional-centered 1400×600 GeoColor and transparent IEM NEXRAD composite
+  with a latitude-corrected wide footprint so the land is not stretched
 - Automatic NOAA nowCOAST/MRMS fallback if an IEM frame is unavailable
 - Shared EPSG:4326 geometry for satellite, rain, boundaries, and regional marker
-- Atomic satellite/radar preloading so playback never outruns the GeoColor base
+- Background satellite/radar preloading that keeps the old loop visible until
+  every replacement frame is ready
 - A compact frame scrubber and responsive wide composite
 - A non-layout-shifting Arizona timestamp for the latest completed refresh
 - A restrained black, dark-plum, warm-white, yellow, and red theme
@@ -61,6 +64,19 @@ artifact, and deploys it through GitHub Pages. GitHub may queue scheduled jobs
 under load, so `:01`, `:11`, and so on are trigger times rather than guaranteed
 deployment-completion times. An open dashboard checks once per minute for the
 new artifact.
+
+Because GitHub's hosted scheduler can substantially delay or omit scheduled
+runs, this workstation also enables `weatherstation-refresh.timer`. The user
+timer dispatches the same GitHub workflow at the six exact Arizona minute marks
+with one-second timer accuracy. The hosted cron remains enabled as a backup.
+
+Install or refresh the local dispatcher with:
+
+```bash
+cp systemd/weatherstation-refresh.* ~/.config/systemd/user/
+systemctl --user daemon-reload
+systemctl --user enable --now weatherstation-refresh.timer
+```
 
 ## GitHub setup
 
@@ -121,6 +137,7 @@ query parameter is redacted before an error can be serialized.
 ├── assets/styles.css                   # responsive Neotron-inspired theme
 ├── data/weather.json                   # sanitized generated snapshot
 ├── scripts/update_weather.py           # Tempest/NWS/NOAA collector
+├── systemd/                             # exact local workflow dispatcher
 ├── tests/test_update_weather.py        # deterministic collector tests
 └── index.html                          # static application shell
 ```
