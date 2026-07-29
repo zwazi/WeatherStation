@@ -1,0 +1,8 @@
+[Unit]
+Description=Dispatch the WeatherStation GitHub Pages refresh
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/gh workflow run deploy-pages.yml --repo zwazi/WeatherStation --ref main

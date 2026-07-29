@@ -1,9 +1,15 @@
 import unittest
 from datetime import datetime, timedelta
+from math import cos, radians
 from zoneinfo import ZoneInfo
 
 from scripts.update_weather import (
+    RADAR_BBOX,
+    RADAR_FRAME_HEIGHT,
+    RADAR_FRAME_WIDTH,
     cardinal,
+    daily_heading,
+    forecast_hour_range,
     next_scheduled_refresh,
     parse_wms_times,
     parse_valid_time,
@@ -11,6 +17,7 @@ from scripts.update_weather import (
     sanitized_error,
     select_four_hour_timeline,
     weather_icon_kind,
+    wind_direction_degrees,
 )
 
 
@@ -26,6 +33,29 @@ class UpdateWeatherTests(unittest.TestCase):
         now = datetime(2026, 7, 28, 14, 58, 0, tzinfo=ARIZONA)
         expected = datetime(2026, 7, 28, 15, 1, 0, tzinfo=ARIZONA)
         self.assertEqual(next_scheduled_refresh(now), expected)
+
+    def test_forecast_covers_current_hour_through_end_of_tomorrow(self):
+        now = datetime(2026, 7, 28, 19, 34, tzinfo=ARIZONA)
+        hours = forecast_hour_range(now)
+        self.assertEqual(hours[0], datetime(2026, 7, 28, 19, 0, tzinfo=ARIZONA))
+        self.assertEqual(hours[-1], datetime(2026, 7, 29, 23, 0, tzinfo=ARIZONA))
+        self.assertEqual(len(hours), 29)
+
+    def test_daily_headings_use_explicit_arizona_calendar_days(self):
+        today = datetime(2026, 7, 28, 19, 34, tzinfo=ARIZONA)
+        tomorrow = today + timedelta(days=1)
+        self.assertEqual(daily_heading(today, 0), "Today, Tuesday 7/28")
+        self.assertEqual(daily_heading(tomorrow, 1), "Tomorrow Wednesday 7/29")
+
+    def test_wind_direction_converts_to_compass_rotation(self):
+        self.assertEqual(wind_direction_degrees("N"), 0)
+        self.assertEqual(wind_direction_degrees("WNW"), 292.5)
+        self.assertIsNone(wind_direction_degrees("VRB"))
+
+    def test_radar_bbox_matches_display_aspect_without_land_stretching(self):
+        west, south, east, north = RADAR_BBOX
+        ground_aspect = (east - west) * cos(radians((south + north) / 2)) / (north - south)
+        self.assertAlmostEqual(ground_aspect, RADAR_FRAME_WIDTH / RADAR_FRAME_HEIGHT, places=3)
 
     def test_cardinal_wraps_at_north(self):
         self.assertEqual(cardinal(359), "N")
@@ -66,6 +96,9 @@ class UpdateWeatherTests(unittest.TestCase):
 
     def test_weather_icon_distinguishes_clear_night(self):
         self.assertEqual(weather_icon_kind(sky=10, is_night=True), "clear-night")
+
+    def test_weather_icon_treats_partly_cloudy_as_partial_cover(self):
+        self.assertEqual(weather_icon_kind(summary="Partly Cloudy"), "partly-cloudy")
 
     def test_error_messages_never_preserve_token_values(self):
         error = RuntimeError("request failed at https://example.test/?token=secret-value&x=1")

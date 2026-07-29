@@ -11,6 +11,7 @@ import time
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
+from math import cos, radians
 from pathlib import Path
 from urllib.parse import urlencode
 from zoneinfo import ZoneInfo
@@ -24,10 +25,22 @@ TEMPEST_TOKEN = os.environ.get("TEMPEST_TOKEN", "")
 
 TUCSON_LAT = 32.3051
 TUCSON_LON = -110.9156
-RADAR_BBOX = (-113.9, 31.2, -108.3, 33.6)
 RADAR_FRAME_WIDTH = 1400
 RADAR_FRAME_HEIGHT = 600
-FORECAST_HOURS = 12
+RADAR_LAT_MIN = 31.2
+RADAR_LAT_MAX = 33.6
+RADAR_CENTER_LON = -111.1
+RADAR_LON_SPAN = (
+    (RADAR_LAT_MAX - RADAR_LAT_MIN)
+    * (RADAR_FRAME_WIDTH / RADAR_FRAME_HEIGHT)
+    / cos(radians((RADAR_LAT_MIN + RADAR_LAT_MAX) / 2))
+)
+RADAR_BBOX = (
+    round(RADAR_CENTER_LON - RADAR_LON_SPAN / 2, 4),
+    RADAR_LAT_MIN,
+    round(RADAR_CENTER_LON + RADAR_LON_SPAN / 2, 4),
+    RADAR_LAT_MAX,
+)
 REFRESH_MINUTES = (1, 11, 21, 31, 41, 51)
 
 NESDIS_GEOCOLOR_IMAGE_SERVER = (
@@ -126,6 +139,34 @@ def next_scheduled_refresh(now: datetime) -> datetime:
         if candidate > now:
             return candidate
     return (now + timedelta(hours=1)).replace(minute=1, second=0, microsecond=0)
+
+
+def forecast_hour_range(now: datetime) -> list[datetime]:
+    """Return local hours from the current hour through tomorrow at 11 PM."""
+    first_hour = now.astimezone(ARIZONA_TZ).replace(
+        minute=0, second=0, microsecond=0
+    )
+    last_hour = (first_hour + timedelta(days=1)).replace(hour=23)
+    count = int((last_hour - first_hour).total_seconds() // 3600) + 1
+    return [first_hour + timedelta(hours=offset) for offset in range(count)]
+
+
+def daily_heading(target: datetime, day_offset: int) -> str:
+    prefix = "Today," if day_offset == 0 else "Tomorrow"
+    return f"{prefix} {target.strftime('%A %-m/%-d')}"
+
+
+def wind_direction_degrees(direction: str | None) -> float | None:
+    if not direction:
+        return None
+    directions = (
+        "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE",
+        "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW",
+    )
+    try:
+        return directions.index(direction.upper()) * 22.5
+    except ValueError:
+        return None
 
 
 def get_tempest_weather() -> dict:
@@ -365,6 +406,18 @@ def weather_types_at(properties: dict, target: datetime) -> set[str]:
     }
 
 
+def forecast_period_at(periods: list[dict], target: datetime) -> dict:
+    for period in periods:
+        try:
+            start = datetime.fromisoformat(period["startTime"])
+            end = datetime.fromisoformat(period["endTime"])
+        except (KeyError, ValueError):
+            continue
+        if start <= target < end:
+            return period
+    return {}
+
+
 def weather_icon_kind(
     summary: str = "",
     sky: int | None = None,
@@ -383,7 +436,9 @@ def weather_icon_kind(
     if "snow" in text:
         return "snow"
     if sky is None:
-        if "cloud" in text or "overcast" in text:
+        if "partly" in text or "mostly sunny" in text:
+            sky = 50
+        elif "cloud" in text or "overcast" in text:
             sky = 70
         elif "clear" in text or "sunny" in text:
             sky = 10
@@ -398,9 +453,9 @@ def get_nws_forecast(now: datetime) -> dict:
     point = fetch_json(NWS_POINT_URL, NWS_HEADERS)["properties"]
     grid = fetch_json(point["forecastGridData"], NWS_HEADERS)["properties"]
     periods = fetch_json(point["forecast"], NWS_HEADERS)["properties"]["periods"]
+    hourly_periods = fetch_json(point["forecastHourly"], NWS_HEADERS)["properties"]["periods"]
 
-    first_hour = now.astimezone(ARIZONA_TZ).replace(minute=0, second=0, microsecond=0)
-    hours = [first_hour + timedelta(hours=offset) for offset in range(FORECAST_HOURS)]
+    hours = forecast_hour_range(now)
     rows = {
         "Temperature": [],
         "Dew point": [],
@@ -413,6 +468,7 @@ def get_nws_forecast(now: datetime) -> dict:
         "Thunder": [],
     }
     hourly = []
+    daily_values: dict = {}
     rain_types = {"rain", "rain_showers", "drizzle", "thunderstorms"}
 
     for local_hour in hours:
@@ -426,6 +482,9 @@ def get_nws_forecast(now: datetime) -> dict:
         sky = nws_percent_at(grid, "skyCover", target)
         thunder = nws_percent_at(grid, "probabilityOfThunder", target)
         weather_types = weather_types_at(grid, target)
+        official_hour = forecast_period_at(hourly_periods, local_hour)
+        wind_direction = official_hour.get("windDirection")
+        hour_summary = official_hour.get("shortForecast", "")
         rain = precipitation
         if weather_types and not weather_types.intersection(rain_types):
             rain = 0
@@ -440,17 +499,30 @@ def get_nws_forecast(now: datetime) -> dict:
         rows["Rain"].append(fmt(rain, "%"))
         rows["Thunder"].append(fmt(thunder, "%"))
         is_night = local_hour.hour < 6 or local_hour.hour >= 20
+        values_for_day = daily_values.setdefault(
+            local_hour.date(), {"temperatures": [], "rain": [], "summaries": []}
+        )
+        if temperature is not None:
+            values_for_day["temperatures"].append(temperature)
+        if precipitation is not None:
+            values_for_day["rain"].append(precipitation)
+        if hour_summary:
+            values_for_day["summaries"].append(hour_summary)
         hourly.append(
             {
                 "timestamp": local_hour.isoformat(),
+                "date": local_hour.date().isoformat(),
                 "time": local_hour.strftime("%-I %p"),
                 "day": local_hour.strftime("%a"),
                 "temperature": fmt(temperature, "°"),
                 "precipitation": fmt(precipitation, "%"),
                 "wind": fmt(wind, " mph"),
+                "wind_direction": wind_direction,
+                "wind_degrees": wind_direction_degrees(wind_direction),
                 "gust": fmt(gust, " mph"),
                 "humidity": fmt(humidity, "%"),
                 "icon": weather_icon_kind(
+                    summary=hour_summary,
                     sky=sky,
                     rain=rain,
                     thunder=thunder,
@@ -459,40 +531,76 @@ def get_nws_forecast(now: datetime) -> dict:
             }
         )
 
+    local_now = now.astimezone(ARIZONA_TZ)
     daily = []
-    for index, period in enumerate(periods):
-        if not period.get("isDaytime"):
-            continue
-        night = next(
-            (
-                candidate
-                for candidate in periods[index + 1 :]
-                if not candidate.get("isDaytime")
-            ),
-            None,
+    for day_offset in range(2):
+        target_date = local_now.date() + timedelta(days=day_offset)
+        matching_periods = []
+        for period in periods:
+            try:
+                start = datetime.fromisoformat(period["startTime"]).astimezone(ARIZONA_TZ)
+            except (KeyError, ValueError):
+                continue
+            if start.date() == target_date:
+                matching_periods.append(period)
+        daytime = next(
+            (period for period in matching_periods if period.get("isDaytime")), None
         )
-        start = datetime.fromisoformat(period["startTime"]).astimezone(ARIZONA_TZ)
-        day_name = "Today" if start.date() == first_hour.date() else start.strftime("%A")
-        day_pop = period.get("probabilityOfPrecipitation", {}).get("value")
-        night_pop = (
-            night.get("probabilityOfPrecipitation", {}).get("value") if night else None
+        nighttime = next(
+            (period for period in matching_periods if not period.get("isDaytime")), None
         )
-        rain_values = [value for value in (day_pop, night_pop) if value is not None]
+        values_for_day = daily_values.get(
+            target_date, {"temperatures": [], "rain": [], "summaries": []}
+        )
+        full_day_temperatures = []
+        full_day_rain = []
+        midnight = local_now.replace(
+            year=target_date.year,
+            month=target_date.month,
+            day=target_date.day,
+            hour=0,
+            minute=0,
+            second=0,
+            microsecond=0,
+        )
+        for hour_offset in range(24):
+            target = (midnight + timedelta(hours=hour_offset)).astimezone(UTC)
+            temperature = nws_temperature_at(grid, "temperature", target)
+            precipitation = nws_percent_at(grid, "probabilityOfPrecipitation", target)
+            if temperature is not None:
+                full_day_temperatures.append(temperature)
+            if precipitation is not None:
+                full_day_rain.append(precipitation)
+        summary_period = daytime or (matching_periods[0] if matching_periods else None)
+        summary = (
+            (summary_period.get("shortForecast") if summary_period else None)
+            or next(iter(values_for_day["summaries"]), "Forecast available")
+        )
+        high = daytime.get("temperature") if daytime else None
+        low = nighttime.get("temperature") if nighttime else None
+        if high is None and full_day_temperatures:
+            high = max(full_day_temperatures)
+        if low is None and full_day_temperatures:
+            low = min(full_day_temperatures)
+        rain_values = full_day_rain or list(values_for_day["rain"])
+        for period in matching_periods:
+            value = period.get("probabilityOfPrecipitation", {}).get("value")
+            if value is not None:
+                rain_values.append(value)
         daily.append(
             {
-                "day": f"{day_name}  {start.strftime('%-m/%-d')}",
-                "summary": period.get("shortForecast") or "Forecast available",
+                "date": target_date.isoformat(),
+                "day": daily_heading(local_now + timedelta(days=day_offset), day_offset),
+                "summary": summary,
                 "icon": weather_icon_kind(
-                    summary=period.get("shortForecast") or "",
+                    summary=summary,
                     rain=max(rain_values) if rain_values else None,
                 ),
-                "high": fmt(period.get("temperature"), "°F"),
-                "low": fmt(night.get("temperature") if night else None, "°F"),
+                "high": fmt(high, "°F"),
+                "low": fmt(low, "°F"),
                 "rain": fmt(max(rain_values) if rain_values else None, "%"),
             }
         )
-        if len(daily) == 2:
-            break
 
     update_time = grid.get("updateTime")
     updated = (

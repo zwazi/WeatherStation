@@ -1,0 +1,12 @@
+[Unit]
+Description=Refresh WeatherStation at :01, :11, :21, :31, :41, and :51
+
+[Timer]
+OnCalendar=*-*-* *:01,11,21,31,41,51:00 America/Phoenix
+AccuracySec=1s
+RandomizedDelaySec=0
+Persistent=true
+Unit=weatherstation-refresh.service
+
+[Install]
+WantedBy=timers.target
