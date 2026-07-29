@@ -15,8 +15,8 @@ https://zwazi.github.io/WeatherStation/
 - Current temperature, humidity, wind, pressure, rain, lightning, and UV/light
   measurements
 - Full condition, wind, pressure, rain, lightning, and light detail sections
-- A large current-condition hero, active NWS alert chips, horizontally scrolling
-  hourly forecast, and two-day summaries modeled after a modern weather app
+- A compact current-condition hero, horizontally scrolling hourly forecast,
+  and two-day summaries modeled after a modern weather app
 - A complete expandable 12-hour NWS numeric grid
 - Up to 24 NOAA GOES GeoColor frames covering approximately four hours
 - A Tucson-centered 1400×600 GeoColor and transparent IEM NEXRAD composite
