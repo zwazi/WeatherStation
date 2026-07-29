@@ -521,7 +521,7 @@ h3 {
 
 .hourly-strip {
   display: grid;
-  grid-auto-columns: minmax(118px, 1fr);
+  grid-auto-columns: 118px;
   grid-auto-flow: column;
   overflow-x: auto;
   border-block: 1px solid rgb(255 255 255 / 10%);
