@@ -5,6 +5,7 @@ const ARIZONA_TIME_ZONE = "America/Phoenix";
 
 const elements = {
   progress: document.querySelector("#route-progress"),
+  lastRefresh: document.querySelector("#last-refresh"),
   pageError: document.querySelector("#page-error"),
   sectionWarnings: document.querySelector("#section-warnings"),
   heroTemperature: document.querySelector("#hero-temperature"),
@@ -64,6 +65,18 @@ function formatArizonaDateTime(isoString, includeSeconds = false) {
     hour: "numeric",
     minute: "2-digit",
     second: includeSeconds ? "2-digit" : undefined,
+    timeZoneName: "short",
+  }).format(value);
+}
+
+function formatArizonaTime(isoString) {
+  if (!isoString) return "—";
+  const value = new Date(isoString);
+  if (Number.isNaN(value.getTime())) return "—";
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: ARIZONA_TIME_ZONE,
+    hour: "numeric",
+    minute: "2-digit",
     timeZoneName: "short",
   }).format(value);
 }
@@ -374,6 +387,9 @@ function renderWarnings(errors = {}) {
 function render(data) {
   state.data = data;
   state.generatedAt = data.generated_at;
+  elements.lastRefresh.dateTime = data.generated_at || "";
+  elements.lastRefresh.textContent = `Last refresh ${formatArizonaTime(data.generated_at)}`;
+  elements.lastRefresh.title = `Weather data built ${formatArizonaDateTime(data.generated_at, true)}`;
   renderCurrent(data);
   renderDetails(data.details || []);
   renderForecast(data.forecast);

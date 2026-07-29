@@ -24,6 +24,7 @@ https://zwazi.github.io/WeatherStation/
 - Shared EPSG:4326 geometry for satellite, rain, boundaries, and Tucson marker
 - Atomic satellite/radar preloading so playback never outruns the GeoColor base
 - A compact frame scrubber and responsive wide composite
+- A non-layout-shifting Arizona timestamp for the latest completed refresh
 - A restrained black, dark-plum, warm-white, yellow, and red theme
 - Automatic in-browser polling so an open page adopts each newly deployed build
 
