@@ -522,6 +522,33 @@ def weather_icon_kind(
     return "cloudy"
 
 
+def current_weather_icon_kind(
+    grid: dict,
+    period: dict,
+    now: datetime,
+    is_raining: bool = False,
+) -> str:
+    """Choose the current icon from current NWS grid values when available."""
+    target = now.astimezone(UTC)
+    precipitation = nws_percent_at(grid, "probabilityOfPrecipitation", target)
+    weather_types = weather_types_at(grid, target)
+    rain = precipitation
+    if weather_types and not weather_types.intersection(
+        {"rain", "rain_showers", "drizzle", "thunderstorms"}
+    ):
+        rain = 0
+    if rain is None:
+        rain = period.get("probabilityOfPrecipitation", {}).get("value")
+    return weather_icon_kind(
+        summary=period.get("shortForecast", ""),
+        sky=nws_percent_at(grid, "skyCover", target),
+        rain=rain,
+        thunder=nws_percent_at(grid, "probabilityOfThunder", target),
+        is_night=not period.get("isDaytime", True),
+        is_raining=is_raining,
+    )
+
+
 def get_nws_forecast(now: datetime, is_raining: bool = False) -> dict:
     point = fetch_json(NWS_POINT_URL, NWS_HEADERS)["properties"]
     grid = fetch_json(point["forecastGridData"], NWS_HEADERS)["properties"]
@@ -686,11 +713,8 @@ def get_nws_forecast(now: datetime, is_raining: bool = False) -> dict:
     return {
         "updated_at": updated.astimezone(ARIZONA_TZ).isoformat(),
         "current_summary": periods[0].get("shortForecast", "Current conditions"),
-        "current_icon": weather_icon_kind(
-            summary=periods[0].get("shortForecast", ""),
-            rain=periods[0].get("probabilityOfPrecipitation", {}).get("value"),
-            is_night=not periods[0].get("isDaytime", True),
-            is_raining=is_raining,
+        "current_icon": current_weather_icon_kind(
+            grid, periods[0], now, is_raining
         ),
         "hourly": hourly,
         "hours": [

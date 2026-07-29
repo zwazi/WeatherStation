@@ -566,18 +566,10 @@ h3 {
   white-space: nowrap;
 }
 
-.hour-card__day {
-  min-height: 20px;
-  margin: 2px 0 8px;
-  color: var(--muted);
-  font-size: 11px;
-  text-transform: uppercase;
-}
-
 .weather-icon--hourly {
   width: 58px;
   height: auto;
-  margin: 2px 0 7px;
+  margin: 10px 0 7px;
   font-size: 47px;
 }
 
