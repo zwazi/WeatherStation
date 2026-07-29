@@ -110,8 +110,22 @@ class UpdateWeatherTests(unittest.TestCase):
         expected = datetime(2026, 7, 29, 0, 0, 0, tzinfo=ZoneInfo("UTC"))
         self.assertEqual(round_to_five_minutes(value), expected)
 
-    def test_weather_icon_prioritizes_thunder_over_sky_cover(self):
-        self.assertEqual(weather_icon_kind(sky=5, thunder=40), "storm")
+    def test_weather_icon_requires_more_than_fifty_percent_rain(self):
+        self.assertEqual(weather_icon_kind(sky=5, rain=50, thunder=40), "clear")
+        self.assertEqual(weather_icon_kind(sky=5, rain=51, thunder=40), "storm")
+
+    def test_weather_icon_uses_live_rain_regardless_of_forecast_chance(self):
+        self.assertEqual(
+            weather_icon_kind(sky=5, rain=10, thunder=40, is_raining=True),
+            "storm",
+        )
+        self.assertEqual(weather_icon_kind(sky=5, is_raining=True), "rain")
+
+    def test_weather_icon_hides_rain_below_threshold_despite_summary(self):
+        self.assertEqual(
+            weather_icon_kind(summary="Chance Rain Showers", sky=5, rain=50),
+            "clear",
+        )
 
     def test_weather_icon_distinguishes_clear_night(self):
         self.assertEqual(weather_icon_kind(sky=10, is_night=True), "clear-night")

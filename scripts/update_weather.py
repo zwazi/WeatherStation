@@ -71,6 +71,7 @@ RADAR_BBOX = (
     RADAR_LAT_MAX,
 )
 REFRESH_MINUTES = (1, 11, 21, 31, 41, 51)
+RAIN_ICON_THRESHOLD = 50
 
 NESDIS_CLOUD_IMAGE_SERVER = (
     "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/"
@@ -282,6 +283,7 @@ def get_tempest_weather() -> dict:
     station_pressure = mb_to_inhg(values.get("station_pressure"))
     sea_level_pressure = mb_to_inhg(values.get("sea_level_pressure"))
     rain_now = mm_to_in(values.get("precip_accumulation"))
+    precipitation_type = values.get("precip_type")
     rain_today = mm_to_in(values.get("local_day_precip_accumulation"))
     rain_today_nc = mm_to_in(values.get("nc_local_day_precip_accumulation"))
     strikes = values.get("strike_count")
@@ -400,6 +402,10 @@ def get_tempest_weather() -> dict:
     ]
 
     return {
+        "is_raining": (
+            (rain_now is not None and rain_now > 0)
+            or precipitation_type in (1, 3)
+        ),
         "station": {
             "id": STATION_ID,
             "timezone": timezone_name,
@@ -491,14 +497,14 @@ def weather_icon_kind(
     rain: int | None = None,
     thunder: int | None = None,
     is_night: bool = False,
+    is_raining: bool = False,
 ) -> str:
-    """Reduce NWS text and percentages to a presentation-friendly icon class."""
+    """Choose a weather icon, reserving wet icons for likely or live rain."""
     text = summary.lower()
-    if (thunder or 0) >= 20 or "thunder" in text:
+    show_rain = is_raining or (rain or 0) > RAIN_ICON_THRESHOLD
+    if show_rain and ((thunder or 0) >= 20 or "thunder" in text):
         return "storm"
-    if (rain or 0) >= 30 or any(
-        word in text for word in ("rain", "shower", "drizzle")
-    ):
+    if show_rain:
         return "rain"
     if "snow" in text:
         return "snow"
@@ -516,7 +522,7 @@ def weather_icon_kind(
     return "cloudy"
 
 
-def get_nws_forecast(now: datetime) -> dict:
+def get_nws_forecast(now: datetime, is_raining: bool = False) -> dict:
     point = fetch_json(NWS_POINT_URL, NWS_HEADERS)["properties"]
     grid = fetch_json(point["forecastGridData"], NWS_HEADERS)["properties"]
     periods = fetch_json(point["forecast"], NWS_HEADERS)["properties"]["periods"]
@@ -594,6 +600,7 @@ def get_nws_forecast(now: datetime) -> dict:
                     rain=rain,
                     thunder=thunder,
                     is_night=is_night,
+                    is_raining=is_raining and local_hour == hours[0],
                 ),
             }
         )
@@ -662,6 +669,7 @@ def get_nws_forecast(now: datetime) -> dict:
                 "icon": weather_icon_kind(
                     summary=summary,
                     rain=max(rain_values) if rain_values else None,
+                    is_raining=is_raining and day_offset == 0,
                 ),
                 "high": fmt(high, "°F"),
                 "low": fmt(low, "°F"),
@@ -680,7 +688,9 @@ def get_nws_forecast(now: datetime) -> dict:
         "current_summary": periods[0].get("shortForecast", "Current conditions"),
         "current_icon": weather_icon_kind(
             summary=periods[0].get("shortForecast", ""),
+            rain=periods[0].get("probabilityOfPrecipitation", {}).get("value"),
             is_night=not periods[0].get("isDaytime", True),
+            is_raining=is_raining,
         ),
         "hourly": hourly,
         "hours": [
@@ -994,11 +1004,15 @@ def build_payload(output_path: Path) -> dict:
     payload["generated_at"] = now.isoformat()
     payload["next_refresh_at"] = next_scheduled_refresh(now).isoformat()
     payload["errors"] = {}
+    payload["is_raining"] = False
 
     for section, loader in (
         ("tempest", get_tempest_weather),
         ("air_quality", get_air_quality),
-        ("forecast", lambda: get_nws_forecast(now)),
+        (
+            "forecast",
+            lambda: get_nws_forecast(now, bool(payload.get("is_raining"))),
+        ),
         ("alerts", get_nws_alerts),
         ("imagery", lambda: get_imagery(output_path.parent / "imagery")),
     ):
