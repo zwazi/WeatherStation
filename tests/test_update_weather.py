@@ -130,6 +130,12 @@ class UpdateWeatherTests(unittest.TestCase):
     def test_weather_icon_distinguishes_clear_night(self):
         self.assertEqual(weather_icon_kind(sky=10, is_night=True), "clear-night")
 
+    def test_weather_icon_uses_cloud_cover_boundaries(self):
+        self.assertEqual(weather_icon_kind(sky=30), "clear")
+        self.assertEqual(weather_icon_kind(sky=31), "partly-cloudy")
+        self.assertEqual(weather_icon_kind(sky=60), "partly-cloudy")
+        self.assertEqual(weather_icon_kind(sky=61), "cloudy")
+
     def test_weather_icon_treats_partly_cloudy_as_partial_cover(self):
         self.assertEqual(weather_icon_kind(summary="Partly Cloudy"), "partly-cloudy")
 

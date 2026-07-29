@@ -515,9 +515,9 @@ def weather_icon_kind(
             sky = 70
         elif "clear" in text or "sunny" in text:
             sky = 10
-    if sky is not None and sky <= 20:
+    if sky is not None and sky <= 30:
         return "clear-night" if is_night else "clear"
-    if sky is not None and sky <= 65:
+    if sky is not None and sky <= 60:
         return "partly-cloudy-night" if is_night else "partly-cloudy"
     return "cloudy"
 
