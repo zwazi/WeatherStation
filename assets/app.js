@@ -17,7 +17,6 @@ const elements = {
   heroRain: document.querySelector("#hero-rain"),
   heroCondition: document.querySelector("#hero-condition"),
   heroIcon: document.querySelector("#hero-icon"),
-  alerts: document.querySelector("#active-alerts"),
   details: document.querySelector("#condition-sections"),
   satelliteImage: document.querySelector("#satellite-image"),
   radarImage: document.querySelector("#radar-image"),
@@ -125,19 +124,6 @@ function renderCurrent(data) {
   const forecast = data.forecast || {};
   elements.heroCondition.textContent = forecast.current_summary || "Current conditions";
   setWeatherIcon(elements.heroIcon, forecast.current_icon || "cloudy");
-}
-
-function renderAlerts(alerts = []) {
-  elements.alerts.replaceChildren();
-  for (const alert of alerts) {
-    const chip = createElement("a", `alert-chip alert-chip--${String(alert.severity || "unknown").toLowerCase()}`);
-    chip.href = alert.url || "https://www.weather.gov/alerts";
-    chip.target = "_blank";
-    chip.rel = "noreferrer";
-    chip.title = alert.headline || alert.event;
-    chip.append(createElement("span", "alert-chip__icon", "▲"), document.createTextNode(alert.event));
-    elements.alerts.append(chip);
-  }
 }
 
 function renderDetails(sections = []) {
@@ -385,7 +371,6 @@ function render(data) {
   state.data = data;
   state.generatedAt = data.generated_at;
   renderCurrent(data);
-  renderAlerts(data.alerts || []);
   renderDetails(data.details || []);
   renderForecast(data.forecast);
   renderImagery(data.imagery);

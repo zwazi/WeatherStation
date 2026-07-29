@@ -191,9 +191,9 @@ h3 {
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  min-height: 380px;
+  min-height: 350px;
   align-items: center;
-  padding: 30px clamp(30px, 11vw, 160px) 60px;
+  padding: 30px clamp(30px, 11vw, 160px);
   background: #000;
 }
 
@@ -316,44 +316,6 @@ h3 {
 
 .weather-icon--snow::before {
   content: "🌨️";
-}
-
-.alert-list {
-  position: absolute;
-  right: 24px;
-  bottom: 14px;
-  left: 24px;
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.alert-chip {
-  display: inline-flex;
-  min-height: 42px;
-  align-items: center;
-  gap: 9px;
-  border: 1px solid rgb(255 255 255 / 8%);
-  border-radius: 99px;
-  padding: 8px 16px;
-  background: #211724;
-  color: var(--white);
-  text-decoration: none;
-}
-
-.alert-chip:hover {
-  border-color: var(--yellow);
-}
-
-.alert-chip__icon {
-  color: var(--yellow);
-  font-size: 12px;
-}
-
-.alert-chip--extreme,
-.alert-chip--severe {
-  background: #2b1116;
 }
 
 .radar-panel {
