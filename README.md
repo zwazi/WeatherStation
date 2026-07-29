@@ -20,8 +20,8 @@ https://zwazi.github.io/WeatherStation/
 - Separate hourly strips for the Arizona calendar dates Today and Tomorrow
 - A complete expandable NWS numeric grid through the end of tomorrow
 - Up to 24 NOAA GOES GeoColor frames covering approximately four hours
-- A regional-centered 1400×600 GeoColor and transparent IEM NEXRAD composite
-  with a latitude-corrected wide footprint so the land is not stretched
+- A regional-centered 1200×1200 GeoColor and transparent IEM NEXRAD composite
+  fitted to the unchanged radar height with intentional side letterboxing
 - Automatic NOAA nowCOAST/MRMS fallback if an IEM frame is unavailable
 - Shared EPSG:4326 geometry for satellite, rain, boundaries, and regional marker
 - Background satellite/radar preloading that keeps the old loop visible until
