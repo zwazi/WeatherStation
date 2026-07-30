@@ -16,6 +16,7 @@ const elements = {
   heroWind: document.querySelector("#hero-wind"),
   heroUv: document.querySelector("#hero-uv"),
   heroRain: document.querySelector("#hero-rain"),
+  heroCloudCover: document.querySelector("#hero-cloud-cover"),
   heroAirQuality: document.querySelector("#hero-air-quality"),
   heroSunrise: document.querySelector("#hero-sunrise"),
   heroSunset: document.querySelector("#hero-sunset"),
@@ -43,6 +44,7 @@ const ICON_SVG = {
   wind: '<path d="M3 8h10a3 3 0 1 0-3-3M3 12h15a3 3 0 1 1-3 3M3 16h7"/>',
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   rain: '<path d="M12 2.5S6 9.2 6 14a6 6 0 0 0 12 0c0-4.8-6-11.5-6-11.5Z"/>',
+  cloud: '<path d="M6.5 18h11a3.5 3.5 0 0 0 .2-7 5.5 5.5 0 0 0-10.4 1.2A3 3 0 0 0 6.5 18Z"/>',
   rainCloud: '<path d="M6.5 15h11a3.5 3.5 0 0 0 .2-7 5.5 5.5 0 0 0-10.4 1.2A3 3 0 0 0 6.5 15Z"/><path d="m8 18-1 2m5-2-1 2m5-2-1 2"/>',
   // Font Awesome Free 6.7.2 solid icons, licensed under CC BY 4.0.
   fontAwesomeSun: '<path class="icon-fill" d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1-192 0zm224 0a128 128 0 1 0-256 0 128 128 0 1 0 256 0z"/>',
@@ -185,6 +187,14 @@ function renderCurrent(data) {
   elements.heroWind.textContent = `${direction} ${wind.value || "—"}`.trim();
   elements.heroUv.textContent = uv.value || "—";
   elements.heroRain.textContent = rain.value || "—";
+  const forecast = data.forecast || {};
+  const skyCoverRow = (forecast.rows || []).find((row) => row.label === "Sky Cover");
+  const cloudCoverValue = forecast.current_cloud_cover ?? skyCoverRow?.values?.[0];
+  const cloudCover = Number.parseFloat(cloudCoverValue);
+  elements.heroCloudCover.textContent = Number.isFinite(cloudCover)
+    ? `${Math.round(cloudCover)}%`
+    : "—";
+  elements.heroCloudCover.parentElement.title = "Current NWS sky cover";
   const airQuality = data.air_quality || {};
   const aqi = Number(airQuality.us_aqi);
   elements.heroAirQuality.textContent = Number.isFinite(aqi)
@@ -198,7 +208,6 @@ function renderCurrent(data) {
   elements.heroSunrise.textContent = formatArizonaClockTime(solar.sunrise);
   elements.heroSunset.textContent = formatArizonaClockTime(solar.sunset);
 
-  const forecast = data.forecast || {};
   elements.heroCondition.textContent = forecast.current_summary || "Current conditions";
   setWeatherIcon(elements.heroIcon, forecast.current_icon || "cloudy");
 }

@@ -288,10 +288,6 @@ h3 {
   text-transform: none;
 }
 
-.current-stat-spacer {
-  min-height: 22px;
-}
-
 .current-stat--solar {
   margin-top: 12px;
 }
