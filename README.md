@@ -23,8 +23,7 @@ https://zwazi.github.io/WeatherStation/
 - A complete expandable NWS numeric grid through the end of tomorrow
 - Up to 24 NOAA GOES ABI Band 13 cloud frames covering approximately four hours
 - A zoomed-out, full-width Esri World Imagery satellite base rendered by
-  Leaflet, with a separate boundaries/city-label layer and a Tempest station
-  location marker
+  Leaflet, with a separate boundaries/city-label layer
 - Transparent 1400×600 NOAA-derived cloud masks and IEM-served NOAA NEXRAD
   rain intensity mosaics aligned in Leaflet's Web Mercator projection
 - Automatic NOAA nowCOAST/MRMS fallback if an IEM frame is unavailable

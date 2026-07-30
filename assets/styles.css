@@ -292,6 +292,10 @@ h3 {
   min-height: 22px;
 }
 
+.current-stat--solar {
+  margin-top: 12px;
+}
+
 .weather-icon {
   position: relative;
   display: inline-flex;

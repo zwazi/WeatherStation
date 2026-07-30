@@ -66,7 +66,6 @@ const state = {
   map: null,
   cloudLayer: null,
   radarLayer: null,
-  stationMarker: null,
   imageryBounds: null,
   mapFitted: false,
   paused: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
@@ -386,21 +385,6 @@ function configureRadarMap(imagery) {
     window.requestAnimationFrame(() => state.map.invalidateSize({ animate: false }));
   }
 
-  const location = imagery.location;
-  if (Number.isFinite(location?.lat) && Number.isFinite(location?.lon)) {
-    if (!state.stationMarker) {
-      state.stationMarker = window.L.circleMarker([location.lat, location.lon], {
-        radius: 6,
-        color: "#f8f7f3",
-        weight: 3,
-        fillColor: "#ed1b24",
-        fillOpacity: 1,
-        pane: "markerPane",
-      }).addTo(state.map);
-    } else {
-      state.stationMarker.setLatLng([location.lat, location.lon]);
-    }
-  }
   return true;
 }
 
