@@ -762,6 +762,9 @@ def get_nws_forecast(now: datetime, is_raining: bool = False) -> dict:
     return {
         "updated_at": updated.astimezone(ARIZONA_TZ).isoformat(),
         "current_summary": periods[0].get("shortForecast", "Current conditions"),
+        "current_cloud_cover": nws_percent_at(
+            grid, "skyCover", now.astimezone(UTC)
+        ),
         "current_icon": current_weather_icon_kind(
             grid, periods[0], now, is_raining
         ),
