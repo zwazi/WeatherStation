@@ -17,6 +17,8 @@ const elements = {
   heroUv: document.querySelector("#hero-uv"),
   heroRain: document.querySelector("#hero-rain"),
   heroAirQuality: document.querySelector("#hero-air-quality"),
+  heroSunrise: document.querySelector("#hero-sunrise"),
+  heroSunset: document.querySelector("#hero-sunset"),
   heroCondition: document.querySelector("#hero-condition"),
   heroIcon: document.querySelector("#hero-icon"),
   details: document.querySelector("#condition-sections"),
@@ -42,8 +44,16 @@ const ICON_SVG = {
   sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
   rain: '<path d="M12 2.5S6 9.2 6 14a6 6 0 0 0 12 0c0-4.8-6-11.5-6-11.5Z"/>',
   rainCloud: '<path d="M6.5 15h11a3.5 3.5 0 0 0 .2-7 5.5 5.5 0 0 0-10.4 1.2A3 3 0 0 0 6.5 15Z"/><path d="m8 18-1 2m5-2-1 2m5-2-1 2"/>',
+  // Font Awesome Free 6.7.2 solid icons, licensed under CC BY 4.0.
+  fontAwesomeSun: '<path class="icon-fill" d="M361.5 1.2c5 2.1 8.6 6.6 9.6 11.9L391 121l107.9 19.8c5.3 1 9.8 4.6 11.9 9.6s1.5 10.7-1.6 15.2L446.9 256l62.3 90.3c3.1 4.5 3.7 10.2 1.6 15.2s-6.6 8.6-11.9 9.6L391 391 371.1 498.9c-1 5.3-4.6 9.8-9.6 11.9s-10.7 1.5-15.2-1.6L256 446.9l-90.3 62.3c-4.5 3.1-10.2 3.7-15.2 1.6s-8.6-6.6-9.6-11.9L121 391 13.1 371.1c-5.3-1-9.8-4.6-11.9-9.6s-1.5-10.7 1.6-15.2L65.1 256 2.8 165.7c-3.1-4.5-3.7-10.2-1.6-15.2s6.6-8.6 11.9-9.6L121 121 140.9 13.1c1-5.3 4.6-9.8 9.6-11.9s10.7-1.5 15.2 1.6L256 65.1 346.3 2.8c4.5-3.1 10.2-3.7 15.2-1.6zM160 256a96 96 0 1 1 192 0 96 96 0 1 1-192 0zm224 0a128 128 0 1 0-256 0 128 128 0 1 0 256 0z"/>',
+  fontAwesomeMoon: '<path class="icon-fill" d="M223.5 32C100 32 0 132.3 0 256S100 480 223.5 480c60.6 0 115.5-24.2 155.8-63.4 5-4.9 6.3-12.5 3.1-18.7s-10.1-9.7-17-8.5c-9.8 1.7-19.8 2.6-30.1 2.6-96.9 0-175.5-78.8-175.5-176 0-65.8 36-123.1 89.3-153.3 6.1-3.5 9.2-10.5 7.7-17.3s-7.3-11.9-14.3-12.5c-6.3-.5-12.6-.8-19-.8z"/>',
   airQuality: '<path d="M12 3v9"/><path d="M10 8.5c-2-1-4 .4-5 3l-1.4 4.2C2.8 18.2 4.5 21 7 21c2.8 0 4-2.1 4-5V10"/><path d="M14 8.5c2-1 4 .4 5 3l1.4 4.2c.8 2.5-.9 5.3-3.4 5.3-2.8 0-4-2.1-4-5V10"/>',
   direction: '<path class="icon-fill" d="M12 2 18 21l-6-4-6 4 6-19Z"/>',
+};
+
+const ICON_VIEWBOX = {
+  fontAwesomeSun: "0 0 512 512",
+  fontAwesomeMoon: "0 0 384 512",
 };
 
 const state = {
@@ -72,7 +82,7 @@ function createElement(tag, className, text) {
 
 function vectorIcon(name, className = "") {
   const icon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  icon.setAttribute("viewBox", "0 0 24 24");
+  icon.setAttribute("viewBox", ICON_VIEWBOX[name] || "0 0 24 24");
   icon.setAttribute("aria-hidden", "true");
   icon.classList.add("vector-icon");
   if (className) icon.classList.add(...className.split(" "));
@@ -111,6 +121,17 @@ function formatArizonaTime(isoString) {
     hour: "numeric",
     minute: "2-digit",
     timeZoneName: "short",
+  }).format(value);
+}
+
+function formatArizonaClockTime(isoString) {
+  if (!isoString) return "—";
+  const value = new Date(isoString);
+  if (Number.isNaN(value.getTime())) return "—";
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: ARIZONA_TIME_ZONE,
+    hour: "numeric",
+    minute: "2-digit",
   }).format(value);
 }
 
@@ -174,6 +195,9 @@ function renderCurrent(data) {
   elements.heroAirQuality.parentElement.title = Number.isFinite(pm25)
     ? `Modeled PM2.5 ${pm25.toFixed(1)} µg/m³ · ${formatArizonaDateTime(airQuality.updated_at)}`
     : "Current U.S. Air Quality Index";
+  const solar = data.solar || {};
+  elements.heroSunrise.textContent = formatArizonaClockTime(solar.sunrise);
+  elements.heroSunset.textContent = formatArizonaClockTime(solar.sunset);
 
   const forecast = data.forecast || {};
   elements.heroCondition.textContent = forecast.current_summary || "Current conditions";
@@ -217,7 +241,7 @@ function dailySummary(day) {
   );
   const values = createElement("div", "daily-summary__values");
   values.append(
-    metricWithIcon("daily-summary__rain", "rain", day.rain || "—"),
+    metricWithIcon("daily-summary__rain", "rainCloud", day.rain || "—"),
     createElement("p", "", `↓ ${day.low || "—"}`),
     createElement("p", "", `↑ ${day.high || "—"}`),
   );

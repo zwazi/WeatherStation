@@ -1,5 +1,5 @@
 import unittest
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 from scripts.update_weather import (
@@ -18,6 +18,7 @@ from scripts.update_weather import (
     round_to_five_minutes,
     sanitized_error,
     select_four_hour_timeline,
+    sun_times_for_date,
     weather_icon_kind,
     wind_direction_degrees,
 )
@@ -48,6 +49,13 @@ class UpdateWeatherTests(unittest.TestCase):
         tomorrow = today + timedelta(days=1)
         self.assertEqual(daily_heading(today, 0), "Today, Tuesday 7/28")
         self.assertEqual(daily_heading(tomorrow, 1), "Tomorrow Wednesday 7/29")
+
+    def test_sun_times_use_requested_tucson_coordinates(self):
+        sunrise, sunset = sun_times_for_date(date(2026, 7, 29))
+        expected_sunrise = datetime(2026, 7, 29, 5, 35, 18, tzinfo=ARIZONA)
+        expected_sunset = datetime(2026, 7, 29, 19, 24, 51, tzinfo=ARIZONA)
+        self.assertLess(abs(sunrise - expected_sunrise), timedelta(minutes=1))
+        self.assertLess(abs(sunset - expected_sunset), timedelta(minutes=1))
 
     def test_wind_direction_converts_to_compass_rotation(self):
         self.assertEqual(wind_direction_degrees("N"), 0)

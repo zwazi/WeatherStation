@@ -13,8 +13,8 @@ import shutil
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
-from math import degrees, log, pi, radians, tan
+from datetime import date, datetime, timedelta
+from math import acos, cos, degrees, log, pi, radians, sin, tan
 from pathlib import Path
 from urllib.parse import urlencode
 from zoneinfo import ZoneInfo
@@ -30,6 +30,8 @@ TEMPEST_TOKEN = os.environ.get("TEMPEST_TOKEN", "")
 
 TUCSON_LAT = 32.3051
 TUCSON_LON = -110.9156
+SUN_TIMES_LAT = 32.314468555439866
+SUN_TIMES_LON = -110.89617751052593
 RADAR_FRAME_WIDTH = 1400
 RADAR_FRAME_HEIGHT = 600
 RADAR_LAT_MIN = 28.8
@@ -167,6 +169,53 @@ def next_scheduled_refresh(now: datetime) -> datetime:
         if candidate > now:
             return candidate
     return (now + timedelta(hours=1)).replace(minute=1, second=0, microsecond=0)
+
+
+def sun_times_for_date(
+    target_date: date,
+    latitude: float = SUN_TIMES_LAT,
+    longitude: float = SUN_TIMES_LON,
+) -> tuple[datetime, datetime]:
+    """Calculate apparent sunrise and sunset using NOAA's solar equations."""
+    fractional_year = 2 * pi / 365 * (target_date.timetuple().tm_yday - 1)
+    equation_of_time = 229.18 * (
+        0.000075
+        + 0.001868 * cos(fractional_year)
+        - 0.032077 * sin(fractional_year)
+        - 0.014615 * cos(2 * fractional_year)
+        - 0.040849 * sin(2 * fractional_year)
+    )
+    declination = (
+        0.006918
+        - 0.399912 * cos(fractional_year)
+        + 0.070257 * sin(fractional_year)
+        - 0.006758 * cos(2 * fractional_year)
+        + 0.000907 * sin(2 * fractional_year)
+        - 0.002697 * cos(3 * fractional_year)
+        + 0.00148 * sin(3 * fractional_year)
+    )
+    latitude_radians = radians(latitude)
+    hour_angle = degrees(
+        acos(
+            cos(radians(90.833))
+            / (cos(latitude_radians) * cos(declination))
+            - tan(latitude_radians) * tan(declination)
+        )
+    )
+    solar_noon_utc_minutes = 720 - 4 * longitude - equation_of_time
+    utc_midnight = datetime(
+        target_date.year,
+        target_date.month,
+        target_date.day,
+        tzinfo=UTC,
+    )
+    sunrise = utc_midnight + timedelta(
+        minutes=solar_noon_utc_minutes - 4 * hour_angle
+    )
+    sunset = utc_midnight + timedelta(
+        minutes=solar_noon_utc_minutes + 4 * hour_angle
+    )
+    return sunrise.astimezone(ARIZONA_TZ), sunset.astimezone(ARIZONA_TZ)
 
 
 def forecast_hour_range(now: datetime) -> list[datetime]:
@@ -1023,12 +1072,20 @@ def load_existing(path: Path) -> dict:
 
 def build_payload(output_path: Path) -> dict:
     now = datetime.now(ARIZONA_TZ)
+    sunrise, sunset = sun_times_for_date(now.date())
     payload = load_existing(output_path)
     payload["schema_version"] = 1
     payload["generated_at"] = now.isoformat()
     payload["next_refresh_at"] = next_scheduled_refresh(now).isoformat()
     payload["errors"] = {}
     payload["is_raining"] = False
+    payload["solar"] = {
+        "date": now.date().isoformat(),
+        "latitude": SUN_TIMES_LAT,
+        "longitude": SUN_TIMES_LON,
+        "sunrise": sunrise.isoformat(),
+        "sunset": sunset.isoformat(),
+    }
 
     for section, loader in (
         ("tempest", get_tempest_weather),
