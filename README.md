@@ -13,8 +13,9 @@ https://zwazi.github.io/WeatherStation/
 
 ## What the site includes
 
-- Current temperature, humidity, wind, pressure, rain, lightning, and UV/light
-  measurements, plus the current modeled U.S. Air Quality Index and category
+- Current temperature, humidity, wind, pressure, rain, lightning, UV/light,
+  and NWS cloud-cover measurements, plus the current modeled U.S. Air Quality
+  Index and category
 - Daily sunrise and sunset for `32.314468555439866, -110.89617751052593`
 - Full condition, wind, pressure, rain, lightning, and light detail sections
 - A compact current-condition hero, horizontally scrolling hourly forecast,
