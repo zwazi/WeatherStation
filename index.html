@@ -16,14 +16,14 @@
       integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
       crossorigin=""
     >
-    <link rel="stylesheet" href="assets/styles.css?v=hourly-forecast-1">
+    <link rel="stylesheet" href="assets/styles.css?v=solar-layout-1">
     <script
       src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
       integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
       crossorigin=""
       defer
     ></script>
-    <script src="assets/app.js?v=hourly-forecast-1" defer></script>
+    <script src="assets/app.js?v=solar-layout-1" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content">Skip to weather data</a>
@@ -36,26 +36,26 @@
       <div class="notice" id="section-warnings" role="status" hidden></div>
 
       <section class="current-hero" aria-label="Current conditions">
-        <div class="current-column current-column--temperature">
-          <p class="hero-temperature" id="hero-temperature">—°</p>
-          <p class="hero-feels">Feels like <strong id="hero-feels">—°</strong></p>
-          <div class="current-metrics">
-            <p><span class="metric-symbol" data-metric-icon="humidity" aria-hidden="true"></span><strong id="hero-humidity">—</strong> humidity</p>
-            <p><span class="metric-symbol" data-metric-icon="pressure" aria-hidden="true"></span><strong id="hero-pressure">—</strong></p>
-            <p><span class="metric-symbol" data-metric-icon="lightning" aria-hidden="true"></span><strong id="hero-lightning">—</strong></p>
-          </div>
-        </div>
+        <p class="hero-temperature" id="hero-temperature">—°</p>
+        <div class="weather-icon weather-icon--large weather-icon--clear" id="hero-icon" aria-hidden="true"></div>
 
-        <div class="current-column current-column--condition">
-          <div class="weather-icon weather-icon--large weather-icon--clear" id="hero-icon" aria-hidden="true"></div>
-          <p class="hero-condition" id="hero-condition">Loading</p>
-          <div class="current-metrics current-metrics--right">
-            <p><span class="metric-symbol" data-metric-icon="wind" aria-hidden="true"></span><strong id="hero-wind">—</strong></p>
-            <p><span class="metric-symbol" data-metric-icon="sun" aria-hidden="true"></span><strong id="hero-uv">—</strong> UV</p>
-            <p><span class="metric-symbol" data-metric-icon="rain" aria-hidden="true"></span><strong id="hero-rain">—</strong></p>
-            <p><span class="metric-symbol" data-metric-icon="airQuality" aria-hidden="true"></span><strong id="hero-air-quality">— AQI</strong></p>
-          </div>
-        </div>
+        <p class="hero-feels">Feels like <strong id="hero-feels">—°</strong></p>
+        <p class="hero-condition" id="hero-condition">Loading</p>
+
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="humidity" aria-hidden="true"></span><strong id="hero-humidity">—</strong> humidity</p>
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="wind" aria-hidden="true"></span><strong id="hero-wind">—</strong></p>
+
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="pressure" aria-hidden="true"></span><strong id="hero-pressure">—</strong></p>
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="sun" aria-hidden="true"></span><strong id="hero-uv">—</strong> UV</p>
+
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="lightning" aria-hidden="true"></span><strong id="hero-lightning">—</strong></p>
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="rain" aria-hidden="true"></span><strong id="hero-rain">—</strong></p>
+
+        <span class="current-stat-spacer" aria-hidden="true"></span>
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="airQuality" aria-hidden="true"></span><strong id="hero-air-quality">— AQI</strong></p>
+
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="fontAwesomeSun" aria-hidden="true"></span><strong id="hero-sunrise">—</strong> sunrise</p>
+        <p class="current-stat"><span class="metric-symbol" data-metric-icon="fontAwesomeMoon" aria-hidden="true"></span><strong id="hero-sunset">—</strong> sunset</p>
       </section>
 
       <section class="radar-panel" aria-label="Synchronized four-hour satellite and rain loop">

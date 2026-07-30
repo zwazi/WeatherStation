@@ -15,6 +15,7 @@ https://zwazi.github.io/WeatherStation/
 
 - Current temperature, humidity, wind, pressure, rain, lightning, and UV/light
   measurements, plus the current modeled U.S. Air Quality Index and category
+- Daily sunrise and sunset for `32.2, -110.9`
 - Full condition, wind, pressure, rain, lightning, and light detail sections
 - A compact current-condition hero, horizontally scrolling hourly forecast,
   and two-day summaries modeled after a modern weather app
@@ -159,6 +160,8 @@ query parameter is redacted before an error can be serialized.
 - [Iowa Environmental Mesonet NEXRAD mosaics](https://mesonet.agron.iastate.edu/docs/nexrad_mosaic/)
 - [NOAA nowCOAST radar fallback](https://nowcoast.noaa.gov/)
 - [Open-Meteo Air Quality API](https://open-meteo.com/en/docs/air-quality-api)
+- [NOAA Solar Calculator equations](https://gml.noaa.gov/grad/solcalc/calcdetails.html)
+- [Font Awesome Free 6.7.2](https://fontawesome.com/license/free) sun and moon icons (CC BY 4.0)
 - [Leaflet](https://leafletjs.com/)
 - [Esri World Imagery](https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer)
 - [Esri World Boundaries and Places](https://services.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer)

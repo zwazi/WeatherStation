@@ -211,17 +211,17 @@ h3 {
   position: relative;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  min-height: 290px;
+  min-height: 350px;
   align-items: center;
+  column-gap: clamp(20px, 5vw, 80px);
+  row-gap: 6px;
   padding: 20px clamp(28px, 10vw, 145px);
   background: #000;
 }
 
-.current-column {
-  display: flex;
+.current-hero > * {
   min-width: 0;
-  align-items: center;
-  flex-direction: column;
+  justify-self: center;
 }
 
 .hero-temperature {
@@ -234,7 +234,7 @@ h3 {
 
 .hero-feels,
 .hero-condition {
-  margin: 10px 0 0;
+  margin: 0;
   font-size: clamp(15px, 1.5vw, 21px);
 }
 
@@ -247,13 +247,7 @@ h3 {
   text-align: center;
 }
 
-.current-metrics {
-  display: grid;
-  gap: 4px;
-  margin-top: 15px;
-}
-
-.current-metrics p {
+.current-stat {
   display: grid;
   grid-template-columns: 28px auto 1fr;
   align-items: baseline;
@@ -263,7 +257,7 @@ h3 {
   white-space: nowrap;
 }
 
-.current-metrics p > span {
+.current-stat > span {
   display: inline-grid;
   width: 22px;
   height: 22px;
@@ -289,9 +283,13 @@ h3 {
   stroke: none;
 }
 
-.current-metrics strong {
+.current-stat strong {
   font-weight: 850;
   text-transform: none;
+}
+
+.current-stat-spacer {
+  min-height: 22px;
 }
 
 .weather-icon {
@@ -749,8 +747,9 @@ h3 {
 
   .current-hero {
     grid-template-columns: 1fr 1fr;
-    min-height: 300px;
-    padding: 20px 12px;
+    min-height: 350px;
+    column-gap: 10px;
+    padding: 20px 8px;
   }
 
   .hero-temperature {
@@ -759,7 +758,6 @@ h3 {
 
   .hero-feels,
   .hero-condition {
-    margin-top: 9px;
     font-size: 13px;
   }
 
@@ -769,17 +767,12 @@ h3 {
     font-size: 70px;
   }
 
-  .current-metrics {
-    gap: 5px;
-    margin-top: 18px;
-  }
-
-  .current-metrics p {
+  .current-stat {
     grid-template-columns: 20px auto 1fr;
     font-size: 13px;
   }
 
-  .current-metrics p > span {
+  .current-stat > span {
     font-size: 16px;
   }
 
