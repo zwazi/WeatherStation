@@ -4,12 +4,9 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-  schedule:
-    - cron: "1,11,21,31,41,51 * * * *"
-      timezone: "America/Phoenix"
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -20,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      build_sha: ${{ steps.stamp.outputs.sha }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -50,7 +49,6 @@ jobs:
           mkdir -p _site
           cp index.html _site/
           cp -R assets data _site/
-          touch _site/.nojekyll
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
@@ -59,6 +57,17 @@ jobs:
         uses: actions/upload-pages-artifact@v4
         with:
           path: _site
+
+      - name: Stamp a unique build version
+        id: stamp
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch --depth=1 origin main
+          git reset --hard FETCH_HEAD
+          git commit --allow-empty -m "Refresh weather data [skip ci]"
+          git push origin HEAD:main
+          echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
   deploy:
     environment:
@@ -70,3 +79,5 @@ jobs:
       - name: Deploy GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        env:
+          GITHUB_SHA: ${{ needs.build.outputs.build_sha }}
