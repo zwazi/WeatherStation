@@ -32,6 +32,8 @@ https://zwazi.github.io/WeatherStation/
 - Background satellite/radar preloading that keeps the old loop visible until
   every replacement frame is ready
 - A compact frame scrubber and responsive wide composite
+- A fast 120 ms loop cadence that holds the newest frame for two seconds,
+  and holds it for as long as the pointer rests on the imagery
 - A non-layout-shifting Arizona timestamp for the latest completed refresh
 - A restrained black, dark-plum, warm-white, yellow, and red theme
 - Automatic in-browser polling so an open page adopts each newly deployed build

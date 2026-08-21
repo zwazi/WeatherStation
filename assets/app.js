@@ -2,6 +2,8 @@
 
 const DATA_URL = "data/weather.json";
 const ARIZONA_TIME_ZONE = "America/Phoenix";
+const FRAME_DELAY_MS = 120;
+const LAST_FRAME_HOLD_MS = 2_000;
 
 const elements = {
   progress: document.querySelector("#route-progress"),
@@ -24,6 +26,7 @@ const elements = {
   heroIcon: document.querySelector("#hero-icon"),
   details: document.querySelector("#condition-sections"),
   leafletMap: document.querySelector("#leaflet-map"),
+  imageryStage: document.querySelector("#imagery-stage"),
   satelliteTime: document.querySelector("#satellite-time"),
   satelliteStatus: document.querySelector("#satellite-status"),
   imageryLoader: document.querySelector("#imagery-loader"),
@@ -71,6 +74,7 @@ const state = {
   imageryBounds: null,
   mapFitted: false,
   paused: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  hovering: false,
   loading: false,
 };
 
@@ -488,8 +492,8 @@ function showFrame(index) {
 
 function scheduleNextFrame() {
   clearAnimationTimer();
-  if (state.paused || state.frames.length < 2 || document.hidden) return;
-  const delay = state.frameIndex === state.frames.length - 1 ? 1400 : 450;
+  if (state.paused || state.hovering || state.frames.length < 2 || document.hidden) return;
+  const delay = state.frameIndex === state.frames.length - 1 ? LAST_FRAME_HOLD_MS : FRAME_DELAY_MS;
   state.timer = window.setTimeout(() => {
     showFrame(state.frameIndex + 1);
     scheduleNextFrame();
@@ -545,7 +549,7 @@ function renderImagery(imagery) {
     state.frameIndex = 0;
     elements.timeline.hidden = state.frames.length < 2;
     elements.timelineRange.max = String(Math.max(0, state.frames.length - 1));
-    showFrame(0);
+    showFrame(state.hovering ? state.frames.length - 1 : 0);
     scheduleNextFrame();
   });
 }
@@ -601,6 +605,18 @@ async function loadData({ force = false } = {}) {
 
 elements.timelineRange.addEventListener("input", (event) => {
   showFrame(Number(event.target.value));
+  scheduleNextFrame();
+});
+
+elements.imageryStage.addEventListener("mouseenter", () => {
+  state.hovering = true;
+  clearAnimationTimer();
+  if (state.frames.length) showFrame(state.frames.length - 1);
+});
+
+elements.imageryStage.addEventListener("mouseleave", () => {
+  state.hovering = false;
+  if (state.frames.length) showFrame(0);
   scheduleNextFrame();
 });
 
