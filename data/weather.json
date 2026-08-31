@@ -1,0 +1,1260 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-07-28T20:49:06.645398-07:00",
+  "next_refresh_at": "2026-07-28T20:51:00-07:00",
+  "errors": {},
+  "forecast": {
+    "updated_at": "2026-07-28T15:23:24-07:00",
+    "current_summary": "Partly Cloudy",
+    "current_icon": "partly-cloudy-night",
+    "hourly": [
+      {
+        "timestamp": "2026-07-28T20:00:00-07:00",
+        "date": "2026-07-28",
+        "time": "8 PM",
+        "day": "Tue",
+        "temperature": "97°",
+        "precipitation": "3%",
+        "wind": "6 mph",
+        "wind_direction": "NW",
+        "wind_degrees": 315.0,
+        "gust": "12 mph",
+        "humidity": "31%",
+        "icon": "clear-night"
+      },
+      {
+        "timestamp": "2026-07-28T21:00:00-07:00",
+        "date": "2026-07-28",
+        "time": "9 PM",
+        "day": "Tue",
+        "temperature": "94°",
+        "precipitation": "3%",
+        "wind": "5 mph",
+        "wind_direction": "NW",
+        "wind_degrees": 315.0,
+        "gust": "9 mph",
+        "humidity": "35%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-28T22:00:00-07:00",
+        "date": "2026-07-28",
+        "time": "10 PM",
+        "day": "Tue",
+        "temperature": "92°",
+        "precipitation": "3%",
+        "wind": "5 mph",
+        "wind_direction": "NW",
+        "wind_degrees": 315.0,
+        "gust": "8 mph",
+        "humidity": "37%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-28T23:00:00-07:00",
+        "date": "2026-07-28",
+        "time": "11 PM",
+        "day": "Tue",
+        "temperature": "90°",
+        "precipitation": "3%",
+        "wind": "5 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "8 mph",
+        "humidity": "41%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T00:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "12 AM",
+        "day": "Wed",
+        "temperature": "88°",
+        "precipitation": "3%",
+        "wind": "3 mph",
+        "wind_direction": "WSW",
+        "wind_degrees": 247.5,
+        "gust": "7 mph",
+        "humidity": "44%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T01:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "1 AM",
+        "day": "Wed",
+        "temperature": "87°",
+        "precipitation": "3%",
+        "wind": "3 mph",
+        "wind_direction": "SW",
+        "wind_degrees": 225.0,
+        "gust": "6 mph",
+        "humidity": "46%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T02:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "2 AM",
+        "day": "Wed",
+        "temperature": "86°",
+        "precipitation": "3%",
+        "wind": "3 mph",
+        "wind_direction": "WSW",
+        "wind_degrees": 247.5,
+        "gust": "6 mph",
+        "humidity": "49%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T03:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "3 AM",
+        "day": "Wed",
+        "temperature": "83°",
+        "precipitation": "3%",
+        "wind": "2 mph",
+        "wind_direction": "W",
+        "wind_degrees": 270.0,
+        "gust": "5 mph",
+        "humidity": "53%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T04:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "4 AM",
+        "day": "Wed",
+        "temperature": "82°",
+        "precipitation": "3%",
+        "wind": "2 mph",
+        "wind_direction": "SE",
+        "wind_degrees": 135.0,
+        "gust": "5 mph",
+        "humidity": "55%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T05:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "5 AM",
+        "day": "Wed",
+        "temperature": "82°",
+        "precipitation": "1%",
+        "wind": "2 mph",
+        "wind_direction": "ESE",
+        "wind_degrees": 112.5,
+        "gust": "5 mph",
+        "humidity": "57%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T06:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "6 AM",
+        "day": "Wed",
+        "temperature": "80°",
+        "precipitation": "1%",
+        "wind": "2 mph",
+        "wind_direction": "E",
+        "wind_degrees": 90.0,
+        "gust": "5 mph",
+        "humidity": "59%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T07:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "7 AM",
+        "day": "Wed",
+        "temperature": "83°",
+        "precipitation": "1%",
+        "wind": "2 mph",
+        "wind_direction": "ESE",
+        "wind_degrees": 112.5,
+        "gust": "5 mph",
+        "humidity": "55%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T08:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "8 AM",
+        "day": "Wed",
+        "temperature": "86°",
+        "precipitation": "1%",
+        "wind": "2 mph",
+        "wind_direction": "S",
+        "wind_degrees": 180.0,
+        "gust": "5 mph",
+        "humidity": "50%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T09:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "9 AM",
+        "day": "Wed",
+        "temperature": "92°",
+        "precipitation": "1%",
+        "wind": "2 mph",
+        "wind_direction": "W",
+        "wind_degrees": 270.0,
+        "gust": "6 mph",
+        "humidity": "41%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T10:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "10 AM",
+        "day": "Wed",
+        "temperature": "95°",
+        "precipitation": "1%",
+        "wind": "5 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "9 mph",
+        "humidity": "36%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T11:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "11 AM",
+        "day": "Wed",
+        "temperature": "98°",
+        "precipitation": "2%",
+        "wind": "6 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "12 mph",
+        "humidity": "32%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-29T12:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "12 PM",
+        "day": "Wed",
+        "temperature": "100°",
+        "precipitation": "2%",
+        "wind": "7 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "14 mph",
+        "humidity": "29%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-29T13:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "1 PM",
+        "day": "Wed",
+        "temperature": "103°",
+        "precipitation": "2%",
+        "wind": "7 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "15 mph",
+        "humidity": "26%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-29T14:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "2 PM",
+        "day": "Wed",
+        "temperature": "105°",
+        "precipitation": "3%",
+        "wind": "7 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "16 mph",
+        "humidity": "24%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-29T15:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "3 PM",
+        "day": "Wed",
+        "temperature": "106°",
+        "precipitation": "3%",
+        "wind": "7 mph",
+        "wind_direction": "W",
+        "wind_degrees": 270.0,
+        "gust": "16 mph",
+        "humidity": "23%",
+        "icon": "clear"
+      },
+      {
+        "timestamp": "2026-07-29T16:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "4 PM",
+        "day": "Wed",
+        "temperature": "106°",
+        "precipitation": "3%",
+        "wind": "7 mph",
+        "wind_direction": "NW",
+        "wind_degrees": 315.0,
+        "gust": "16 mph",
+        "humidity": "22%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T17:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "5 PM",
+        "day": "Wed",
+        "temperature": "106°",
+        "precipitation": "4%",
+        "wind": "7 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "16 mph",
+        "humidity": "22%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T18:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "6 PM",
+        "day": "Wed",
+        "temperature": "105°",
+        "precipitation": "4%",
+        "wind": "7 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "13 mph",
+        "humidity": "23%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T19:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "7 PM",
+        "day": "Wed",
+        "temperature": "103°",
+        "precipitation": "4%",
+        "wind": "6 mph",
+        "wind_direction": "NW",
+        "wind_degrees": 315.0,
+        "gust": "10 mph",
+        "humidity": "23%",
+        "icon": "partly-cloudy"
+      },
+      {
+        "timestamp": "2026-07-29T20:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "8 PM",
+        "day": "Wed",
+        "temperature": "100°",
+        "precipitation": "3%",
+        "wind": "5 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "9 mph",
+        "humidity": "25%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T21:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "9 PM",
+        "day": "Wed",
+        "temperature": "97°",
+        "precipitation": "3%",
+        "wind": "3 mph",
+        "wind_direction": "SSE",
+        "wind_degrees": 157.5,
+        "gust": "7 mph",
+        "humidity": "28%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T22:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "10 PM",
+        "day": "Wed",
+        "temperature": "95°",
+        "precipitation": "3%",
+        "wind": "2 mph",
+        "wind_direction": "NNW",
+        "wind_degrees": 337.5,
+        "gust": "5 mph",
+        "humidity": "30%",
+        "icon": "partly-cloudy-night"
+      },
+      {
+        "timestamp": "2026-07-29T23:00:00-07:00",
+        "date": "2026-07-29",
+        "time": "11 PM",
+        "day": "Wed",
+        "temperature": "93°",
+        "precipitation": "0%",
+        "wind": "3 mph",
+        "wind_direction": "WNW",
+        "wind_degrees": 292.5,
+        "gust": "7 mph",
+        "humidity": "33%",
+        "icon": "partly-cloudy-night"
+      }
+    ],
+    "hours": [
+      {
+        "timestamp": "2026-07-28T20:00:00-07:00",
+        "time": "8 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T21:00:00-07:00",
+        "time": "9 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T22:00:00-07:00",
+        "time": "10 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-28T23:00:00-07:00",
+        "time": "11 PM",
+        "day": "Tue"
+      },
+      {
+        "timestamp": "2026-07-29T00:00:00-07:00",
+        "time": "12 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T01:00:00-07:00",
+        "time": "1 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T02:00:00-07:00",
+        "time": "2 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T03:00:00-07:00",
+        "time": "3 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T04:00:00-07:00",
+        "time": "4 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T05:00:00-07:00",
+        "time": "5 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T06:00:00-07:00",
+        "time": "6 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T07:00:00-07:00",
+        "time": "7 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T08:00:00-07:00",
+        "time": "8 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T09:00:00-07:00",
+        "time": "9 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T10:00:00-07:00",
+        "time": "10 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T11:00:00-07:00",
+        "time": "11 AM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T12:00:00-07:00",
+        "time": "12 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T13:00:00-07:00",
+        "time": "1 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T14:00:00-07:00",
+        "time": "2 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T15:00:00-07:00",
+        "time": "3 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T16:00:00-07:00",
+        "time": "4 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T17:00:00-07:00",
+        "time": "5 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T18:00:00-07:00",
+        "time": "6 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T19:00:00-07:00",
+        "time": "7 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T20:00:00-07:00",
+        "time": "8 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T21:00:00-07:00",
+        "time": "9 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T22:00:00-07:00",
+        "time": "10 PM",
+        "day": "Wed"
+      },
+      {
+        "timestamp": "2026-07-29T23:00:00-07:00",
+        "time": "11 PM",
+        "day": "Wed"
+      }
+    ],
+    "rows": [
+      {
+        "label": "Temperature",
+        "values": [
+          "97°F",
+          "94°F",
+          "92°F",
+          "90°F",
+          "88°F",
+          "87°F",
+          "86°F",
+          "83°F",
+          "82°F",
+          "82°F",
+          "80°F",
+          "83°F",
+          "86°F",
+          "92°F",
+          "95°F",
+          "98°F",
+          "100°F",
+          "103°F",
+          "105°F",
+          "106°F",
+          "106°F",
+          "106°F",
+          "105°F",
+          "103°F",
+          "100°F",
+          "97°F",
+          "95°F",
+          "93°F"
+        ]
+      },
+      {
+        "label": "Dew point",
+        "values": [
+          "61°F",
+          "62°F",
+          "62°F",
+          "63°F",
+          "64°F",
+          "64°F",
+          "64°F",
+          "64°F",
+          "65°F",
+          "65°F",
+          "65°F",
+          "66°F",
+          "66°F",
+          "65°F",
+          "64°F",
+          "64°F",
+          "63°F",
+          "62°F",
+          "61°F",
+          "60°F",
+          "60°F",
+          "59°F",
+          "59°F",
+          "58°F",
+          "58°F",
+          "59°F",
+          "59°F",
+          "59°F"
+        ]
+      },
+      {
+        "label": "Surface wind",
+        "values": [
+          "6 mph",
+          "5 mph",
+          "5 mph",
+          "5 mph",
+          "3 mph",
+          "3 mph",
+          "3 mph",
+          "2 mph",
+          "2 mph",
+          "2 mph",
+          "2 mph",
+          "2 mph",
+          "2 mph",
+          "2 mph",
+          "5 mph",
+          "6 mph",
+          "7 mph",
+          "7 mph",
+          "7 mph",
+          "7 mph",
+          "7 mph",
+          "7 mph",
+          "7 mph",
+          "6 mph",
+          "5 mph",
+          "3 mph",
+          "2 mph",
+          "3 mph"
+        ]
+      },
+      {
+        "label": "Gusts",
+        "values": [
+          "12 mph",
+          "9 mph",
+          "8 mph",
+          "8 mph",
+          "7 mph",
+          "6 mph",
+          "6 mph",
+          "5 mph",
+          "5 mph",
+          "5 mph",
+          "5 mph",
+          "5 mph",
+          "5 mph",
+          "6 mph",
+          "9 mph",
+          "12 mph",
+          "14 mph",
+          "15 mph",
+          "16 mph",
+          "16 mph",
+          "16 mph",
+          "16 mph",
+          "13 mph",
+          "10 mph",
+          "9 mph",
+          "7 mph",
+          "5 mph",
+          "7 mph"
+        ]
+      },
+      {
+        "label": "Relative Humidity",
+        "values": [
+          "31%",
+          "35%",
+          "37%",
+          "41%",
+          "44%",
+          "46%",
+          "49%",
+          "53%",
+          "55%",
+          "57%",
+          "59%",
+          "55%",
+          "50%",
+          "41%",
+          "36%",
+          "32%",
+          "29%",
+          "26%",
+          "24%",
+          "23%",
+          "22%",
+          "22%",
+          "23%",
+          "23%",
+          "25%",
+          "28%",
+          "30%",
+          "33%"
+        ]
+      },
+      {
+        "label": "Precipitation Potential",
+        "values": [
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "2%",
+          "2%",
+          "2%",
+          "3%",
+          "3%",
+          "3%",
+          "4%",
+          "4%",
+          "4%",
+          "3%",
+          "3%",
+          "3%",
+          "0%"
+        ]
+      },
+      {
+        "label": "Sky Cover",
+        "values": [
+          "17%",
+          "27%",
+          "33%",
+          "41%",
+          "47%",
+          "36%",
+          "28%",
+          "28%",
+          "30%",
+          "34%",
+          "33%",
+          "33%",
+          "32%",
+          "27%",
+          "27%",
+          "10%",
+          "6%",
+          "6%",
+          "4%",
+          "19%",
+          "30%",
+          "43%",
+          "60%",
+          "56%",
+          "57%",
+          "42%",
+          "53%",
+          "47%"
+        ]
+      },
+      {
+        "label": "Rain",
+        "values": [
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "2%",
+          "2%",
+          "2%",
+          "3%",
+          "3%",
+          "3%",
+          "4%",
+          "4%",
+          "4%",
+          "3%",
+          "3%",
+          "3%",
+          "0%"
+        ]
+      },
+      {
+        "label": "Thunder",
+        "values": [
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "3%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "1%",
+          "2%",
+          "2%",
+          "2%",
+          "3%",
+          "3%",
+          "3%",
+          "4%",
+          "4%",
+          "4%",
+          "3%",
+          "3%",
+          "3%",
+          "0%"
+        ]
+      }
+    ],
+    "daily": [
+      {
+        "date": "2026-07-28",
+        "day": "Today, Tuesday 7/28",
+        "summary": "Partly Cloudy",
+        "icon": "partly-cloudy",
+        "high": "103°F",
+        "low": "80°F",
+        "rain": "10%"
+      },
+      {
+        "date": "2026-07-29",
+        "day": "Tomorrow Wednesday 7/29",
+        "summary": "Sunny",
+        "icon": "clear",
+        "high": "107°F",
+        "low": "81°F",
+        "rain": "4%"
+      }
+    ]
+  },
+  "imagery": {
+    "frames": [
+      {
+        "satellite_url": "data/imagery/cloud-00.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-28T23:30:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A30%3A00Z",
+        "radar_timestamp": "2026-07-28T23:30:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A28%3A15Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-01.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-28T23:40:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A40%3A00Z",
+        "radar_timestamp": "2026-07-28T23:40:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A40%3A12Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-02.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-28T23:50:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A50%3A00Z",
+        "radar_timestamp": "2026-07-28T23:50:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-28T23%3A47%3A55Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-03.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T00:10:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A10%3A00Z",
+        "radar_timestamp": "2026-07-29T00:10:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A08%3A08Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-04.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T00:20:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A20%3A00Z",
+        "radar_timestamp": "2026-07-29T00:20:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A20%3A13Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-05.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T00:30:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A30%3A00Z",
+        "radar_timestamp": "2026-07-29T00:30:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A28%3A09Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-06.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T00:40:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A40%3A00Z",
+        "radar_timestamp": "2026-07-29T00:40:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A40%3A15Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-07.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T00:50:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A50%3A00Z",
+        "radar_timestamp": "2026-07-29T00:50:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T00%3A48%3A19Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-08.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T01:00:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A00%3A00Z",
+        "radar_timestamp": "2026-07-29T01:00:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A00%3A17Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-09.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T01:10:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A10%3A00Z",
+        "radar_timestamp": "2026-07-29T01:10:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A08%3A14Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-10.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T01:20:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A20%3A00Z",
+        "radar_timestamp": "2026-07-29T01:20:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A20%3A12Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-11.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T01:30:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A30%3A00Z",
+        "radar_timestamp": "2026-07-29T01:30:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A28%3A14Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-12.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T01:40:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A40%3A00Z",
+        "radar_timestamp": "2026-07-29T01:40:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A40%3A01Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-13.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T01:50:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A50%3A00Z",
+        "radar_timestamp": "2026-07-29T01:50:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T01%3A48%3A19Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-14.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T02:00:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A00%3A00Z",
+        "radar_timestamp": "2026-07-29T02:00:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A00%3A12Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-15.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T02:10:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A10%3A00Z",
+        "radar_timestamp": "2026-07-29T02:10:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A08%3A14Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-16.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T02:20:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A20%3A00Z",
+        "radar_timestamp": "2026-07-29T02:20:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A20%3A13Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-17.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T02:30:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A30%3A00Z",
+        "radar_timestamp": "2026-07-29T02:30:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A28%3A08Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-18.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T02:40:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A40%3A00Z",
+        "radar_timestamp": "2026-07-29T02:40:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A40%3A08Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-19.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T02:50:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A50%3A00Z",
+        "radar_timestamp": "2026-07-29T02:50:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T02%3A48%3A19Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-20.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T03:00:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T03%3A00%3A00Z",
+        "radar_timestamp": "2026-07-29T03:00:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T03%3A00%3A04Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-21.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T03:10:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T03%3A10%3A00Z",
+        "radar_timestamp": "2026-07-29T03:10:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T03%3A08%3A07Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-22.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T03:20:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T03%3A20%3A00Z",
+        "radar_timestamp": "2026-07-29T03:20:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T03%3A20%3A13Z"
+      },
+      {
+        "satellite_url": "data/imagery/cloud-23.webp?v=1785296951",
+        "satellite_timestamp": "2026-07-29T03:30:00+00:00",
+        "radar_url": "https://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0q-t.cgi?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=nexrad-n0q-wmst&STYLES=&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T03%3A30%3A00Z",
+        "radar_timestamp": "2026-07-29T03:30:00+00:00",
+        "offset_minutes": 0,
+        "radar_fallback_url": "https://nowcoast.noaa.gov/geoserver/weather_radar/wms?SERVICE=WMS&VERSION=1.1.1&REQUEST=GetMap&LAYERS=conus_base_reflectivity_mosaic&STYLES=weather_radar_base_reflectivity&SRS=EPSG%3A3857&BBOX=-13476402.791080583%2C3350215.060088937%2C-11258788.063184805%2C4300621.372044271&WIDTH=1400&HEIGHT=600&FORMAT=image%2Fpng&TRANSPARENT=true&TIME=2026-07-29T03%3A28%3A12Z"
+      }
+    ],
+    "product": "NOAA GOES ABI Band 13 clouds + IEM NEXRAD reflectivity",
+    "bounds": [
+      [
+        28.8,
+        -121.060586
+      ],
+      [
+        36.0,
+        -101.139414
+      ]
+    ],
+    "sources": {
+      "satellite": "https://satellitemaps.nesdis.noaa.gov/arcgis/rest/services/ABI13_Last_24hr/ImageServer",
+      "radar": "https://mesonet.agron.iastate.edu/docs/nexrad_mosaic/",
+      "nws": "https://forecast.weather.gov/MapClick.php?lat=32.2&lon=-110.9&unit=0&lg=english&FcstType=graphical"
+    }
+  },
+  "cards": [
+    {
+      "label": "Temperature",
+      "signal": "TEMP",
+      "value": "92.3°F",
+      "detail": "Feels like 92.3°F"
+    },
+    {
+      "label": "Humidity",
+      "signal": "RH",
+      "value": "35%",
+      "detail": "Relative humidity",
+      "meter": 35
+    },
+    {
+      "label": "Wind",
+      "signal": "WIND",
+      "value": "2.5 mph",
+      "detail": "Gust 6.0 mph · NW 326°"
+    },
+    {
+      "label": "Rain Today",
+      "signal": "RAIN",
+      "value": "0.37 in",
+      "detail": "Last hour 0.00 in"
+    },
+    {
+      "label": "Lightning",
+      "signal": "ELEC",
+      "value": "0",
+      "detail": "1h: 0 · 3h: 0"
+    },
+    {
+      "label": "UV / Light",
+      "signal": "SOLAR",
+      "value": "0.0",
+      "detail": "0 lux · 0 W/m²"
+    }
+  ],
+  "details": [
+    {
+      "title": "Current Conditions",
+      "rows": [
+        [
+          "Temperature",
+          "92.3°F"
+        ],
+        [
+          "Feels Like",
+          "92.3°F"
+        ],
+        [
+          "Heat Index",
+          "92.3°F"
+        ],
+        [
+          "Wind Chill",
+          "92.3°F"
+        ],
+        [
+          "Humidity",
+          "35%"
+        ]
+      ]
+    },
+    {
+      "title": "Wind",
+      "rows": [
+        [
+          "Lull",
+          "0.2 mph"
+        ],
+        [
+          "Average",
+          "2.5 mph"
+        ],
+        [
+          "Gust",
+          "6.0 mph"
+        ],
+        [
+          "Direction",
+          "NW / 326°"
+        ]
+      ]
+    },
+    {
+      "title": "Pressure",
+      "rows": [
+        [
+          "Station Pressure",
+          "26.95 inHg"
+        ],
+        [
+          "Sea-Level Pressure",
+          "29.88 inHg"
+        ],
+        [
+          "Trend",
+          "Steady"
+        ]
+      ]
+    },
+    {
+      "title": "Rain",
+      "rows": [
+        [
+          "Current Accumulation",
+          "0.00 in"
+        ],
+        [
+          "Today",
+          "0.37 in"
+        ],
+        [
+          "Today NC",
+          "0.37 in"
+        ],
+        [
+          "Last Hour",
+          "0.00 in"
+        ]
+      ]
+    },
+    {
+      "title": "Lightning",
+      "rows": [
+        [
+          "Current Strike Count",
+          "0"
+        ],
+        [
+          "Strike Distance",
+          "0.0 mi"
+        ],
+        [
+          "Last Strike Distance",
+          "25.5 mi"
+        ],
+        [
+          "1 Hour Strike Count",
+          "0"
+        ],
+        [
+          "3 Hour Strike Count",
+          "0"
+        ]
+      ]
+    },
+    {
+      "title": "Light",
+      "rows": [
+        [
+          "Illuminance",
+          "0 lux"
+        ],
+        [
+          "UV Index",
+          "0.0"
+        ],
+        [
+          "Solar Radiation",
+          "0 W/m²"
+        ]
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "event": "Extreme Heat Warning",
+      "headline": "Extreme Heat Warning issued July 28 at 3:16PM MST until August 2 at 8:00PM MST by NWS regional AZ",
+      "severity": "Severe",
+      "url": "https://api.weather.gov/alerts/urn:oid:2.49.0.1.840.0.0a0e56f19c196cdc00569516ecae00e45b427132.001.1"
+    }
+  ],
+  "air_quality": {
+    "updated_at": "2026-07-28T20:00:00-07:00",
+    "us_aqi": 44,
+    "category": "Good",
+    "pm2_5": 4.9,
+    "source": "https://open-meteo.com/en/docs/air-quality-api"
+  }
+}
