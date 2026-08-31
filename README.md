@@ -92,10 +92,9 @@ systemctl --user enable --now weatherstation-refresh.timer
 After pushing the repository:
 
 1. Open **Settings → Secrets and variables → Actions**.
-2. Add a repository secret named `TEMPEST_TOKEN`.
-3. Optionally add repository variables named `TEMPEST_STATION_ID` and
-   `TEMPEST_DEVICE_ID`. The workflow currently defaults to station `000000`
-   and device `000000`.
+2. Add repository secrets named `TEMPEST_TOKEN`, `TEMPEST_STATION_ID`,
+   and `TEMPEST_DEVICE_ID`. Keep all three values out of source, variables,
+   workflow defaults, logs, and generated site data.
 4. Open **Settings → Pages** and select **GitHub Actions** as the source.
 5. Run **Refresh weather and deploy Pages** once from the Actions tab, or wait
    for the next scheduled minute.
@@ -109,8 +108,8 @@ Set the Tempest credential only in your shell, then build the local snapshot:
 
 ```bash
 export TEMPEST_TOKEN='your-token'
-export TEMPEST_STATION_ID='000000'
-export TEMPEST_DEVICE_ID='000000'
+export TEMPEST_STATION_ID='your-station-id'
+export TEMPEST_DEVICE_ID='your-device-id'
 python3 -m pip install -r requirements.txt
 python3 scripts/update_weather.py
 ```

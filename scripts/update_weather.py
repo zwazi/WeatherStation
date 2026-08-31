@@ -24,14 +24,14 @@ from PIL import Image, ImageOps
 
 ARIZONA_TZ = ZoneInfo("America/Phoenix")
 UTC = ZoneInfo("UTC")
-STATION_ID = os.environ.get("TEMPEST_STATION_ID", "000000")
-DEVICE_ID = os.environ.get("TEMPEST_DEVICE_ID", "000000")
+STATION_ID = os.environ.get("TEMPEST_STATION_ID", "")
+DEVICE_ID = os.environ.get("TEMPEST_DEVICE_ID", "")
 TEMPEST_TOKEN = os.environ.get("TEMPEST_TOKEN", "")
 
-REGIONAL_LAT = 32.2
-REGIONAL_LON = -110.9
-SUN_TIMES_LAT = 32.2
-SUN_TIMES_LON = -110.9
+PUBLIC_REGION_LAT = 32.2
+PUBLIC_REGION_LON = -110.9
+SUN_TIMES_LAT = PUBLIC_REGION_LAT
+SUN_TIMES_LON = PUBLIC_REGION_LON
 RADAR_FRAME_WIDTH = 1400
 RADAR_FRAME_HEIGHT = 600
 RADAR_LAT_MIN = 28.8
@@ -89,10 +89,11 @@ NOWCOAST_RADAR_WMS = "https://nowcoast.noaa.gov/geoserver/weather_radar/wms"
 NOWCOAST_CAPABILITIES = (
     f"{NOWCOAST_RADAR_WMS}?service=WMS&version=1.3.0&request=GetCapabilities"
 )
-NWS_POINT_URL = f"https://api.weather.gov/points/{REGIONAL_LAT},{REGIONAL_LON}"
-NWS_ALERTS_URL = f"https://api.weather.gov/alerts/active?point={REGIONAL_LAT},{REGIONAL_LON}"
+NWS_POINT_URL = f"https://api.weather.gov/points/{PUBLIC_REGION_LAT},{PUBLIC_REGION_LON}"
+NWS_ALERTS_URL = f"https://api.weather.gov/alerts/active?point={PUBLIC_REGION_LAT},{PUBLIC_REGION_LON}"
 NWS_SOURCE = (
-    "https://forecast.weather.gov/MapClick.php?lat=32.2&lon=-110.9"
+    f"https://forecast.weather.gov/MapClick.php?"
+    f"lat={PUBLIC_REGION_LAT}&lon={PUBLIC_REGION_LON}"
     "&unit=0&lg=english&FcstType=graphical"
 )
 OPEN_METEO_AIR_QUALITY = "https://air-quality-api.open-meteo.com/v1/air-quality"
@@ -262,8 +263,8 @@ def air_quality_category(aqi: float) -> str:
 
 def get_air_quality() -> dict:
     params = {
-        "latitude": REGIONAL_LAT,
-        "longitude": REGIONAL_LON,
+        "latitude": PUBLIC_REGION_LAT,
+        "longitude": PUBLIC_REGION_LON,
         "current": "us_aqi,pm2_5",
         "timezone": "America/Phoenix",
     }
@@ -289,6 +290,10 @@ def get_air_quality() -> dict:
 def get_tempest_weather() -> dict:
     if not TEMPEST_TOKEN:
         raise RuntimeError("TEMPEST_TOKEN is not configured")
+    if not STATION_ID:
+        raise RuntimeError("TEMPEST_STATION_ID is not configured")
+    if not DEVICE_ID:
+        raise RuntimeError("TEMPEST_DEVICE_ID is not configured")
 
     station_url = (
         "https://swd.weatherflow.com/swd/rest/observations/stn/"
@@ -313,15 +318,6 @@ def get_tempest_weather() -> dict:
     except Exception:
         # Current conditions remain useful if the optional device summary is down.
         pass
-
-    timezone_name = station.get("timezone", "America/Phoenix")
-    timezone = ZoneInfo(timezone_name)
-    timestamp = values.get("timestamp")
-    updated_at = (
-        datetime.fromtimestamp(timestamp, timezone).isoformat()
-        if timestamp
-        else None
-    )
 
     temperature = c_to_f(values.get("air_temp"))
     humidity = values.get("rh")
@@ -455,11 +451,6 @@ def get_tempest_weather() -> dict:
             (rain_now is not None and rain_now > 0)
             or precipitation_type in (1, 3)
         ),
-        "station": {
-            "id": STATION_ID,
-            "timezone": timezone_name,
-            "updated_at": updated_at,
-        },
         "cards": cards,
         "details": details,
     }
@@ -1052,7 +1043,6 @@ def get_imagery(output_dir: Path) -> dict:
             [RADAR_BBOX[1], RADAR_BBOX[0]],
             [RADAR_BBOX[3], RADAR_BBOX[2]],
         ],
-        "location": {"lat": REGIONAL_LAT, "lon": REGIONAL_LON},
         "sources": {
             "satellite": NOAA_SATELLITE_SOURCE,
             "radar": IEM_RADAR_SOURCE,
@@ -1084,11 +1074,10 @@ def build_payload(output_path: Path) -> dict:
     payload["is_raining"] = False
     payload["solar"] = {
         "date": now.date().isoformat(),
-        "latitude": SUN_TIMES_LAT,
-        "longitude": SUN_TIMES_LON,
         "sunrise": sunrise.isoformat(),
         "sunset": sunset.isoformat(),
     }
+    payload.pop("station", None)
 
     for section, loader in (
         ("tempest", get_tempest_weather),

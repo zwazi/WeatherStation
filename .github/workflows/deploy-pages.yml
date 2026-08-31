@@ -37,8 +37,8 @@ jobs:
       - name: Refresh all weather sections
         env:
           TEMPEST_TOKEN: ${{ secrets.TEMPEST_TOKEN }}
-          TEMPEST_STATION_ID: ${{ vars.TEMPEST_STATION_ID || '000000' }}
-          TEMPEST_DEVICE_ID: ${{ vars.TEMPEST_DEVICE_ID || '000000' }}
+          TEMPEST_STATION_ID: ${{ secrets.TEMPEST_STATION_ID }}
+          TEMPEST_DEVICE_ID: ${{ secrets.TEMPEST_DEVICE_ID }}
         run: python scripts/update_weather.py
 
       - name: Check browser JavaScript
