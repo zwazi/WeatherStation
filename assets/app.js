@@ -556,15 +556,24 @@ function renderImagery(imagery) {
 
 function renderWarnings(errors = {}) {
   const sections = Object.keys(errors);
-  if (!sections.length) {
+  const warnings = [];
+  if (sections.length) warnings.push(
+    `Some upstream sections could not refresh (${sections.join(", ")}). The most recent available values are shown.`
+  );
+  const latestFrame = state.data?.imagery?.frames?.at(-1);
+  const latestTime = Date.parse(latestFrame?.satellite_timestamp);
+  if (Number.isFinite(latestTime) && Date.now() - latestTime > 60 * 60_000) {
+    warnings.push(`Satellite imagery is stale. Latest image: ${frameLabel(latestFrame.satellite_timestamp)}.`);
+  }
+  if (Date.now() - Date.parse(state.generatedAt) > 30 * 60_000) {
+    warnings.push(`Weather updates are delayed. Last refresh: ${formatArizonaDateTime(state.generatedAt)}.`);
+  }
+  if (!warnings.length) {
     elements.sectionWarnings.hidden = true;
     elements.sectionWarnings.textContent = "";
     return;
   }
-  elements.sectionWarnings.textContent = (
-    `Some upstream sections could not refresh (${sections.join(", ")}). `
-    + "The most recent available values are shown."
-  );
+  elements.sectionWarnings.textContent = warnings.join(" ");
   elements.sectionWarnings.hidden = false;
 }
 
@@ -572,7 +581,7 @@ function render(data) {
   state.data = data;
   state.generatedAt = data.generated_at;
   elements.lastRefresh.dateTime = data.generated_at || "";
-  elements.lastRefresh.textContent = `Last refresh ${formatArizonaTime(data.generated_at)}`;
+  elements.lastRefresh.textContent = `Last refresh ${formatArizonaDateTime(data.generated_at)}`;
   elements.lastRefresh.title = `Weather data built ${formatArizonaDateTime(data.generated_at, true)}`;
   renderCurrent(data);
   renderDetails(data.details || []);
@@ -591,6 +600,7 @@ async function loadData({ force = false } = {}) {
     if (!response.ok) throw new Error(`Weather data request returned ${response.status}`);
     const data = await response.json();
     if (force || data.generated_at !== state.generatedAt) render(data);
+    renderWarnings(data.errors);
     elements.pageError.hidden = true;
     elements.pageError.textContent = "";
   } catch (error) {

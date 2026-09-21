@@ -19,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       build_sha: ${{ steps.stamp.outputs.sha }}
+      refresh_errors: ${{ steps.health.outputs.errors }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v5
@@ -40,6 +41,19 @@ jobs:
           TEMPEST_STATION_ID: ${{ secrets.TEMPEST_STATION_ID }}
           TEMPEST_DEVICE_ID: ${{ secrets.TEMPEST_DEVICE_ID }}
         run: python scripts/update_weather.py
+
+      - name: Record refresh health
+        id: health
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          errors = json.loads(Path("data/weather.json").read_text()).get("errors", {})
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write(f"errors={','.join(errors)}\n")
+          for section in errors:
+              print(f"::warning::Weather section failed to refresh: {section}")
+          PY
 
       - name: Check browser JavaScript
         run: node --check assets/app.js
@@ -81,3 +95,11 @@ jobs:
         uses: actions/deploy-pages@v4
         env:
           GITHUB_SHA: ${{ needs.build.outputs.build_sha }}
+
+      - name: Report incomplete weather refresh
+        if: needs.build.outputs.refresh_errors != ''
+        env:
+          REFRESH_ERRORS: ${{ needs.build.outputs.refresh_errors }}
+        run: |
+          echo "::error::Deployed available weather data, but these sections failed to refresh: $REFRESH_ERRORS"
+          exit 1

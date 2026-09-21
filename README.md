@@ -61,23 +61,21 @@ data never contains the Tempest token, and the browser does not call the
 WeatherFlow API directly. Leaflet keeps the base map, cloud cover, and rain
 intensity as separate aligned layers while displaying them as one animation.
 
-The workflow in `.github/workflows/deploy-pages.yml` runs at these Arizona
-wall-clock minutes:
+The local `weatherstation-refresh.timer` dispatches
+`.github/workflows/deploy-pages.yml` at these Arizona wall-clock minutes:
 
 ```text
 :01  :11  :21  :31  :41  :51
 ```
 
 Each run refreshes every data section, tests the project, assembles a static
-artifact, and deploys it through GitHub Pages. GitHub may queue scheduled jobs
-under load, so `:01`, `:11`, and so on are trigger times rather than guaranteed
-deployment-completion times. An open dashboard checks once per minute for the
-new artifact.
+artifact, and deploys it through GitHub Pages. GitHub may queue jobs under load,
+so these are trigger times rather than guaranteed deployment-completion times.
+An open dashboard checks once per minute for the new artifact.
 
-Because GitHub's hosted scheduler can substantially delay or omit scheduled
-runs, this workstation also enables `weatherstation-refresh.timer`. The user
-timer dispatches the same GitHub workflow at the six exact Arizona minute marks
-with one-second timer accuracy. The hosted cron remains enabled as a backup.
+The user timer uses one-second accuracy and requires this workstation to be
+running and online. The workflow also runs on pushes to main and manual
+dispatches; hosted cron is currently disabled.
 
 Install or refresh the local dispatcher with:
 
@@ -135,7 +133,13 @@ node --check assets/app.js
 
 The data builder retains the last available section when an individual
 upstream service fails and adds a sanitized warning to the JSON. Any token-like
-query parameter is redacted before an error can be serialized.
+query parameter is redacted before an error can be serialized. Each successful
+section fetch records its own `section_updated_at` timestamp. The workflow
+deploys the available data, then reports failure if any section could not
+refresh. The page warns when the latest satellite frame is over an hour old
+or the snapshot is over 30 minutes old. The collector also rejects stale or
+future-dated NOAA records. See `scripts/certs/README.md` for the scoped NOAA
+certificate-chain repair.
 
 ## Project structure
 

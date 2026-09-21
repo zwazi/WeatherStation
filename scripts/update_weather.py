@@ -10,13 +10,14 @@ import json
 import os
 import re
 import shutil
+import ssl
 import time
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta
 from math import acos, cos, degrees, log, pi, radians, sin, tan
 from pathlib import Path
-from urllib.parse import urlencode
+from urllib.parse import urlencode, urlsplit
 from zoneinfo import ZoneInfo
 
 from PIL import Image, ImageOps
@@ -106,13 +107,28 @@ DEFAULT_HEADERS = {
 NWS_HEADERS = {**DEFAULT_HEADERS, "Accept": "application/geo+json"}
 
 
+def request_ssl_context(url: str) -> ssl.SSLContext:
+    context = ssl.create_default_context()
+    if urlsplit(url).hostname == "satellitemaps.nesdis.noaa.gov":
+        # NESDIS serves its leaf twice and omits the issuing intermediate.
+        # Supply that intermediate, but still require a system-trusted root.
+        context.load_verify_locations(cafile=str(
+            Path(__file__).parent / "certs" /
+            "digicert-global-g2-tls-rsa-sha256-2020-ca1.pem"
+        ))
+        context.verify_flags &= ~ssl.VERIFY_X509_PARTIAL_CHAIN
+    return context
+
+
 def fetch_bytes(url: str, headers: dict[str, str] | None = None) -> bytes:
     """Fetch a URL with brief retries for transient upstream failures."""
     last_error: Exception | None = None
     for attempt in range(3):
         try:
             request = urllib.request.Request(url, headers=headers or DEFAULT_HEADERS)
-            with urllib.request.urlopen(request, timeout=30) as response:
+            with urllib.request.urlopen(
+                request, timeout=30, context=request_ssl_context(url)
+            ) as response:
                 return response.read()
         except Exception as error:  # Upstream services use several error types.
             last_error = error
@@ -910,6 +926,7 @@ def get_cloud_records() -> list[dict]:
     if not records:
         raise ValueError("NOAA/NESDIS did not list ABI Band 13 archive records")
     latest = max(record["timestamp"] for record in records)
+    validate_imagery_time(latest)
     window = sorted(
         (
             record
@@ -922,6 +939,12 @@ def get_cloud_records() -> list[dict]:
         return window
     indices = [round(index * (len(window) - 1) / 23) for index in range(24)]
     return [window[index] for index in indices]
+
+
+def validate_imagery_time(latest: datetime, now: datetime | None = None) -> None:
+    age = (now or datetime.now(UTC)) - latest
+    if age > timedelta(hours=1) or age < -timedelta(minutes=10):
+        raise ValueError(f"NOAA satellite imagery is not current: {latest.isoformat()}")
 
 
 def nowcoast_radar_url(timestamp: datetime) -> str:
@@ -1071,6 +1094,7 @@ def build_payload(output_path: Path) -> dict:
     payload["generated_at"] = now.isoformat()
     payload["next_refresh_at"] = next_scheduled_refresh(now).isoformat()
     payload["errors"] = {}
+    payload.setdefault("section_updated_at", {})
     payload["is_raining"] = False
     payload["solar"] = {
         "date": now.date().isoformat(),
@@ -1095,6 +1119,7 @@ def build_payload(output_path: Path) -> dict:
                 payload.update(result)
             else:
                 payload[section] = result
+            payload["section_updated_at"][section] = now.isoformat()
         except Exception as error:
             payload["errors"][section] = sanitized_error(error)
             print(f"warning: {section}: {payload['errors'][section]}")

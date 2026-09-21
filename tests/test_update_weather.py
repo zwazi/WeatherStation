@@ -1,4 +1,5 @@
 import unittest
+import ssl
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
@@ -21,6 +22,8 @@ from scripts.update_weather import (
     sun_times_for_date,
     weather_icon_kind,
     wind_direction_degrees,
+    request_ssl_context,
+    validate_imagery_time,
 )
 
 
@@ -28,6 +31,31 @@ ARIZONA = ZoneInfo("America/Phoenix")
 
 
 class UpdateWeatherTests(unittest.TestCase):
+    def test_noaa_tls_keeps_hostname_and_root_verification(self):
+        context = request_ssl_context("https://satellitemaps.nesdis.noaa.gov/")
+        self.assertTrue(context.check_hostname)
+        self.assertEqual(context.verify_mode, ssl.CERT_REQUIRED)
+        self.assertFalse(context.verify_flags & ssl.VERIFY_X509_PARTIAL_CHAIN)
+        self.assertTrue(any(
+            ("commonName", "DigiCert Global G2 TLS RSA SHA256 2020 CA1") in group
+            for cert in context.get_ca_certs() for group in cert["subject"]
+        ))
+
+    def test_unrelated_hosts_do_not_receive_noaa_intermediate(self):
+        context = request_ssl_context("https://api.weather.gov/")
+        default = ssl.create_default_context()
+        self.assertEqual(context.get_ca_certs(), default.get_ca_certs())
+
+    def test_satellite_freshness_accepts_normal_processing_delay(self):
+        now = datetime(2026, 9, 21, 16, tzinfo=ARIZONA)
+        validate_imagery_time(now - timedelta(minutes=30), now)
+
+    def test_satellite_freshness_rejects_old_and_future_records(self):
+        now = datetime(2026, 9, 21, 16, tzinfo=ARIZONA)
+        for timestamp in (now - timedelta(days=55), now + timedelta(hours=1)):
+            with self.subTest(timestamp=timestamp), self.assertRaises(ValueError):
+                validate_imagery_time(timestamp, now)
+
     def test_next_refresh_uses_requested_minute_sequence(self):
         now = datetime(2026, 7, 28, 14, 11, 0, tzinfo=ARIZONA)
         self.assertEqual(next_scheduled_refresh(now).minute, 21)
