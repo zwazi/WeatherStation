@@ -135,7 +135,10 @@ def fetch_bytes(url: str, headers: dict[str, str] | None = None) -> bytes:
             if attempt < 2:
                 time.sleep(attempt + 1)
     assert last_error is not None
-    raise last_error
+    endpoint = urlsplit(url)
+    raise RuntimeError(
+        f"{endpoint.hostname}{endpoint.path}: {sanitized_error(last_error)}"
+    ) from last_error
 
 
 def fetch_json(url: str, headers: dict[str, str] | None = None) -> dict:
@@ -1045,13 +1048,23 @@ def get_imagery(output_dir: Path) -> dict:
         frames.append(frame)
 
     try:
+        ready_frames = []
         with ThreadPoolExecutor(max_workers=6) as executor:
             futures = [
                 executor.submit(write_cloud_overlay, source_url, path)
                 for source_url, path in cloud_jobs
             ]
-            for future in futures:
-                future.result()
+            for frame, future in zip(frames, futures):
+                try:
+                    future.result()
+                    ready_frames.append(frame)
+                except Exception as error:
+                    print(f"warning: satellite frame {frame['satellite_timestamp']}: {sanitized_error(error)}")
+        if len(ready_frames) < min(12, len(frames)):
+            raise ValueError(
+                f"Only {len(ready_frames)} of {len(frames)} satellite frames downloaded"
+            )
+        validate_imagery_time(datetime.fromisoformat(ready_frames[-1]["satellite_timestamp"]))
         if output_dir.exists():
             shutil.rmtree(output_dir)
         staging_dir.replace(output_dir)
@@ -1060,7 +1073,8 @@ def get_imagery(output_dir: Path) -> dict:
         raise
 
     return {
-        "frames": frames,
+        "frames": ready_frames,
+        "dropped_frame_count": len(frames) - len(ready_frames),
         "product": "NOAA GOES ABI Band 13 clouds + IEM NEXRAD reflectivity",
         "bounds": [
             [RADAR_BBOX[1], RADAR_BBOX[0]],

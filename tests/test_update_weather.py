@@ -1,5 +1,8 @@
 import unittest
 import ssl
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
 from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
@@ -24,6 +27,7 @@ from scripts.update_weather import (
     wind_direction_degrees,
     request_ssl_context,
     validate_imagery_time,
+    get_imagery,
 )
 
 
@@ -31,6 +35,41 @@ ARIZONA = ZoneInfo("America/Phoenix")
 
 
 class UpdateWeatherTests(unittest.TestCase):
+    def test_imagery_keeps_fresh_loop_when_one_frame_fails(self):
+        now = datetime.now(ZoneInfo("UTC"))
+        records = [
+            {"raster_id": i, "timestamp": now - timedelta(minutes=(23-i)*10)}
+            for i in range(24)
+        ]
+        def write_frame(url, path):
+            if path.name == "cloud-03.webp":
+                raise RuntimeError("upstream HTTP 500")
+            path.write_bytes(b"frame")
+
+        with TemporaryDirectory() as directory, \
+                patch("scripts.update_weather.get_cloud_records", return_value=records), \
+                patch("scripts.update_weather.fetch_bytes", side_effect=RuntimeError("no fallback")), \
+                patch("scripts.update_weather.write_cloud_overlay", side_effect=write_frame):
+            result = get_imagery(Path(directory) / "imagery")
+        self.assertEqual(len(result["frames"]), 23)
+        self.assertEqual(result["dropped_frame_count"], 1)
+        self.assertEqual(result["frames"][-1]["satellite_timestamp"], now.isoformat())
+
+    def test_imagery_preserves_existing_files_when_downloads_fail(self):
+        records = [{"raster_id": i, "timestamp": datetime.now(ZoneInfo("UTC"))} for i in range(24)]
+        with TemporaryDirectory() as directory, \
+                patch("scripts.update_weather.get_cloud_records", return_value=records), \
+                patch("scripts.update_weather.fetch_bytes", side_effect=RuntimeError("no fallback")), \
+                patch("scripts.update_weather.write_cloud_overlay", side_effect=RuntimeError("HTTP 500")):
+            output = Path(directory) / "imagery"
+            output.mkdir()
+            original = output / "cloud-00.webp"
+            original.write_bytes(b"previous frame")
+            with self.assertRaisesRegex(ValueError, "Only 0 of 24"):
+                get_imagery(output)
+            self.assertEqual(original.read_bytes(), b"previous frame")
+            self.assertFalse(output.with_name(".imagery-staging").exists())
+
     def test_noaa_tls_keeps_hostname_and_root_verification(self):
         context = request_ssl_context("https://satellitemaps.nesdis.noaa.gov/")
         self.assertTrue(context.check_hostname)
